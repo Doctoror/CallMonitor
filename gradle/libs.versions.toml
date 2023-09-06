@@ -5,6 +5,10 @@ androidMinSdk = "23"
 androidTargetSdk = "34"
 androidTestCore = "1.5.0"
 androidTestRunner = "1.5.2"
+androidxActivity = "1.7.2"
+androidxAnnotation = "1.6.0"
+androidxCore = "1.10.1"
+androidxLifecycle = "2.6.1"
 
 composeBom = "2023.08.00"
 composeCompiler = "1.5.1"
@@ -22,8 +26,7 @@ junit = "5.10.0"
 koin = "3.4.3"
 kotlin = "1.9.0"
 ksp = "1.9.0-1.0.13"
-
-lifecycle = "2.6.1"
+ktor = "2.3.4"
 
 mockk = "1.13.7"
 
@@ -35,6 +38,11 @@ room = "2.5.2"
 savedstate = "1.2.1"
 
 [libraries]
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidxActivity" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidxCore" }
+
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -55,8 +63,12 @@ koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref="ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref="ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 
-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 

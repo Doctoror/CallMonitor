@@ -1,0 +1,54 @@
+package com.dd.callmonitor.app.di
+
+import com.dd.callmonitor.app.components.server.MakeServerStatusNotificationUseCase
+import com.dd.callmonitor.data.server.ServerFactory
+import com.dd.callmonitor.domain.notifications.ShowNotificationUseCase
+import com.dd.callmonitor.domain.notifications.StartForegroundServiceUseCase
+import com.dd.callmonitor.domain.server.ServerStateProvider
+import com.dd.callmonitor.presentation.server.ServerPresenter
+import com.dd.callmonitor.presentation.server.ServerViewModel
+import com.dd.callmonitor.presentation.server.usecases.ProvideForegroundServerStatusMessageUseCase
+import kotlinx.coroutines.CoroutineScope
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
+
+fun koinServerModule() = module {
+
+    factory { MakeServerStatusNotificationUseCase() }
+
+    factory {
+        ProvideForegroundServerStatusMessageUseCase(
+            formatHostAndPortUseCase = get(),
+            resources = get()
+        )
+    }
+
+    single {
+        ServerFactory().newInstance(
+            getCallLogUseCase = get(),
+            serverStateProvider = get()
+        )
+    }
+
+    singleOf(::ServerStateProvider)
+
+    factory { (scope: CoroutineScope) ->
+        ServerPresenter(
+            observeWifiConnectivityUseCase = get(),
+            provideForegroundServerStatusMessageUseCase = get(),
+            resources = get(),
+            scope = scope,
+            server = get(),
+            serverStateProvider = get(),
+            viewModel = ServerViewModel()
+        )
+    }
+
+    factory { StartForegroundServiceUseCase() }
+
+    factory {
+        ShowNotificationUseCase(
+            checkPostNotificationsPermissionUseCase = get()
+        )
+    }
+}

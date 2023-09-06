@@ -34,7 +34,7 @@ android {
 
     testOptions {
         unitTests {
-            isIncludeAndroidResources = true
+            isIncludeAndroidResources = true //TODO needed here?
         }
     }
 
@@ -52,34 +52,28 @@ android {
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/{AL2.0,LGPL2.1}" //TODO what's this?
+            excludes += "/META-INF/INDEX.LIST"
+            excludes += "/META-INF/io.netty.*"
         }
     }
 }
 
 dependencies {
 
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1") // TODO gonna use it?
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4") // TODO gonna use it?
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
+
+    implementation(platform(libs.compose.bom))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.koin)
+    implementation(libs.lifecycle.runtime.compose)
 
     testImplementation(libs.junit.vintage)
     testImplementation(libs.koin.test)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
 
-    debugImplementation(libs.compose.ui.tooling)
-    debugImplementation("androidx.compose.ui:ui-test-manifest") // TODO gonna use it?
-
-    implementation("androidx.core:core-ktx:1.9.0") // TODO gonna use it?
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1") // TODO gonna use it?
-    implementation("androidx.activity:activity-compose:1.7.2") // TODO gonna use it?
-    implementation(platform(libs.compose.bom))
-    implementation(libs.compose.material.icons.extended)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.datastore.preferences)
-    implementation(libs.fragment)
-    implementation(libs.koin)
-    implementation(libs.lifecycle.runtime.compose)
+    //androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1") // TODO gonna use it?
 }

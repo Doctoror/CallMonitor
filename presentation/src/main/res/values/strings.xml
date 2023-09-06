@@ -1,0 +1,46 @@
+<resources>
+
+    <string name="app_name">CallMonitor</string>
+
+    <string name="call_logs_permission_denied_icon">Permission denied</string>
+
+    <string name="call_logs_permission_denied_message">
+        Call logs permission denied\nYou must grant Call logs permission if you want use this app
+    </string>
+
+    <string name="dialog_call_log_permission_rationale_text">
+        Call logs permission is required for this application to function
+    </string>
+
+    <string name="dialog_notification_permission_rationale_text">
+        Notifications permission allows you to see server status and easily stop the server from the
+        notification
+    </string>
+
+    <string name="dialog_permission_rationale_dismiss">Dismiss</string>
+
+    <string name="dialog_permission_rationale_proceed">Proceed</string>
+
+    <string name="not_connected_to_wifi_message">Not connected to Wi-Fi</string>
+
+    <string name="notification_channel_name_server_status">Server status</string>
+
+    <string name="server_power_button_when_error_label_generic">Failed to start the server</string>
+    <string name="server_power_button_when_error_label_not_connected">
+        Failed to start the server. Not connected to Wi-Fi.
+    </string>
+    <string name="server_power_button_when_error_label_no_host_address">
+        Failed to start the server. Cannot obtain IP address.
+    </string>
+
+    <string name="server_power_button_when_idle_label">Server not running</string>
+    <string name="server_power_button_when_idle_content_description">Turn on</string>
+
+    <string name="server_power_button_when_initializing_label">Server initializing…</string>
+
+    <string name="server_power_button_when_running_label">Server running,\n%s</string>
+    <string name="server_power_button_when_running_content_description">Turn off</string>
+
+    <string name="server_power_button_when_stopping_label">Server stopping…</string>
+
+</resources>

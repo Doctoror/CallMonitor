@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "CallMonitor"
-include(":app")
+include(":app", ":data", ":domain", ":presentation")

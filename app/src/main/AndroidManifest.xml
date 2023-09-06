@@ -2,14 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name=".framework.App"
+        android:name=".app.components.App"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -21,7 +21,7 @@
         tools:targetApi="34">
 
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".app.components.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.CallMonitor">
 
@@ -33,7 +33,7 @@
         </activity>
 
         <service
-            android:name=".data.server.ServerService"
+            android:name=".app.components.server.ServerService"
             android:foregroundServiceType="dataSync" />
 
     </application>

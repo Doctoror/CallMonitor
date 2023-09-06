@@ -1,27 +1,3 @@
 <resources>
-    <string name="app_name">CallMonitor</string>
-
-    <string name="dialog_notification_permission_rationale_dismiss">Dismiss</string>
-
-    <string name="dialog_notification_permission_rationale_proceed">Proceed</string>
-
-    <string name="dialog_notification_permission_rationale_text">
-        Notifications permission allows you to see server status and easily stop the server from the
-        notification.
-    </string>
-
-    <string name="notification_channel_name_server_status">Server status</string>
-
-    <string name="server_power_button_when_error_label">Failed to start the server</string>
-
-    <string name="server_power_button_when_idle_label">Server not running</string>
-    <string name="server_power_button_when_idle_content_description">Turn on</string>
-
-    <string name="server_power_button_when_initializing_label">Server initializing…</string>
-
-    <string name="server_power_button_when_running_label">Server running,\n%s</string>
-    <string name="server_power_button_when_running_content_description">Turn off</string>
-
-    <string name="server_power_button_when_stopping_label">Server stopping…</string>
 
 </resources>
