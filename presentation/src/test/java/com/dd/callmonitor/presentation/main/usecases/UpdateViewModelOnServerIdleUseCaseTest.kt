@@ -1,7 +1,6 @@
 package com.dd.callmonitor.presentation.main.usecases
 
 import android.content.res.Resources
-import com.dd.callmonitor.presentation.main.MainViewModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals

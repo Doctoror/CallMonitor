@@ -34,6 +34,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(platform(libs.compose.bom))
 
+    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.material3)

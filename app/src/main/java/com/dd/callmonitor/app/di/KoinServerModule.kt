@@ -26,6 +26,8 @@ fun koinServerModule() = module {
     single {
         ServerFactory().newInstance(
             getCallLogUseCase = get(),
+            getCallStatusUseCase = get(),
+            locale = get(),
             serverStateProvider = get()
         )
     }
@@ -34,6 +36,8 @@ fun koinServerModule() = module {
 
     factory { (scope: CoroutineScope) ->
         ServerPresenter(
+            callStatusStartListeningUseCase = get(),
+            callStatusStopListeningUseCase = get(),
             observeWifiConnectivityUseCase = get(),
             provideForegroundServerStatusMessageUseCase = get(),
             resources = get(),
@@ -48,7 +52,7 @@ fun koinServerModule() = module {
 
     factory {
         ShowNotificationUseCase(
-            checkPostNotificationsPermissionUseCase = get()
+            checkPermissionUseCase = get()
         )
     }
 }

@@ -1,11 +1,11 @@
 package com.dd.callmonitor.app.di
 
-import android.app.Activity
-import com.dd.callmonitor.domain.permissions.HandlePermissionUseCase
-import com.dd.callmonitor.domain.permissions.RequestCallLogPermissionUseCase
-import com.dd.callmonitor.domain.permissions.RequestPostNotificationsPermissionUseCase
-import com.dd.callmonitor.presentation.main.MainPresenter
-import com.dd.callmonitor.presentation.main.MainViewModel
+import com.dd.callmonitor.presentation.calllog.CallLogEntryViewModelMapper
+import com.dd.callmonitor.presentation.calllog.CallLogPresenter
+import com.dd.callmonitor.presentation.calllog.CallLogViewModel
+import com.dd.callmonitor.presentation.calllog.CallLogViewModelUpdater
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsPresenter
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerErrorUseCase
 import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerIdleUseCase
 import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerInitializingUseCase
@@ -18,20 +18,23 @@ import org.koin.dsl.module
 
 fun koinMainModule() = module {
 
-    viewModel { (
-                    activity: Activity,
-                    requestCallLogPermissionUseCase: RequestCallLogPermissionUseCase,
-                    requestPostNotificationsPermissionUseCase: RequestPostNotificationsPermissionUseCase
-                ) ->
-        val resources = androidContext().resources
-        MainPresenter(
-            handlePermissionUseCase = HandlePermissionUseCase(
-                activity = activity,
-                permissionsRepository = get(),
+    viewModel {
+        CallLogPresenter(
+            callLogViewModelUpdater = CallLogViewModelUpdater(
+                callLogEntryViewModelMapper = CallLogEntryViewModelMapper(
+                    locale = get(),
+                    resources = get()
+                )
             ),
+            getCallLogUseCase = get(),
+            viewModel = CallLogViewModel()
+        )
+    }
+
+    viewModel {
+        val resources = androidContext().resources
+        ServerControlsPresenter(
             observeWifiConnectivityUseCase = get(),
-            requestCallLogPermissionUseCase = requestCallLogPermissionUseCase,
-            requestPostNotificationsPermissionUseCase = requestPostNotificationsPermissionUseCase,
             serverStateProvider = get(),
             startServerUseCase = get(),
             stopServerUseCase = get(),
@@ -46,7 +49,7 @@ fun koinMainModule() = module {
                 UpdateViewModelOnServerRunningUseCase(get(), resources),
                 UpdateViewModelOnServerStoppingUseCase(resources)
             ),
-            viewModel = MainViewModel()
+            viewModel = ServerControlsViewModel()
         )
     }
 }

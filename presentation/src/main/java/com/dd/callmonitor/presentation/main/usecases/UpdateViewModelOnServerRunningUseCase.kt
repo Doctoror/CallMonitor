@@ -4,15 +4,15 @@ import android.content.res.Resources
 import androidx.compose.ui.graphics.Color
 import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.presentation.R
-import com.dd.callmonitor.presentation.main.MainViewModel
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
 class UpdateViewModelOnServerRunningUseCase(
     private val formatHostAndPortUseCase: FormatHostAndPortUseCase,
     private val resources: Resources
 ) {
 
-    operator fun invoke(viewModel: MainViewModel, ip: String, port: Int) {
-        viewModel.powerButtonAction.value = MainViewModel.PowerButtonAction.STOP
+    operator fun invoke(viewModel: ServerControlsViewModel, ip: String, port: Int) {
+        viewModel.powerButtonAction.value = ServerControlsViewModel.PowerButtonAction.STOP
 
         viewModel.powerButtonContentDescription.value = resources.getString(
             R.string.server_power_button_when_running_content_description
@@ -26,6 +26,6 @@ class UpdateViewModelOnServerRunningUseCase(
 
         viewModel.powerButtonTint.value = Color.Green
 
-        viewModel.viewType.value = MainViewModel.ViewType.SERVER_CONTROLS
+        viewModel.viewType.value = ServerControlsViewModel.ViewType.CONTENT
     }
 }

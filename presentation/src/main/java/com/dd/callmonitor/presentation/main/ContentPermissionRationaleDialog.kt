@@ -10,20 +10,20 @@ import com.dd.callmonitor.presentation.R
 
 @Composable
 fun ContentPermissionRationaleDialog(
-    onDismiss: () -> Unit,
+    onDismissRequest: () -> Unit,
     onProceed: () -> Unit,
     text: String
 ) {
     AlertDialog(
         text = { Text(text) },
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = onProceed) {
-                Text(stringResource(R.string.dialog_permission_rationale_proceed))
+                Text(stringResource(R.string.permission_rationale_proceed))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = onDismissRequest) {
                 Text(stringResource(R.string.dialog_permission_rationale_dismiss))
             }
         }
@@ -34,8 +34,8 @@ fun ContentPermissionRationaleDialog(
 @Preview(showBackground = true)
 fun ContentPermissionRationaleDialogPreview() {
     ContentPermissionRationaleDialog(
-        onDismiss = {},
+        onDismissRequest = {},
         onProceed = {},
-        text = stringResource(R.string.dialog_call_log_permission_rationale_text)
+        text = stringResource(R.string.call_log_permission_rationale_text)
     )
 }

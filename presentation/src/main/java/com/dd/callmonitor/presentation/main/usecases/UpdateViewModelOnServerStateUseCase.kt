@@ -1,7 +1,7 @@
 package com.dd.callmonitor.presentation.main.usecases
 
 import com.dd.callmonitor.domain.server.ServerState
-import com.dd.callmonitor.presentation.main.MainViewModel
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
 class UpdateViewModelOnServerStateUseCase(
     private val updateViewModelOnServerErrorUseCase: UpdateViewModelOnServerErrorUseCase,
@@ -11,7 +11,7 @@ class UpdateViewModelOnServerStateUseCase(
     private val updateViewModelOnServerStoppingUseCase: UpdateViewModelOnServerStoppingUseCase
 ) {
 
-    operator fun invoke(viewModel: MainViewModel, state: ServerState) {
+    operator fun invoke(viewModel: ServerControlsViewModel, state: ServerState) {
         when (state) {
             is ServerState.Error ->
                 updateViewModelOnServerErrorUseCase(viewModel, state.error)

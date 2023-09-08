@@ -6,7 +6,7 @@ import java.util.TimeZone
 
 internal class ResponseTimeFormatter(private val locale: Locale) {
 
-    fun format(timeMillisUtc: Long) = SimpleDateFormat(
+    fun format(timeMillisUtc: Long): String = SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
         locale
     ).apply { timeZone = TimeZone.getDefault() }.format(timeMillisUtc)

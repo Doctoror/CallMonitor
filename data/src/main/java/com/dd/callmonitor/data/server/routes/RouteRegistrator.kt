@@ -4,5 +4,7 @@ import io.ktor.server.routing.Route
 
 interface RouteRegistrator {
 
+    val serviceName: String
+
     fun register(route: Route)
 }

@@ -14,10 +14,11 @@ import kotlinx.coroutines.flow.first
 
 internal class RootRouteRegistrator(
     private val responseTimeFormatter: ResponseTimeFormatter,
-    private val serverStateProvider: ServerStateProvider
+    private val serverStateProvider: ServerStateProvider,
+    private val serviceNames: List<String>
 ) : RouteRegistrator {
 
-    private val serviceNames = listOf("status", "log")
+    override val serviceName = ""
 
     override fun register(route: Route) {
         route.get("/") {

@@ -1,7 +1,7 @@
 package com.dd.callmonitor.data.server.routes.log
 
 import com.dd.callmonitor.data.server.routes.RouteRegistrator
-import com.dd.callmonitor.domain.calls.GetCallLogUseCase
+import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -12,10 +12,15 @@ internal class LogRouteRegistrator(
     private val callLogResponseMapper: CallLogResponseMapper
 ) : RouteRegistrator {
 
+    override val serviceName = "log"
+
     override fun register(route: Route) {
-        route.get("/log") {
+        route.get("/$serviceName") {
             call.respond(
-                getCallLogUseCase().map(callLogResponseMapper::map)
+                getCallLogUseCase().fold(
+                    onSuccess = { it.map(callLogResponseMapper::map) },
+                    onFailure = { it }
+                )
             )
         }
     }

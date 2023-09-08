@@ -1,8 +1,6 @@
 package com.dd.callmonitor.app.di
 
 import android.app.Activity
-import com.dd.callmonitor.domain.permissions.RequestCallLogPermissionUseCase
-import com.dd.callmonitor.domain.permissions.RequestPostNotificationsPermissionUseCase
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import org.junit.Test
@@ -19,8 +17,6 @@ class KoinModulesTest : StopKoinAfterTest() {
         GlobalContext.get().checkModules {
             withInstance<Activity>(mockk())
             withInstance<CoroutineScope>(mockk())
-            withInstance<RequestCallLogPermissionUseCase>(mockk())
-            withInstance<RequestPostNotificationsPermissionUseCase>(mockk())
         }
     }
 }

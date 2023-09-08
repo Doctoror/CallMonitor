@@ -2,14 +2,18 @@
 
     <string name="app_name">CallMonitor</string>
 
-    <string name="call_logs_permission_denied_icon">Permission denied</string>
+    <string name="call_log_empty">Call log empty</string>
 
-    <string name="call_logs_permission_denied_message">
-        Call logs permission denied\nYou must grant Call logs permission if you want use this app
-    </string>
+    <string name="call_log_failure">Failed fetching call log</string>
 
-    <string name="dialog_call_log_permission_rationale_text">
-        Call logs permission is required for this application to function
+    <string name="call_log_header">Call log</string>
+
+    <string name="call_log_stub_unknown">Unknown</string>
+
+    <string name="call_log_permission_denied_icon">Permission denied</string>
+
+    <string name="call_log_permission_rationale_text">
+        Call logs permission is required to display Call Logs
     </string>
 
     <string name="dialog_notification_permission_rationale_text">
@@ -17,9 +21,13 @@
         notification
     </string>
 
+    <string name="dialog_read_phone_numbers_rationale_text">
+        Read phone state is required for /status service
+    </string>
+
     <string name="dialog_permission_rationale_dismiss">Dismiss</string>
 
-    <string name="dialog_permission_rationale_proceed">Proceed</string>
+    <string name="permission_rationale_proceed">Proceed</string>
 
     <string name="not_connected_to_wifi_message">Not connected to Wi-Fi</string>
 

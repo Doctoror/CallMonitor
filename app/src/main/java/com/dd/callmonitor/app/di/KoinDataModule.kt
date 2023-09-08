@@ -1,11 +1,24 @@
 package com.dd.callmonitor.app.di
 
-import com.dd.callmonitor.data.permissions.PermissionsRepositoryFactory
+import android.telephony.TelephonyManager
+import com.dd.callmonitor.data.calllog.CallLogRepositoryFactory
+import com.dd.callmonitor.data.callstatus.CallStatusRepositoryFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 fun koinDataModule() = module {
 
-    single { PermissionsRepositoryFactory().newInstance(androidContext()) }
+    factory {
+        CallLogRepositoryFactory().newInstance(
+            contentResolver = androidContext().contentResolver,
+            checkPermissionUseCase = get()
+        )
+    }
 
+    single {
+        CallStatusRepositoryFactory().newInstance(
+            checkPermissionUseCase = get(),
+            telephonyManager = androidContext().getSystemService(TelephonyManager::class.java)
+        )
+    }
 }

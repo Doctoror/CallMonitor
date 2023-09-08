@@ -4,12 +4,12 @@ import android.content.res.Resources
 import androidx.compose.ui.graphics.Color
 import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.presentation.R
-import com.dd.callmonitor.presentation.main.MainViewModel
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
 class UpdateViewModelOnServerErrorUseCase(private val resources: Resources) {
 
-    operator fun invoke(viewModel: MainViewModel, error: ServerError) {
-        viewModel.powerButtonAction.value = MainViewModel.PowerButtonAction.START
+    operator fun invoke(viewModel: ServerControlsViewModel, error: ServerError) {
+        viewModel.powerButtonAction.value = ServerControlsViewModel.PowerButtonAction.START
 
         viewModel.powerButtonContentDescription.value = resources.getString(
             R.string.server_power_button_when_idle_content_description
@@ -32,6 +32,6 @@ class UpdateViewModelOnServerErrorUseCase(private val resources: Resources) {
 
         viewModel.powerButtonTint.value = Color.Red
 
-        viewModel.viewType.value = MainViewModel.ViewType.SERVER_CONTROLS
+        viewModel.viewType.value = ServerControlsViewModel.ViewType.CONTENT
     }
 }

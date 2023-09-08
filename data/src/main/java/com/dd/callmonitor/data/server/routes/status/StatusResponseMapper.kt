@@ -1,6 +1,6 @@
 package com.dd.callmonitor.data.server.routes.status
 
-import com.dd.callmonitor.domain.calls.CallStatus
+import com.dd.callmonitor.domain.callstatus.CallStatus
 
 internal class StatusResponseMapper {
 

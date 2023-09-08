@@ -1,6 +1,8 @@
 package com.dd.callmonitor.presentation.server
 
 import android.content.res.Resources
+import com.dd.callmonitor.domain.callstatus.CallStatusStartListeningUseCase
+import com.dd.callmonitor.domain.callstatus.CallStatusStopListeningUseCase
 import com.dd.callmonitor.domain.connectivity.ConnectivityState
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.server.Server
@@ -20,6 +22,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ServerPresenter(
+    private val callStatusStartListeningUseCase: CallStatusStartListeningUseCase,
+    private val callStatusStopListeningUseCase: CallStatusStopListeningUseCase,
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase,
     private val provideForegroundServerStatusMessageUseCase: ProvideForegroundServerStatusMessageUseCase,
     private val resources: Resources,
@@ -99,10 +103,18 @@ class ServerPresenter(
                             ServerState.Error(ServerError.NO_CONNECTIVITY)
                         )
 
-                        is ConnectivityState.Connected -> server.start(it.siteLocalAddress)
+                        is ConnectivityState.Connected -> {
+                            callStatusStartListeningUseCase()
+                            server.start(it.siteLocalAddress)
+                        }
                     }
                 }
         }
+    }
+
+    private suspend fun stopIfRunning() {
+        callStatusStopListeningUseCase()
+        server.stopIfRunning()
     }
 
     fun stopServerAndExit() {
@@ -110,11 +122,11 @@ class ServerPresenter(
     }
 
     fun stopServerBlocking() = runBlocking {
-        server.stopIfRunning()
+        stopIfRunning()
     }
 
     private suspend fun stopServerAndExitInternal() {
-        server.stopIfRunning()
+        stopIfRunning()
         finishEventsEmitter.emit(Unit)
     }
 }

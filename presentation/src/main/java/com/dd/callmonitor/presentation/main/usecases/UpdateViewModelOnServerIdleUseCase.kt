@@ -3,12 +3,12 @@ package com.dd.callmonitor.presentation.main.usecases
 import android.content.res.Resources
 import androidx.compose.ui.graphics.Color
 import com.dd.callmonitor.presentation.R
-import com.dd.callmonitor.presentation.main.MainViewModel
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
 class UpdateViewModelOnServerIdleUseCase(private val resources: Resources) {
 
-    operator fun invoke(viewModel: MainViewModel) {
-        viewModel.powerButtonAction.value = MainViewModel.PowerButtonAction.START
+    operator fun invoke(viewModel: ServerControlsViewModel) {
+        viewModel.powerButtonAction.value = ServerControlsViewModel.PowerButtonAction.START
 
         viewModel.powerButtonContentDescription.value = resources.getString(
             R.string.server_power_button_when_idle_content_description
@@ -22,6 +22,6 @@ class UpdateViewModelOnServerIdleUseCase(private val resources: Resources) {
 
         viewModel.powerButtonTint.value = Color.Red
 
-        viewModel.viewType.value = MainViewModel.ViewType.SERVER_CONTROLS
+        viewModel.viewType.value = ServerControlsViewModel.ViewType.CONTENT
     }
 }

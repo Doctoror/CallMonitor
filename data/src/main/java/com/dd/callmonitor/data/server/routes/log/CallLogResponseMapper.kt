@@ -1,7 +1,7 @@
 package com.dd.callmonitor.data.server.routes.log
 
 import com.dd.callmonitor.data.server.routes.root.ResponseTimeFormatter
-import com.dd.callmonitor.domain.calls.CallLogEntry
+import com.dd.callmonitor.domain.calllog.CallLogEntry
 
 internal class CallLogResponseMapper(
     private val responseTimeFormatter: ResponseTimeFormatter
