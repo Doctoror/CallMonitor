@@ -4,6 +4,6 @@ import com.dd.callmonitor.domain.util.ResultOrFailure
 
 class GetCallLogUseCase(private val callLogRepository: CallLogRepository) {
 
-    operator fun invoke(): ResultOrFailure<List<CallLogEntry>, CallLogError> =
+    suspend operator fun invoke(): ResultOrFailure<List<CallLogEntry>, CallLogError> =
         callLogRepository.getCallLog()
 }

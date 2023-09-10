@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 
-class CheckPermissionUseCase(private val context: Context) {
+class CheckPermissionUseCase(val context: Context) {
 
-    operator fun <R> invoke(
+    inline operator fun <R> invoke(
         permission: ApiLevelPermission,
         whenDenied: () -> R,
         whenGranted: () -> R,

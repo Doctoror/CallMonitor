@@ -1,8 +1,13 @@
 package com.dd.callmonitor.data.calllog
 
-import android.content.ContentResolver
+import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import com.dd.callmonitor.domain.calllog.CallLogRepository
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
+
+private val Context.timesQueriedDataStore by preferencesDataStore(
+    "timesQueriedDataStore"
+)
 
 /**
  * Note for reviewers: the goal is to encapsulate internal CallLogRepositoryImpl in the data module,
@@ -11,7 +16,11 @@ import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 class CallLogRepositoryFactory {
 
     fun newInstance(
-        contentResolver: ContentResolver,
+        context: Context,
         checkPermissionUseCase: CheckPermissionUseCase,
-    ): CallLogRepository = CallLogRepositoryImpl(contentResolver, checkPermissionUseCase)
+    ): CallLogRepository = CallLogRepositoryImpl(
+        context.contentResolver,
+        checkPermissionUseCase,
+        TimesQueriedDataSource(context.timesQueriedDataStore)
+    )
 }

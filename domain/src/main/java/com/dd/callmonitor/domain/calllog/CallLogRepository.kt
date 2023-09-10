@@ -4,5 +4,5 @@ import com.dd.callmonitor.domain.util.ResultOrFailure
 
 interface CallLogRepository {
 
-    fun getCallLog(): ResultOrFailure<List<CallLogEntry>, CallLogError>
+    suspend fun getCallLog(): ResultOrFailure<List<CallLogEntry>, CallLogError>
 }
