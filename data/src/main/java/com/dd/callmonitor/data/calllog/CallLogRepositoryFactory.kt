@@ -2,8 +2,10 @@ package com.dd.callmonitor.data.calllog
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
+import com.dd.callmonitor.data.callstatus.ContactNameDataSource
 import com.dd.callmonitor.domain.calllog.CallLogRepository
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
+import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 
 private val Context.timesQueriedDataStore by preferencesDataStore(
     "timesQueriedDataStore"
@@ -18,9 +20,17 @@ class CallLogRepositoryFactory {
     fun newInstance(
         context: Context,
         checkPermissionUseCase: CheckPermissionUseCase,
+        normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase
     ): CallLogRepository = CallLogRepositoryImpl(
+        ContactNameDataSource(
+            checkPermissionUseCase,
+            context.contentResolver,
+            normalizePhoneNumberUseCase,
+            context.resources
+        ),
         context.contentResolver,
         checkPermissionUseCase,
+        normalizePhoneNumberUseCase,
         TimesQueriedDataSource(context.timesQueriedDataStore)
     )
 }

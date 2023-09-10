@@ -1,8 +1,11 @@
 package com.dd.callmonitor.data.callstatus
 
+import android.content.ContentResolver
+import android.content.res.Resources
 import android.telephony.TelephonyManager
 import com.dd.callmonitor.domain.callstatus.CallStatusRepository
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
+import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 
 /**
  * Note for reviewers: the goal is to encapsulate internal CallStatusRepositoryFactory in the data
@@ -12,9 +15,19 @@ class CallStatusRepositoryFactory {
 
     fun newInstance(
         checkPermissionUseCase: CheckPermissionUseCase,
-        telephonyManager: TelephonyManager
+        contentResolver: ContentResolver,
+        normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase,
+        resources: Resources,
+        telephonyManager: TelephonyManager,
     ): CallStatusRepository = CallStatusRepositoryImpl(
         checkPermissionUseCase,
-        telephonyManager
+        ContactNameDataSource(
+            checkPermissionUseCase,
+            contentResolver,
+            normalizePhoneNumberUseCase,
+            resources
+        ),
+        normalizePhoneNumberUseCase,
+        telephonyManager,
     )
 }

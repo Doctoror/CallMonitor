@@ -15,6 +15,11 @@ object ApiLevelPermissions {
         Manifest.permission.READ_CALL_LOG
     )
 
+    val READ_CONTACTS = ApiLevelPermission(
+        Build.VERSION_CODES.BASE,
+        Manifest.permission.READ_CONTACTS
+    )
+
     val READ_PHONE_NUMBERS = ApiLevelPermission(
         Build.VERSION_CODES.O,
         "android.permission.READ_PHONE_NUMBERS"

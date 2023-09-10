@@ -13,14 +13,18 @@ fun koinDataModule() = module {
         val context = androidContext()
         CallLogRepositoryFactory().newInstance(
             context = context,
-            checkPermissionUseCase = CheckPermissionUseCase(context)
+            checkPermissionUseCase = CheckPermissionUseCase(context),
+            normalizePhoneNumberUseCase = get()
         )
     }
 
     single {
         CallStatusRepositoryFactory().newInstance(
             checkPermissionUseCase = get(),
-            telephonyManager = androidContext().getSystemService(TelephonyManager::class.java)
+            contentResolver = get(),
+            normalizePhoneNumberUseCase = get(),
+            telephonyManager = androidContext().getSystemService(TelephonyManager::class.java),
+            resources = get()
         )
     }
 }

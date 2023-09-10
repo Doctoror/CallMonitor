@@ -2,7 +2,7 @@ package com.dd.callmonitor.data.server.routes
 
 import io.ktor.server.routing.Route
 
-interface RouteRegistrator {
+internal interface RouteRegistrator {
 
     val serviceName: String
 

@@ -2,7 +2,7 @@ package com.dd.callmonitor.presentation.calllog
 
 import android.content.res.Resources
 import com.dd.callmonitor.domain.calllog.CallLogEntry
-import com.dd.callmonitor.presentation.R
+import com.dd.callmonitor.domain.R
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 

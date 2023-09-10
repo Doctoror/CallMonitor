@@ -11,11 +11,11 @@ import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.domain.connectivity.IsActiveNetworkWifiUseCase
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
+import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.server.StartServerUseCase
 import com.dd.callmonitor.domain.server.StopServerUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import java.util.Locale
 
 fun koinDomainModule() = module {
 
@@ -31,7 +31,7 @@ fun koinDomainModule() = module {
 
     factory { GetCallStatusUseCase(callStatusRepository = get()) }
 
-    factory { Locale.getDefault() }
+    factory { NormalizePhoneNumberUseCase(locale = get()) }
 
     single {
         val connectivityManager = androidContext().getSystemService(ConnectivityManager::class.java)

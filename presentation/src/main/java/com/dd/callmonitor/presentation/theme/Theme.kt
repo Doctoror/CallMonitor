@@ -14,7 +14,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun AppTheme(content: @Composable () -> Unit) {
+internal fun AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = if (isSystemInDarkTheme()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

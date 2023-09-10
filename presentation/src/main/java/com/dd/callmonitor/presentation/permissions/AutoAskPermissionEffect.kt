@@ -14,7 +14,7 @@ import com.google.accompanist.permissions.shouldShowRationale
  */
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun AutoAskPermissionEffect(permissionState: PermissionState) {
+internal fun AutoAskPermissionEffect(permissionState: PermissionState) {
     LaunchedEffect(permissionState.status) {
         if (permissionState.status.shouldAskForPermission()) {
             permissionState.launchPermissionRequest()

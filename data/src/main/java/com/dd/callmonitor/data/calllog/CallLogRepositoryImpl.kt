@@ -2,29 +2,29 @@ package com.dd.callmonitor.data.calllog
 
 import android.content.ContentResolver
 import android.provider.CallLog.Calls
+import com.dd.callmonitor.data.callstatus.ContactNameDataSource
 import com.dd.callmonitor.domain.calllog.CallLogEntry
 import com.dd.callmonitor.domain.calllog.CallLogError
 import com.dd.callmonitor.domain.calllog.CallLogRepository
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
+import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.ResultOrFailure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal class CallLogRepositoryImpl(
+    private val contactNameDataSource: ContactNameDataSource,
     private val contentResolver: ContentResolver,
     private val checkPermissionUseCase: CheckPermissionUseCase,
+    private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase,
     private val timesQueriedDataSource: TimesQueriedDataSource
 ) : CallLogRepository {
 
     override suspend fun getCallLog(): ResultOrFailure<List<CallLogEntry>, CallLogError> =
         checkPermissionUseCase(
             permission = ApiLevelPermissions.READ_CALL_LOG,
-            whenDenied = {
-                ResultOrFailure.failure(
-                    CallLogError.PERMISSION_DENIED
-                )
-            },
+            whenDenied = { ResultOrFailure.failure(CallLogError.PERMISSION_DENIED) },
             whenGranted = { getCallLogWithPermission() },
         )
 
@@ -37,14 +37,14 @@ internal class CallLogRepositoryImpl(
                         Calls._ID,
                         Calls.DATE,
                         Calls.DURATION,
-                        Calls.CACHED_NAME,
-                        Calls.CACHED_NORMALIZED_NUMBER
+                        Calls.NUMBER,
+                        Calls.CACHED_NAME
                     ),
                     null,
                     null,
                     "${Calls.DATE} DESC"
                 )
-                .use {
+                .use { it ->
                     if (it == null) {
                         return@use ResultOrFailure.failure(CallLogError.QUERY_FAILED)
                     }
@@ -53,6 +53,19 @@ internal class CallLogRepositoryImpl(
                     if (it.moveToFirst()) {
                         while (!it.isAfterLast) {
                             val id = it.getLong(it.getColumnIndexOrThrow(Calls._ID))
+
+                            val number = normalizePhoneNumberUseCase(
+                                it.getString(it.getColumnIndexOrThrow(Calls.NUMBER))
+                            )
+
+                            val cachedName = it.getString(
+                                it.getColumnIndexOrThrow(Calls.CACHED_NAME)
+                            ) ?: ""
+
+                            val contactName = contactNameDataSource
+                                .getContactNameByPhoneNumber(number)
+                                .ifBlank { cachedName }
+
                             output.add(
                                 CallLogEntry(
                                     beginningMillisUtc = it.getLong(
@@ -65,19 +78,11 @@ internal class CallLogRepositoryImpl(
                                             Calls.DURATION
                                         )
                                     ),
-                                    number = it.getString(
-                                        it.getColumnIndexOrThrow(
-                                            Calls.CACHED_NORMALIZED_NUMBER
-                                        )
-                                    ) ?: "",
-                                    name = it.getString(
-                                        it.getColumnIndexOrThrow(
-                                            Calls.CACHED_NAME
-                                        )
-                                    ) ?: "",
+                                    number = number,
+                                    name = contactName,
                                     // Note for reviewers: this also means a query from UI
                                     // (what is displayed by ContentCallLog) also updates
-                                    // timesQueried
+                                    // timesQueried. Assuming this is a requirement.
                                     timesQueried = timesQueriedDataSource.incrementAndGet(id)
                                 )
                             )

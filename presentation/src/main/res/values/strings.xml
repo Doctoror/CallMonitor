@@ -8,8 +8,6 @@
 
     <string name="call_log_header">Call log</string>
 
-    <string name="call_log_stub_unknown">Unknown</string>
-
     <string name="call_log_permission_denied_icon">Permission denied</string>
 
     <string name="call_log_permission_rationale_text">
