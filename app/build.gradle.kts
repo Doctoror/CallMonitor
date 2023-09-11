@@ -67,7 +67,6 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.koin)
-    implementation(libs.lifecycle.runtime.compose)
 
     testImplementation(libs.junit)
     testImplementation(libs.koin.test)
