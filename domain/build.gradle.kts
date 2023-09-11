@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(libs.junit.vintage)
+    testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
 }

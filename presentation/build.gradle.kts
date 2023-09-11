@@ -44,7 +44,7 @@ dependencies {
 
     debugImplementation(libs.compose.ui.tooling)
 
-    testImplementation(libs.junit.vintage)
+    testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
 }

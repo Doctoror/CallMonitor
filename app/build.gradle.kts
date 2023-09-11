@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.lifecycle.runtime.compose)
 
-    testImplementation(libs.junit.vintage)
+    testImplementation(libs.junit)
     testImplementation(libs.koin.test)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
