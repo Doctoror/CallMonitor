@@ -21,6 +21,11 @@ internal class CallLogRepositoryImpl(
     private val timesQueriedDataSource: TimesQueriedDataSource
 ) : CallLogRepository {
 
+    /**
+     * Returns call log without paging.
+     *
+     * Note for reviewers: paging has been omitted to reduce the scope of the (already big) project.
+     */
     override suspend fun getCallLog(): Either<CallLogError, List<CallLogEntry>> =
         checkPermissionUseCase(
             permission = ApiLevelPermissions.READ_CALL_LOG,
