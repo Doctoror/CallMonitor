@@ -1,6 +1,6 @@
 package com.dd.callmonitor.app.di
 
-import com.dd.callmonitor.app.components.server.MakeServerStatusNotificationUseCase
+import com.dd.callmonitor.app.components.server.ServerStatusNotificationProvider
 import com.dd.callmonitor.data.server.ServerFactory
 import com.dd.callmonitor.domain.notifications.ShowNotificationUseCase
 import com.dd.callmonitor.domain.notifications.StartForegroundServiceUseCase
@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 fun koinServerModule() = module {
 
-    factory { MakeServerStatusNotificationUseCase() }
+    factory { ServerStatusNotificationProvider() }
 
     factory {
         ForegroundServiceStatusMessageProvider(

@@ -9,9 +9,9 @@ import com.dd.callmonitor.R
 import com.dd.callmonitor.app.components.main.MainActivity
 import com.dd.callmonitor.app.notifications.NOTIFICATION_CHANNEL_ID_SERVER_STATUS
 
-class MakeServerStatusNotificationUseCase {
+class ServerStatusNotificationProvider {
 
-    operator fun invoke(context: Context, contentTitle: CharSequence): Notification =
+    fun provide(context: Context, contentTitle: CharSequence): Notification =
         NotificationCompat
             .Builder(
                 context,

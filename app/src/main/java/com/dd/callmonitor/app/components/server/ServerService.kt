@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.IBinder
 import com.dd.callmonitor.app.components.CoroutineScopeService
 import com.dd.callmonitor.app.notifications.NOTIFICATION_ID_SERVER_STATUS
-import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.notifications.ShowNotificationUseCase
 import com.dd.callmonitor.domain.notifications.StartForegroundServiceUseCase
 import com.dd.callmonitor.presentation.server.ServerPresenter
@@ -18,7 +17,7 @@ const val SERVER_SERVICE_ACTION_STOP = "ACTION_STOP"
 
 class ServerService : CoroutineScopeService() {
 
-    private val makeServerStatusNotificationUseCase: MakeServerStatusNotificationUseCase by inject()
+    private val serverStatusNotificationProvider: ServerStatusNotificationProvider by inject()
 
     private val showNotificationUseCase: ShowNotificationUseCase by inject()
 
@@ -35,7 +34,7 @@ class ServerService : CoroutineScopeService() {
         scope.launch {
             viewModel
                 .foregroundNotification
-                .map { makeServerStatusNotificationUseCase(this@ServerService, it) }
+                .map { serverStatusNotificationProvider.provide(this@ServerService, it) }
                 .collect {
                     startForegroundServiceUseCase(
                         this@ServerService,
@@ -48,7 +47,7 @@ class ServerService : CoroutineScopeService() {
         scope.launch {
             viewModel
                 .normalNotification
-                .map { makeServerStatusNotificationUseCase(this@ServerService, it) }
+                .map { serverStatusNotificationProvider.provide(this@ServerService, it) }
                 .collect {
                     showNotificationUseCase(
                         this@ServerService,
@@ -78,7 +77,7 @@ class ServerService : CoroutineScopeService() {
         }
 
         intent.action == SERVER_SERVICE_ACTION_STOP -> {
-            presenter.stopServerAndExit()
+            presenter.stopIfRunningAndExit()
             START_NOT_STICKY
         }
 
@@ -93,9 +92,7 @@ class ServerService : CoroutineScopeService() {
         //
         // And if onDestroy is called for any other reason beyond our control, we must ensure the
         // server is stopped so we have no choice except blocking the thread.
-        //
-        // This relies on the implementation that stopIfRunning does nothing if not running.
-        presenter.stopServerBlocking()
+        presenter.stopIfRunningBlocking()
         super.onDestroy()
     }
 }

@@ -84,7 +84,7 @@ class ServerPresenter(
                 // This functionality is omitted to save some time as the task is huge even without
                 // handling this case.
                 .filter { it == ConnectivityState.Disconnected }
-                .collect { stopServerAndExitInternal() }
+                .collect { stopIfRunningAndExitInternal() }
         }
     }
 
@@ -116,15 +116,15 @@ class ServerPresenter(
         server.stopIfRunning()
     }
 
-    fun stopServerAndExit() {
-        scope.launch { stopServerAndExitInternal() }
+    fun stopIfRunningAndExit() {
+        scope.launch { stopIfRunningAndExitInternal() }
     }
 
-    fun stopServerBlocking() = runBlocking {
+    fun stopIfRunningBlocking() = runBlocking {
         stopIfRunning()
     }
 
-    private suspend fun stopServerAndExitInternal() {
+    private suspend fun stopIfRunningAndExitInternal() {
         stopIfRunning()
         finishEventsEmitter.emit(Unit)
     }
