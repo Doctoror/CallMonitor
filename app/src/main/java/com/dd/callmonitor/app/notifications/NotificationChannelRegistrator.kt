@@ -4,7 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.res.Resources
 import android.os.Build
-import com.dd.callmonitor.presentation.R
+import com.dd.callmonitor.R
 
 class NotificationChannelRegistrator(
     private val notificationManager: NotificationManager,

@@ -1,3 +1,5 @@
 <resources>
 
+    <string name="notification_channel_name_server_status">Server status</string>
+
 </resources>

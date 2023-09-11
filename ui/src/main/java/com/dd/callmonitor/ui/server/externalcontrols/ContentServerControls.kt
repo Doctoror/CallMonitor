@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.server.externalcontrols
+package com.dd.callmonitor.ui.server.externalcontrols
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
@@ -7,8 +7,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
 
 @Composable
 fun BoxScope.ContentServerControls(
@@ -47,7 +49,7 @@ fun BoxScope.ContentServerControls(
         ServerControlsViewModel.ViewType.CONTENT -> ContentPowerButtonWithLabel(
             isLoading = powerButtonLoading.value,
             label = powerButtonLabel.value,
-            tint = powerButtonTint.value,
+            tint = Color(powerButtonTint.value),
             onClick = when (powerButtonAction.value) {
                 ServerControlsViewModel.PowerButtonAction.NONE -> null
                 ServerControlsViewModel.PowerButtonAction.START -> onStartServerClick

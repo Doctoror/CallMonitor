@@ -1,10 +1,12 @@
-package com.dd.callmonitor.presentation.calllog
+package com.dd.callmonitor.ui.calllog
 
 import android.Manifest
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Preview
-import com.dd.callmonitor.presentation.permissions.AutoAskPermissionEffect
+import com.dd.callmonitor.presentation.calllog.CallLogEntryViewModel
+import com.dd.callmonitor.presentation.calllog.CallLogViewModel
+import com.dd.callmonitor.ui.permissions.AutoAskPermissionEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState

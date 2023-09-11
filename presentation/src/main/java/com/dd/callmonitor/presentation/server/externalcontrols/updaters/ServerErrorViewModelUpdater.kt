@@ -1,7 +1,7 @@
 package com.dd.callmonitor.presentation.server.externalcontrols.updaters
 
 import android.content.res.Resources
-import androidx.compose.ui.graphics.Color
+import android.graphics.Color
 import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
@@ -30,7 +30,7 @@ class ServerErrorViewModelUpdater(private val resources: Resources) {
 
         viewModel.powerButtonLoading.value = false
 
-        viewModel.powerButtonTint.value = Color.Red
+        viewModel.powerButtonTint.value = Color.RED
 
         viewModel.viewType.value = ServerControlsViewModel.ViewType.CONTENT
     }

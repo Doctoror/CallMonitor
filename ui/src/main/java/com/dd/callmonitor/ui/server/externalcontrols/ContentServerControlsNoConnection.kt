@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.server.externalcontrols
+package com.dd.callmonitor.ui.server.externalcontrols
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dd.callmonitor.presentation.R
+import com.dd.callmonitor.ui.R
 
 @Composable
 fun BoxScope.ContentServerControlNoConnection() {

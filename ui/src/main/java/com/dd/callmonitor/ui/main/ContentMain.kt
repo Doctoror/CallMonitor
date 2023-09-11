@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.main
+package com.dd.callmonitor.ui.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.calllog.CallLogViewModel
-import com.dd.callmonitor.presentation.calllog.ContentCallLog
-import com.dd.callmonitor.presentation.server.externalcontrols.ContentServerControls
 import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
-import com.dd.callmonitor.presentation.theme.AppTheme
+import com.dd.callmonitor.ui.R
+import com.dd.callmonitor.ui.calllog.ContentCallLog
+import com.dd.callmonitor.ui.server.externalcontrols.ContentServerControls
+import com.dd.callmonitor.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.calllog
+package com.dd.callmonitor.ui.calllog
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.dd.callmonitor.presentation.theme.AppTheme
+import com.dd.callmonitor.presentation.calllog.CallLogEntryViewModel
+import com.dd.callmonitor.presentation.calllog.CallLogViewModel
+import com.dd.callmonitor.ui.theme.AppTheme
 
 @Composable
 fun ContentCallLogLoaded(viewModel: CallLogViewModel) {

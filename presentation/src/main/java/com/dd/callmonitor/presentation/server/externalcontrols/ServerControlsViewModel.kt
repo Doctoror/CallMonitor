@@ -1,6 +1,6 @@
 package com.dd.callmonitor.presentation.server.externalcontrols
 
-import androidx.compose.ui.graphics.Color
+import android.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class ServerControlsViewModel {
@@ -9,7 +9,7 @@ class ServerControlsViewModel {
     val powerButtonContentDescription = MutableStateFlow("")
     val powerButtonLabel = MutableStateFlow("")
     val powerButtonLoading = MutableStateFlow(false)
-    val powerButtonTint = MutableStateFlow(Color.Black)
+    val powerButtonTint = MutableStateFlow(Color.BLACK)
     val viewType = MutableStateFlow(ViewType.LOADING)
 
     enum class PowerButtonAction {

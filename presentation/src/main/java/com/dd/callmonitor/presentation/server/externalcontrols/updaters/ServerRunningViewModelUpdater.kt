@@ -1,7 +1,7 @@
 package com.dd.callmonitor.presentation.server.externalcontrols.updaters
 
 import android.content.res.Resources
-import androidx.compose.ui.graphics.Color
+import android.graphics.Color
 import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
@@ -24,7 +24,7 @@ class ServerRunningViewModelUpdater(
 
         viewModel.powerButtonLoading.value = false
 
-        viewModel.powerButtonTint.value = Color.Green
+        viewModel.powerButtonTint.value = Color.GREEN
 
         viewModel.viewType.value = ServerControlsViewModel.ViewType.CONTENT
     }

@@ -1,36 +1,5 @@
 <resources>
 
-    <string name="app_name">CallMonitor</string>
-
-    <string name="call_log_empty">Call log empty</string>
-
-    <string name="call_log_failure">Failed fetching call log</string>
-
-    <string name="call_log_header">Call log</string>
-
-    <string name="call_log_permission_denied_icon">Permission denied</string>
-
-    <string name="call_log_permission_rationale_text">
-        Call logs permission is required to display Call Logs
-    </string>
-
-    <string name="dialog_notification_permission_rationale_text">
-        Notifications permission allows you to see server status and easily stop the server from the
-        notification
-    </string>
-
-    <string name="dialog_read_phone_numbers_rationale_text">
-        Read phone state is required for /status service
-    </string>
-
-    <string name="dialog_permission_rationale_dismiss">Dismiss</string>
-
-    <string name="permission_rationale_proceed">Proceed</string>
-
-    <string name="not_connected_to_wifi_message">Not connected to Wi-Fi</string>
-
-    <string name="notification_channel_name_server_status">Server status</string>
-
     <string name="server_power_button_when_error_label_generic">Failed to start the server</string>
     <string name="server_power_button_when_error_label_not_connected">
         Failed to start the server. Not connected to Wi-Fi.

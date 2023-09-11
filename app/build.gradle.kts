@@ -62,6 +62,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
+    implementation(project(":ui"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.androidx.activity.compose)

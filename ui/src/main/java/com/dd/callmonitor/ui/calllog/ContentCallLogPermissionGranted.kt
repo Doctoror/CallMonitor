@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.calllog
+package com.dd.callmonitor.ui.calllog
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dd.callmonitor.presentation.calllog.CallLogViewModel
 
 @Composable
 fun ContentCallLogPermissionGranted(viewModel: CallLogViewModel) {

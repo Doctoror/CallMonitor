@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.permissions
+package com.dd.callmonitor.ui.permissions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

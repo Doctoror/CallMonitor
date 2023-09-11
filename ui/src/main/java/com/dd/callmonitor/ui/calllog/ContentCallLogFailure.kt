@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.calllog
+package com.dd.callmonitor.ui.calllog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dd.callmonitor.presentation.R
+import com.dd.callmonitor.ui.R
 
 @Composable
 fun ContentCallLogFailure() {
