@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.main.usecases
+package com.dd.callmonitor.presentation.main.servercontrol.updaters
 
 import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel

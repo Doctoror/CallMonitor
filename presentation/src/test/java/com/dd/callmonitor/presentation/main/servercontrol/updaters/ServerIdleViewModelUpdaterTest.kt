@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.main.usecases
+package com.dd.callmonitor.presentation.main.servercontrol.updaters
 
 import android.content.res.Resources
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
