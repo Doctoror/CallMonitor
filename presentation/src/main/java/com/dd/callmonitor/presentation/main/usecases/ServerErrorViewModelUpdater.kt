@@ -6,7 +6,7 @@ import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
-class UpdateViewModelOnServerErrorUseCase(private val resources: Resources) {
+class ServerErrorViewModelUpdater(private val resources: Resources) {
 
     operator fun invoke(viewModel: ServerControlsViewModel, error: ServerError) {
         viewModel.powerButtonAction.value = ServerControlsViewModel.PowerButtonAction.START

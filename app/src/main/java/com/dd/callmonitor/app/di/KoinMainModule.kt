@@ -6,12 +6,12 @@ import com.dd.callmonitor.presentation.calllog.CallLogViewModel
 import com.dd.callmonitor.presentation.calllog.CallLogViewModelUpdater
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsPresenter
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerErrorUseCase
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerIdleUseCase
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerInitializingUseCase
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerRunningUseCase
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerStateUseCase
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerStoppingUseCase
+import com.dd.callmonitor.presentation.main.usecases.ServerErrorViewModelUpdater
+import com.dd.callmonitor.presentation.main.usecases.ServerIdleViewModelUpdater
+import com.dd.callmonitor.presentation.main.usecases.ServerInitializingViewModelUpdater
+import com.dd.callmonitor.presentation.main.usecases.ServerRunningViewModelUpdater
+import com.dd.callmonitor.presentation.main.usecases.ServerStateViewModelUpdater
+import com.dd.callmonitor.presentation.main.usecases.ServerStoppingViewModelUpdater
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -42,12 +42,12 @@ fun koinMainModule() = module {
             // You might argue that constructing these dependencies needs to be moved to a separate
             // factory in Koin. However, if this is used only in this presenter constructor, it
             // doesn't make sense to add knowledge about how to construct these dependencies to Koin
-            updateViewModelOnServerStateUseCase = UpdateViewModelOnServerStateUseCase(
-                UpdateViewModelOnServerErrorUseCase(resources),
-                UpdateViewModelOnServerIdleUseCase(resources),
-                UpdateViewModelOnServerInitializingUseCase(resources),
-                UpdateViewModelOnServerRunningUseCase(get(), resources),
-                UpdateViewModelOnServerStoppingUseCase(resources)
+            serverStateViewModelUpdater = ServerStateViewModelUpdater(
+                ServerErrorViewModelUpdater(resources),
+                ServerIdleViewModelUpdater(resources),
+                ServerInitializingViewModelUpdater(resources),
+                ServerRunningViewModelUpdater(get(), resources),
+                ServerStoppingViewModelUpdater(resources)
             ),
             viewModel = ServerControlsViewModel()
         )

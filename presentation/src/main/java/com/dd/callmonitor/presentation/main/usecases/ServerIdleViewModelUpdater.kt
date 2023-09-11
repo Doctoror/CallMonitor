@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
-class UpdateViewModelOnServerIdleUseCase(private val resources: Resources) {
+class ServerIdleViewModelUpdater(private val resources: Resources) {
 
     operator fun invoke(viewModel: ServerControlsViewModel) {
         viewModel.powerButtonAction.value = ServerControlsViewModel.PowerButtonAction.START

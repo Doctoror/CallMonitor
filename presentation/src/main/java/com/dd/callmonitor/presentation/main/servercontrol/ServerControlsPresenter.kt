@@ -8,7 +8,7 @@ import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.domain.server.StartServerUseCase
 import com.dd.callmonitor.domain.server.StopServerUseCase
-import com.dd.callmonitor.presentation.main.usecases.UpdateViewModelOnServerStateUseCase
+import com.dd.callmonitor.presentation.main.usecases.ServerStateViewModelUpdater
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -19,7 +19,7 @@ class ServerControlsPresenter(
     private val serverStateProvider: ServerStateProvider,
     private val startServerUseCase: StartServerUseCase,
     private val stopServerUseCase: StopServerUseCase,
-    private val updateViewModelOnServerStateUseCase: UpdateViewModelOnServerStateUseCase,
+    private val serverStateViewModelUpdater: ServerStateViewModelUpdater,
     val viewModel: ServerControlsViewModel
 ) : ViewModel() {
 
@@ -44,7 +44,7 @@ class ServerControlsPresenter(
                         }
                     }
                 }
-                .collect { updateViewModelOnServerStateUseCase(viewModel, it) }
+                .collect { serverStateViewModelUpdater(viewModel, it) }
         }
     }
 

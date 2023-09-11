@@ -8,12 +8,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class UpdateViewModelOnServerIdleUseCaseTest {
+class ServerIdleViewModelUpdaterTest {
 
     private val resources: Resources = mockk()
     private val viewModel = ServerControlsViewModel()
 
-    private val underTest = UpdateViewModelOnServerIdleUseCase(resources)
+    private val underTest = ServerIdleViewModelUpdater(resources)
 
     @Before
     fun before() {

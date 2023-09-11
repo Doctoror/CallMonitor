@@ -6,7 +6,7 @@ import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 
-class UpdateViewModelOnServerRunningUseCase(
+class ServerRunningViewModelUpdater(
     private val formatHostAndPortUseCase: FormatHostAndPortUseCase,
     private val resources: Resources
 ) {
