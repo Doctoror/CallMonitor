@@ -1,6 +1,7 @@
 package com.dd.callmonitor.presentation.main.usecases
 
 import android.content.res.Resources
+import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -10,7 +11,7 @@ import org.junit.Test
 class UpdateViewModelOnServerIdleUseCaseTest {
 
     private val resources: Resources = mockk()
-    private val viewModel = MainViewModel()
+    private val viewModel = ServerControlsViewModel()
 
     private val underTest = UpdateViewModelOnServerIdleUseCase(resources)
 
@@ -27,9 +28,9 @@ class UpdateViewModelOnServerIdleUseCaseTest {
 
     // TODO more tests
     @Test
-    fun setsViewTypeToServerControls() {
+    fun setsViewTypeToContent() {
         underTest(viewModel)
 
-        assertEquals(MainViewModel.ViewType.SERVER_CONTROLS, viewModel.viewType.value)
+        assertEquals(ServerControlsViewModel.ViewType.CONTENT, viewModel.viewType.value)
     }
 }
