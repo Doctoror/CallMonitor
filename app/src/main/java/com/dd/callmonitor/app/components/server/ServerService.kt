@@ -8,7 +8,8 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
 import com.dd.callmonitor.app.components.CoroutineScopeService
-import com.dd.callmonitor.app.notifications.NOTIFICATION_ID_SERVER_STATUS
+import com.dd.callmonitor.app.notifications.NOTIFICATION_ID_SERVER_STATUS_FOREGROUND
+import com.dd.callmonitor.app.notifications.NOTIFICATION_ID_SERVER_STATUS_OTHER
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.presentation.server.ServerPresenter
@@ -65,7 +66,7 @@ class ServerService : CoroutineScopeService() {
             whenGranted = {
                 NotificationManagerCompat
                     .from(this@ServerService)
-                    .notify(NOTIFICATION_ID_SERVER_STATUS, notification)
+                    .notify(NOTIFICATION_ID_SERVER_STATUS_OTHER, notification)
             }
         )
     }
@@ -73,13 +74,13 @@ class ServerService : CoroutineScopeService() {
     private fun startForegroundCompat(notification: Notification) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(
-                NOTIFICATION_ID_SERVER_STATUS,
+                NOTIFICATION_ID_SERVER_STATUS_FOREGROUND,
                 notification,
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
             )
         } else {
             startForeground(
-                NOTIFICATION_ID_SERVER_STATUS,
+                NOTIFICATION_ID_SERVER_STATUS_FOREGROUND,
                 notification
             )
         }
