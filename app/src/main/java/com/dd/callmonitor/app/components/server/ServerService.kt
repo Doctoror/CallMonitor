@@ -105,7 +105,7 @@ class ServerService : CoroutineScopeService() {
     }
 
     override fun onDestroy() {
-        // Note for code reviewers:
+        // Note for reviewers:
         // You might notice that the server is stopped twice, here and onStartCommand.
         // There are two ways of stopping server. If it's within our control, it will be done
         // non-blocking on L55.

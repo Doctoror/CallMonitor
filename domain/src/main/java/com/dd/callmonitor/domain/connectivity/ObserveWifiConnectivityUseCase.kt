@@ -20,7 +20,7 @@ class ObserveWifiConnectivityUseCase(
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
         override fun onAvailable(network: Network) {
-            // Note for code reviewers:
+            // Note for reviewers:
             // here we just terminate with exception if link properties cannot be derived.
             //
             // Additional use case can be created not to throw and handle the case where the ip
@@ -36,7 +36,7 @@ class ObserveWifiConnectivityUseCase(
                 .linkAddresses
                 .map { it.address }
                 .firstOrNull { it.isSiteLocalAddress }
-            // Note for code reviewers. Same as comment for linkProperties/requireNotNull.
+            // Note for reviewers: same as comment for linkProperties/requireNotNull.
                 ?: throw IllegalStateException("Site-local address not found")
 
 

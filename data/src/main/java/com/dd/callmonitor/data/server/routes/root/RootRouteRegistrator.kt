@@ -42,7 +42,7 @@ internal class RootRouteRegistrator(
                     )
                 )
             } else {
-                // Note for code reviewers: might better explain error, but this omitted to reduce the
+                // Note for reviewers: might better explain error, but this omitted to reduce the
                 // scope of the project
                 call.respond(HttpStatusCode.InternalServerError)
             }

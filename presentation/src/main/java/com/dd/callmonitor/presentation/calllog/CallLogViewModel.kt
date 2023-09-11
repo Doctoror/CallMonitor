@@ -3,7 +3,7 @@ package com.dd.callmonitor.presentation.calllog
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
- * Note for code reviewers:
+ * Note for reviewers:
  *
  * Since I am using MVPVM (AKA MVVMP), the actual ViewModel does not have business logic and thus it
  * does not need to extend from [androidx.lifecycle.ViewModel].
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class CallLogViewModel {
 
     /**
-     * Note for code reviewers:
+     * Note for reviewers:
      *
      * You might argue that it's better to keep MutableStateFlow private and expose only a StateFlow
      * to avoid accidental overrides. However, we would still have to expose a way to emit a value,

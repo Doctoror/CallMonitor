@@ -29,8 +29,7 @@ fun BoxScope.ContentServerControlNoConnection() {
     ) {
         Icon(
             imageVector = Icons.Default.WifiOff,
-            // Note for code reviewers: no need for any label here, as it would repeat the label
-            // below
+            // Note for reviewers: no need for any label here, as it would repeat the label below
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
