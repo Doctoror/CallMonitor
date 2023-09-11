@@ -8,8 +8,8 @@ androidTestCore = "1.5.0"
 androidTestRunner = "1.5.2"
 androidxActivity = "1.7.2"
 androidxAnnotation = "1.6.0"
-androidxCore = "1.10.1"
-androidxLifecycle = "2.6.1"
+androidxCore = "1.12.0"
+androidxLifecycle = "2.6.2"
 
 composeBom = "2023.08.00"
 composeCompiler = "1.5.1"
@@ -31,7 +31,7 @@ ktor = "2.3.4"
 
 mockk = "1.13.7"
 
-navigation = "2.7.1"
+navigation = "2.7.2"
 
 robolectric = "4.10.3"
 room = "2.5.2"
