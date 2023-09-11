@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
     private val serverPermissions by lazy {
         arrayOf(
             ApiLevelPermissions.POST_NOTIFICATIONS,
+            ApiLevelPermissions.READ_CALL_LOG,
             ApiLevelPermissions.READ_CONTACTS,
             ApiLevelPermissions.READ_PHONE_STATE,
             ApiLevelPermissions.READ_PHONE_NUMBERS,
