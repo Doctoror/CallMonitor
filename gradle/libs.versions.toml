@@ -4,8 +4,6 @@ agp = "8.1.1"
 androidCompileSdk = "34"
 androidMinSdk = "23"
 androidTargetSdk = "34"
-androidTestCore = "1.5.0"
-androidTestRunner = "1.5.2"
 androidxActivity = "1.7.2"
 androidxAnnotation = "1.6.0"
 androidxCore = "1.12.0"
@@ -13,12 +11,9 @@ androidxLifecycle = "2.6.2"
 
 composeBom = "2023.09.00"
 composeCompiler = "1.5.3"
-constraintlayout = "2.1.4"
 coroutines = "1.7.1"
 
 datastore = "1.0.0"
-
-fragment = "1.6.1"
 
 hilt = "2.47"
 
@@ -30,12 +25,7 @@ ktor = "2.3.4"
 
 mockk = "1.13.7"
 
-navigation = "2.7.2"
-
 robolectric = "4.10.3"
-room = "2.5.2"
-
-savedstate = "1.2.1"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
@@ -51,8 +41,6 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
-
-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -72,14 +60,4 @@ lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
-
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-
-test-core = { module = "androidx.test:core", version.ref = "androidTestCore" }
-test-runner = { module = "androidx.test:runner", version.ref = "androidTestRunner" }
