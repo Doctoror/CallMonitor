@@ -1,5 +1,6 @@
 package com.dd.callmonitor.app.di
 
+import android.content.res.Resources
 import com.dd.callmonitor.presentation.calllog.CallLogEntryViewModelMapper
 import com.dd.callmonitor.presentation.calllog.CallLogPresenter
 import com.dd.callmonitor.presentation.calllog.CallLogViewModel
@@ -32,7 +33,7 @@ fun koinMainModule() = module {
     }
 
     viewModel {
-        val resources = androidContext().resources
+        val resources: Resources = get()
         ServerControlsPresenter(
             observeWifiConnectivityUseCase = get(),
             serverStateProvider = get(),
