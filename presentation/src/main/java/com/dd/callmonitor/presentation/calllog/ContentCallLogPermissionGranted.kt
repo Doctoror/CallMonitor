@@ -1,6 +1,7 @@
 package com.dd.callmonitor.presentation.calllog
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,7 +18,7 @@ fun ContentCallLogPermissionGranted(viewModel: CallLogViewModel) {
     val viewType = viewModel.viewType.collectAsStateWithLifecycle()
 
     when (viewType.value) {
-        CallLogViewModel.ViewType.LOADING -> Box {
+        CallLogViewModel.ViewType.LOADING -> Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(
                 Modifier
                     .width(52.dp)

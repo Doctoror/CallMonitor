@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.dd.callmonitor.presentation.permissions.AutoAskPermissionEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -17,18 +17,27 @@ fun ContentCallLog(
     onReadCallLogPermissionGranted: () -> Unit,
 ) {
 
-    val permissionState = rememberPermissionState(Manifest.permission.READ_CALL_LOG)
+    val permissionState = rememberMultiplePermissionsState(
+        listOf(
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_CONTACTS
+        )
+    )
     AutoAskPermissionEffect(permissionState)
 
+    val callLogPermissionState = permissionState.permissions.first {
+        it.permission == Manifest.permission.READ_CALL_LOG
+    }
+
     when {
-        permissionState.status.isGranted -> {
+        callLogPermissionState.status.isGranted -> {
             LaunchedEffect(Unit) { onReadCallLogPermissionGranted() }
             ContentCallLogPermissionGranted(viewModel)
         }
 
         else -> ContentCallLogPermissionDenied(
-            permissionState.status.shouldShowRationale,
-            permissionState::launchPermissionRequest
+            callLogPermissionState.status.shouldShowRationale,
+            callLogPermissionState::launchPermissionRequest
         )
     }
 }

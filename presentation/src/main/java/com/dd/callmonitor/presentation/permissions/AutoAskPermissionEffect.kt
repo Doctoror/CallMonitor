@@ -3,7 +3,7 @@ package com.dd.callmonitor.presentation.permissions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.shouldShowRationale
@@ -14,10 +14,10 @@ import com.google.accompanist.permissions.shouldShowRationale
  */
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-internal fun AutoAskPermissionEffect(permissionState: PermissionState) {
-    LaunchedEffect(permissionState.status) {
-        if (permissionState.status.shouldAskForPermission()) {
-            permissionState.launchPermissionRequest()
+internal fun AutoAskPermissionEffect(permissionState: MultiplePermissionsState) {
+    LaunchedEffect(permissionState.permissions) {
+        if (permissionState.permissions.find { it.status.shouldAskForPermission() } != null) {
+            permissionState.launchMultiplePermissionRequest()
         }
     }
 }

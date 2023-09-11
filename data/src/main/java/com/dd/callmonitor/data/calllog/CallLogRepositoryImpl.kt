@@ -58,25 +58,21 @@ internal class CallLogRepositoryImpl(
                                 it.getString(it.getColumnIndexOrThrow(Calls.NUMBER))
                             )
 
-                            val cachedName = it.getString(
-                                it.getColumnIndexOrThrow(Calls.CACHED_NAME)
-                            ) ?: ""
-
                             val contactName = contactNameDataSource
                                 .getContactNameByPhoneNumber(number)
-                                .ifBlank { cachedName }
+                                .ifBlank {
+                                    it.getString(
+                                        it.getColumnIndexOrThrow(Calls.CACHED_NAME)
+                                    ) ?: ""
+                                }
 
                             output.add(
                                 CallLogEntry(
                                     beginningMillisUtc = it.getLong(
-                                        it.getColumnIndexOrThrow(
-                                            Calls.DATE
-                                        )
+                                        it.getColumnIndexOrThrow(Calls.DATE)
                                     ),
                                     durationSeconds = it.getLong(
-                                        it.getColumnIndexOrThrow(
-                                            Calls.DURATION
-                                        )
+                                        it.getColumnIndexOrThrow(Calls.DURATION)
                                     ),
                                     number = number,
                                     name = contactName,
