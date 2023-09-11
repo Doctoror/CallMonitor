@@ -6,7 +6,7 @@ import android.content.res.Resources
 import android.os.Build
 import com.dd.callmonitor.presentation.R
 
-class RegisterNotificationChannelUseCase(
+class NotificationChannelRegistrator(
     private val notificationManager: NotificationManager,
     private val resources: Resources
 ) {
