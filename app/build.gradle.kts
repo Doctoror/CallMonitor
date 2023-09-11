@@ -74,6 +74,4 @@ dependencies {
     testImplementation(libs.koin.test)
     testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
-
-    //androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1") // TODO gonna use it?
 }
