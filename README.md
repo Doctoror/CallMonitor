@@ -53,39 +53,17 @@ Source [iana.org](https://www.iana.org/assignments/service-names-port-numbers/se
 
 # Architecture
 
+This application uses a modified variant of ["*Clean Architecture*" by Uncle Bob](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+
+Please refer to the diagram below that compares it with original Clean Architecture by Uncle Bob.
+
+![Comparison](docs/charts/compare.png)
+
 [Multi-layer architecture](https://developer.android.com/topic/architecture) is used and application layers are separated by Gradle modules. Such a separation provides the following benefits:
 
-- strict dependency rules. `"presentation"` and `"domain"` layers do not know anything about the `"data"` layer, they do not depend on it, and as a result you can't accidentally use `Room`, `DataStore` or any other `data` framework in those modules;
+- strict dependency rules. *presentation* and *domain* layers do not know anything about the *data* layer, they do not depend on it, and as a result you can't accidentally use *Room*, *DataStore* or any other *data* framework in those modules;
 - less dependencies per module. Individual Gradne modules depend on less stuff.
-- implementation details in `data` layer can be easily replaced without affecting other modules
-
-And, of course, there are also downsides:
-
-Having Gradle modules per each layer means the application is still a monolith, and if you'd want to extract features to their own modules, you'll also have to create all the layer modules for each feature.
-But splitting by features and then layers is possible with the following module structure (see [Nested Modules in Gradle](https://www.developerphil.com/nested-modules-in-gradle/))
-
-- app
-- feature-1
-- - data
-- - domain
-- - presentation
-- feature-2
-- - data
-- - domain
-- - presentation
-
-Or, if you have a centralized database
-
-- app
-- data (centralized database, application-wide network requests, etc)
-- domain (repository interfaces for centralized data, centralized domain models, common use cases)
-- feature-1
-- - data (network requests for feature-1, DataStore for data in scope of feature-1, etc)
-- - domain (use cases for feature-1)
-- - presentation
-- feature-2
-- - domain (use cases for feature-2)
-- - presentation
+- implementation details in *ui* or *data* layer can be easily replaced without affecting other modules
 
 # Layers overview
 
@@ -149,7 +127,7 @@ Depends on *domain* layer.
 
 Implements *MVPVM* pattern, contains Presenters, ViewModels and ViewModelUpdaters and mappers from *domain* models to *ViewModels*.
 
-Also, contains *Views* or *Compose* content.
+Does not contain Views or Compose content. This is designed to make MVPVM unrelated to actual view implementation.
 
 Does not make use of Android components like *Activities*, *Fragments*, *Services* or *Dialogs*.
 
@@ -165,6 +143,14 @@ Does not make use of Android components like *Activities*, *Fragments*, *Service
 
 *ViewModelUpdater* is needed because you don't want your presenter to know how to update the view model, as if you try testing it you would have to set up loading and updating all the fields for each scanario. By extracting the knowledge necessary to update view model you just need to test if a ViewModelUpdater is called.
 
+## UI layer
+
+Depends only on *presentation* layer. Provides Views or Compose content for *presentation* *ViewModels*.
+
+This ensures that the *presentation* layer is always agnostic about the View implementation.
+
+You can easily swap-out *ui* implementations from your *app* module. For example, you can create a *ui* module for same view but with a Data Binding framework instead of compose and swap a module dependency based on your build type.
+
 ## Application layer
 
 Here lies everything that is needed to build the Android Application.
@@ -173,14 +159,40 @@ It contains Android components like *Application*, *Activity*, *Fragment*, *Serv
 
 It also knows how to build the DI graph and the DI framework is not leaked to any other modules, which minimizes the effort of replacing the DI framework if necessary.
 
-# Comparison with Robert Martins (aka Uncle Bob) Clean Architecture
+# Downsides
 
-This application uses a modified variant of ["*Clean Architecture*" by Uncle Bob](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+Having Gradle modules per each layer means the application is still a monolith, and if you'd want to extract features to their own modules, you'll also have to create all the layer modules for each feature.
+But splitting by features and then layers is possible with the following module structure (see [Nested Modules in Gradle](https://www.developerphil.com/nested-modules-in-gradle/))
 
-Please refer to the diagram below that compares it with original Clean Architecture by Uncle Bob
+- app
+- feature-1
+- - data
+- - domain
+- - presentation
+- - ui
+- feature-2
+- - data
+- - domain
+- - presentation
+- - ui
 
-**The image is sourced from one of my other projects where *presentation* and *ui* layers are separeted. In this project, they are merged.**
+Or, if you have a centralized database
 
-![Comparison](docs/charts/compare.png)
+- app
+- data (centralized database, application-wide network requests, etc)
+- domain (repository interfaces for centralized data, centralized domain models, common use cases)
+- feature-1
+- - data (network requests for feature-1, DataStore for data in scope of feature-1, etc)
+- - domain (use cases for feature-1)
+- - presentation
+- - ui
+- feature-2
+- - domain (use cases for feature-2)
+- - presentation
+- - ui
 
+# Additional notes:
 
+You may find some missing rare edge case handling or topics that might pose questions, these are marked in source files by comments starting with "Note for reviewers".
+
+Due to the huge and time consuming scope of the project, Espresso UI tests are completely omitted, but Unit test coverage is quite high.
