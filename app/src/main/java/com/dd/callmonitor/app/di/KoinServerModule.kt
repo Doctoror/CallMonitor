@@ -2,12 +2,10 @@ package com.dd.callmonitor.app.di
 
 import com.dd.callmonitor.app.components.server.ServerStatusNotificationProvider
 import com.dd.callmonitor.data.server.ServerFactory
-import com.dd.callmonitor.domain.notifications.ShowNotificationUseCase
-import com.dd.callmonitor.domain.notifications.StartForegroundServiceUseCase
 import com.dd.callmonitor.domain.server.ServerStateProvider
+import com.dd.callmonitor.presentation.server.ForegroundServiceStatusMessageProvider
 import com.dd.callmonitor.presentation.server.ServerPresenter
 import com.dd.callmonitor.presentation.server.ServerViewModel
-import com.dd.callmonitor.presentation.server.ForegroundServiceStatusMessageProvider
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -45,14 +43,6 @@ fun koinServerModule() = module {
             server = get(),
             serverStateProvider = get(),
             viewModel = ServerViewModel()
-        )
-    }
-
-    factory { StartForegroundServiceUseCase() }
-
-    factory {
-        ShowNotificationUseCase(
-            checkPermissionUseCase = get()
         )
     }
 }

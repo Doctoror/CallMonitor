@@ -1,11 +1,16 @@
 package com.dd.callmonitor.app.components.server
 
+import android.annotation.SuppressLint
+import android.app.Notification
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.os.IBinder
+import androidx.core.app.NotificationManagerCompat
 import com.dd.callmonitor.app.components.CoroutineScopeService
 import com.dd.callmonitor.app.notifications.NOTIFICATION_ID_SERVER_STATUS
-import com.dd.callmonitor.domain.notifications.ShowNotificationUseCase
-import com.dd.callmonitor.domain.notifications.StartForegroundServiceUseCase
+import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
+import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.presentation.server.ServerPresenter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -17,11 +22,9 @@ const val SERVER_SERVICE_ACTION_STOP = "ACTION_STOP"
 
 class ServerService : CoroutineScopeService() {
 
+    private val checkPermissionUseCase: CheckPermissionUseCase by inject()
+
     private val serverStatusNotificationProvider: ServerStatusNotificationProvider by inject()
-
-    private val showNotificationUseCase: ShowNotificationUseCase by inject()
-
-    private val startForegroundServiceUseCase: StartForegroundServiceUseCase by inject()
 
     private val presenter: ServerPresenter by inject {
         parametersOf(scope)
@@ -35,26 +38,14 @@ class ServerService : CoroutineScopeService() {
             viewModel
                 .foregroundNotification
                 .map { serverStatusNotificationProvider.provide(this@ServerService, it) }
-                .collect {
-                    startForegroundServiceUseCase(
-                        this@ServerService,
-                        NOTIFICATION_ID_SERVER_STATUS,
-                        it
-                    )
-                }
+                .collect(::startForegroundCompat)
         }
 
         scope.launch {
             viewModel
                 .normalNotification
                 .map { serverStatusNotificationProvider.provide(this@ServerService, it) }
-                .collect {
-                    showNotificationUseCase(
-                        this@ServerService,
-                        NOTIFICATION_ID_SERVER_STATUS,
-                        it
-                    )
-                }
+                .collect(::showNotification)
         }
 
         scope.launch {
@@ -64,6 +55,34 @@ class ServerService : CoroutineScopeService() {
         }
 
         presenter.onCreate()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun showNotification(notification: Notification) {
+        checkPermissionUseCase(
+            permission = ApiLevelPermissions.POST_NOTIFICATIONS,
+            whenDenied = {},
+            whenGranted = {
+                NotificationManagerCompat
+                    .from(this@ServerService)
+                    .notify(NOTIFICATION_ID_SERVER_STATUS, notification)
+            }
+        )
+    }
+
+    private fun startForegroundCompat(notification: Notification) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(
+                NOTIFICATION_ID_SERVER_STATUS,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            )
+        } else {
+            startForeground(
+                NOTIFICATION_ID_SERVER_STATUS,
+                notification
+            )
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
