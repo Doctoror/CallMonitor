@@ -8,7 +8,7 @@ import com.dd.callmonitor.domain.callstatus.CallStatusRepository
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
-import com.dd.callmonitor.domain.util.ResultOrFailure
+import com.dd.callmonitor.domain.util.Either
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -25,8 +25,8 @@ internal class CallStatusRepositoryImpl(
     private val telephonyManager: TelephonyManager
 ) : CallStatusRepository {
 
-    private val callStatus = MutableStateFlow<ResultOrFailure<CallStatus, CallStatusError>>(
-        ResultOrFailure.success(
+    private val callStatus = MutableStateFlow<Either<CallStatusError, CallStatus>>(
+        Either.right(
             CallStatus(
                 ongoing = false,
                 number = "",
@@ -35,14 +35,14 @@ internal class CallStatusRepositoryImpl(
         )
     )
 
-    override fun observeCallStatus(): StateFlow<ResultOrFailure<CallStatus, CallStatusError>> =
+    override fun observeCallStatus(): StateFlow<Either<CallStatusError, CallStatus>> =
         callStatus
 
     override fun startListening() {
         checkPermissionUseCase(
             permission = ApiLevelPermissions.READ_PHONE_NUMBERS,
             whenDenied = {
-                callStatus.value = ResultOrFailure.failure(CallStatusError.PERMISSION_DENIED)
+                callStatus.value = Either.left(CallStatusError.PERMISSION_DENIED)
             },
             whenGranted = {
                 phoneStateListener.createContext()
@@ -117,7 +117,7 @@ internal class CallStatusRepositoryImpl(
             synchronized(lock) {
                 requireNotNull(scope) { "Must be called after createContext" }
                     .launch {
-                        callStatus.value = ResultOrFailure.success(
+                        callStatus.value = Either.right(
                             CallStatus(
                                 ongoing = true,
                                 number = phoneNumber,
@@ -131,7 +131,7 @@ internal class CallStatusRepositoryImpl(
         }
 
         private fun emitEmptyStatus() {
-            callStatus.value = ResultOrFailure.success(
+            callStatus.value = Either.right(
                 CallStatus(
                     ongoing = false,
                     number = "",

@@ -18,8 +18,8 @@ internal class LogRouteRegistrator(
         route.get("/$serviceName") {
             call.respond(
                 getCallLogUseCase().fold(
-                    onSuccess = { it.map(callLogResponseMapper::map) },
-                    onFailure = { it }
+                    onLeft = { it },
+                    onRight = { it.map(callLogResponseMapper::map) }
                 )
             )
         }

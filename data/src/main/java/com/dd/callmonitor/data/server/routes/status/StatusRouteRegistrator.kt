@@ -18,8 +18,8 @@ internal class StatusRouteRegistrator(
         route.get("/$serviceName") {
             call.respond(
                 getCallStatusUseCase().fold(
-                    onSuccess = { statusResponseMapper.map(it) },
-                    onFailure = { it }
+                    onLeft = { it },
+                    onRight = { statusResponseMapper.map(it) }
                 )
             )
         }

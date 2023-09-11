@@ -9,7 +9,7 @@ import com.dd.callmonitor.domain.calllog.CallLogRepository
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
-import com.dd.callmonitor.domain.util.ResultOrFailure
+import com.dd.callmonitor.domain.util.Either
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -21,14 +21,14 @@ internal class CallLogRepositoryImpl(
     private val timesQueriedDataSource: TimesQueriedDataSource
 ) : CallLogRepository {
 
-    override suspend fun getCallLog(): ResultOrFailure<List<CallLogEntry>, CallLogError> =
+    override suspend fun getCallLog(): Either<CallLogError, List<CallLogEntry>> =
         checkPermissionUseCase(
             permission = ApiLevelPermissions.READ_CALL_LOG,
-            whenDenied = { ResultOrFailure.failure(CallLogError.PERMISSION_DENIED) },
+            whenDenied = { Either.left(CallLogError.PERMISSION_DENIED) },
             whenGranted = { getCallLogWithPermission() },
         )
 
-    private suspend fun getCallLogWithPermission(): ResultOrFailure<List<CallLogEntry>, CallLogError> =
+    private suspend fun getCallLogWithPermission(): Either<CallLogError, List<CallLogEntry>> =
         withContext(Dispatchers.IO) {
             contentResolver
                 .query(
@@ -46,7 +46,7 @@ internal class CallLogRepositoryImpl(
                 )
                 .use { it ->
                     if (it == null) {
-                        return@use ResultOrFailure.failure(CallLogError.QUERY_FAILED)
+                        return@use Either.left(CallLogError.QUERY_FAILED)
                     }
 
                     val output = ArrayList<CallLogEntry>(it.count)
@@ -90,7 +90,7 @@ internal class CallLogRepositoryImpl(
                         }
                     }
 
-                    return@use ResultOrFailure.success(output)
+                    return@use Either.right(output)
                 }
         }
 }
