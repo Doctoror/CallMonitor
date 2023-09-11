@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.server.usecases
+package com.dd.callmonitor.presentation.server
 
 import android.content.res.Resources
 import com.dd.callmonitor.domain.server.ServerState
@@ -6,7 +6,7 @@ import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.domain.util.Optional
 import com.dd.callmonitor.presentation.R
 
-class ProvideForegroundServerStatusMessageUseCase(
+class ForegroundServiceStatusMessageProvider(
     private val formatHostAndPortUseCase: FormatHostAndPortUseCase,
     private val resources: Resources
 ) {

@@ -7,7 +7,7 @@ import com.dd.callmonitor.domain.notifications.StartForegroundServiceUseCase
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.presentation.server.ServerPresenter
 import com.dd.callmonitor.presentation.server.ServerViewModel
-import com.dd.callmonitor.presentation.server.usecases.ProvideForegroundServerStatusMessageUseCase
+import com.dd.callmonitor.presentation.server.ForegroundServiceStatusMessageProvider
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -17,7 +17,7 @@ fun koinServerModule() = module {
     factory { MakeServerStatusNotificationUseCase() }
 
     factory {
-        ProvideForegroundServerStatusMessageUseCase(
+        ForegroundServiceStatusMessageProvider(
             formatHostAndPortUseCase = get(),
             resources = get()
         )
@@ -39,7 +39,7 @@ fun koinServerModule() = module {
             callStatusStartListeningUseCase = get(),
             callStatusStopListeningUseCase = get(),
             observeWifiConnectivityUseCase = get(),
-            provideForegroundServerStatusMessageUseCase = get(),
+            foregroundServiceStatusMessageProvider = get(),
             resources = get(),
             scope = scope,
             server = get(),

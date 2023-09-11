@@ -10,7 +10,6 @@ import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.presentation.R
-import com.dd.callmonitor.presentation.server.usecases.ProvideForegroundServerStatusMessageUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,7 +24,7 @@ class ServerPresenter(
     private val callStatusStartListeningUseCase: CallStatusStartListeningUseCase,
     private val callStatusStopListeningUseCase: CallStatusStopListeningUseCase,
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase,
-    private val provideForegroundServerStatusMessageUseCase: ProvideForegroundServerStatusMessageUseCase,
+    private val foregroundServiceStatusMessageProvider: ForegroundServiceStatusMessageProvider,
     private val resources: Resources,
     private val scope: CoroutineScope,
     private val server: Server,
@@ -66,7 +65,7 @@ class ServerPresenter(
         scope.launch {
             serverStateProvider
                 .state
-                .map(provideForegroundServerStatusMessageUseCase::invoke)
+                .map(foregroundServiceStatusMessageProvider::invoke)
                 .filter { it.isPresent() }
                 .collect {
                     viewModel
