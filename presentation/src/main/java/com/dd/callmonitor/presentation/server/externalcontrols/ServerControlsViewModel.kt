@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.main.servercontrol
+package com.dd.callmonitor.presentation.server.externalcontrols
 
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,7 +1,7 @@
-package com.dd.callmonitor.presentation.main.servercontrol.updaters
+package com.dd.callmonitor.presentation.server.externalcontrols.updaters
 
 import com.dd.callmonitor.domain.server.ServerState
-import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
+import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
 
 class ServerStateViewModelUpdater(
     private val serverErrorViewModelUpdater: ServerErrorViewModelUpdater,

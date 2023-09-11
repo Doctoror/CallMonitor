@@ -1,7 +1,7 @@
-package com.dd.callmonitor.presentation.main.servercontrol.updaters
+package com.dd.callmonitor.presentation.server.externalcontrols.updaters
 
 import android.content.res.Resources
-import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
+import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals

@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.main.servercontrol
+package com.dd.callmonitor.presentation.server.externalcontrols
 
 
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.domain.server.StartServerUseCase
 import com.dd.callmonitor.domain.server.StopServerUseCase
-import com.dd.callmonitor.presentation.main.servercontrol.updaters.ServerStateViewModelUpdater
+import com.dd.callmonitor.presentation.server.externalcontrols.updaters.ServerStateViewModelUpdater
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf

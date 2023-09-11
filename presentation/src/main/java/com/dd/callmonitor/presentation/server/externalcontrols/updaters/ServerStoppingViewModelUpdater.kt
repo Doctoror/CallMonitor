@@ -1,8 +1,8 @@
-package com.dd.callmonitor.presentation.main.servercontrol.updaters
+package com.dd.callmonitor.presentation.server.externalcontrols.updaters
 
 import android.content.res.Resources
 import com.dd.callmonitor.presentation.R
-import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
+import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
 
 class ServerStoppingViewModelUpdater(private val resources: Resources) {
 

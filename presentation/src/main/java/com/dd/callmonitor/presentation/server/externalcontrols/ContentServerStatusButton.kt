@@ -1,4 +1,4 @@
-package com.dd.callmonitor.presentation.main.servercontrol
+package com.dd.callmonitor.presentation.server.externalcontrols
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxScope

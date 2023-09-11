@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.calllog.CallLogViewModel
 import com.dd.callmonitor.presentation.calllog.ContentCallLog
-import com.dd.callmonitor.presentation.main.servercontrol.ContentServerControls
-import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsViewModel
+import com.dd.callmonitor.presentation.server.externalcontrols.ContentServerControls
+import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsViewModel
 import com.dd.callmonitor.presentation.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

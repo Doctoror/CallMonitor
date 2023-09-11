@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.presentation.calllog.CallLogPresenter
 import com.dd.callmonitor.presentation.main.ContentMain
-import com.dd.callmonitor.presentation.main.servercontrol.ServerControlsPresenter
+import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsPresenter
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
