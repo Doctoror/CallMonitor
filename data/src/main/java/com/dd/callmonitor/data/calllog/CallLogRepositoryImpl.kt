@@ -13,6 +13,8 @@ import com.dd.callmonitor.domain.util.Either
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
+private const val LIMIT = "100"
+
 internal class CallLogRepositoryImpl(
     private val contactNameDataSource: ContactNameDataSource,
     private val contentResolver: ContentResolver,
@@ -38,7 +40,7 @@ internal class CallLogRepositoryImpl(
         withContext(dispatcherIo) {
             contentResolver
                 .query(
-                    Calls.CONTENT_URI,
+                    Calls.CONTENT_URI.buildUpon().appendQueryParameter("limit", LIMIT).build(),
                     arrayOf(
                         Calls._ID,
                         Calls.DATE,
