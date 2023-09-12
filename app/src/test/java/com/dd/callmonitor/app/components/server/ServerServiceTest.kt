@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +30,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.android.controller.ServiceController
 import org.robolectric.annotation.Config
-import kotlin.test.assertNull
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = NoKoinTestApp::class)

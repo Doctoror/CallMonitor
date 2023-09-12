@@ -2,12 +2,12 @@ package com.dd.callmonitor.app.components
 
 import android.content.Intent
 import kotlinx.coroutines.isActive
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = NoKoinTestApp::class)
