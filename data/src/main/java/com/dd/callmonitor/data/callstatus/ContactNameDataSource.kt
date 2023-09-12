@@ -1,9 +1,7 @@
 package com.dd.callmonitor.data.callstatus
 
 import android.content.ContentResolver
-import android.content.res.Resources
 import android.provider.ContactsContract
-import com.dd.callmonitor.domain.R
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
@@ -14,25 +12,22 @@ import kotlinx.coroutines.withContext
 internal class ContactNameDataSource(
     private val checkPermissionUseCase: CheckPermissionUseCase,
     private val contentResolver: ContentResolver,
-    private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase,
-    private val resources: Resources
+    private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase
 ) {
 
-    suspend fun getContactNameByPhoneNumber(phoneNumber: String): String =
+    suspend fun getContactNameByPhoneNumber(phoneNumber: String): Optional<String> =
         if (phoneNumber.isBlank()) {
-            resources.getString(R.string.call_log_stub_unknown)
+            Optional.empty()
         } else {
             checkPermissionUseCase(
                 permission = ApiLevelPermissions.READ_CONTACTS,
                 // Of course, we could handle it differently, like signalling an error, but I
-                // decided to just return call_log_stub_unknown
-                whenDenied = { resources.getString(R.string.call_log_stub_unknown) },
+                // decided to just return empty here
+                whenDenied = { Optional.empty() },
                 whenGranted = {
                     withContext(Dispatchers.IO) {
                         getContactIdByPhoneNumber(phoneNumber)
                             .flatMap(::getContactNameByContactId)
-                            // Same here
-                            .orElse(resources.getString(R.string.call_log_stub_unknown))
                     }
                 }
             )

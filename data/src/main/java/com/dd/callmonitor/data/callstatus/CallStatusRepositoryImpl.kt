@@ -121,9 +121,9 @@ internal class CallStatusRepositoryImpl(
                             CallStatus(
                                 ongoing = true,
                                 number = phoneNumber,
-                                name = contactNameDataSource.getContactNameByPhoneNumber(
-                                    phoneNumber
-                                )
+                                name = contactNameDataSource
+                                    .getContactNameByPhoneNumber(phoneNumber)
+                                    .orElse("")
                             )
                         )
                     }

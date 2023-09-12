@@ -4,6 +4,7 @@ import android.net.ConnectivityManager
 import com.dd.callmonitor.app.components.server.StartServerUseCaseImpl
 import com.dd.callmonitor.app.components.server.StopServerUseCaseImpl
 import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
+import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
 import com.dd.callmonitor.domain.callstatus.CallStatusStartListeningUseCase
 import com.dd.callmonitor.domain.callstatus.CallStatusStopListeningUseCase
 import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
@@ -44,4 +45,6 @@ fun koinDomainModule() = module {
     factory<StartServerUseCase> { StartServerUseCaseImpl(androidContext()) }
 
     factory<StopServerUseCase> { StopServerUseCaseImpl(androidContext()) }
+
+    factory { TransformEmptyContactNameUseCase(resources = get()) }
 }

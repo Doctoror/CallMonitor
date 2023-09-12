@@ -1,7 +1,6 @@
 package com.dd.callmonitor.data.callstatus
 
 import android.content.ContentResolver
-import android.content.res.Resources
 import android.telephony.TelephonyManager
 import com.dd.callmonitor.domain.callstatus.CallStatusRepository
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
@@ -17,15 +16,13 @@ class CallStatusRepositoryFactory {
         checkPermissionUseCase: CheckPermissionUseCase,
         contentResolver: ContentResolver,
         normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase,
-        resources: Resources,
         telephonyManager: TelephonyManager,
     ): CallStatusRepository = CallStatusRepositoryImpl(
         checkPermissionUseCase,
         ContactNameDataSource(
             checkPermissionUseCase,
             contentResolver,
-            normalizePhoneNumberUseCase,
-            resources
+            normalizePhoneNumberUseCase
         ),
         normalizePhoneNumberUseCase,
         telephonyManager,

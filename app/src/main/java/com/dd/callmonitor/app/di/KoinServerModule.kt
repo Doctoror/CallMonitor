@@ -26,7 +26,8 @@ fun koinServerModule() = module {
             getCallLogUseCase = get(),
             getCallStatusUseCase = get(),
             locale = get(),
-            serverStateProvider = get()
+            serverStateProvider = get(),
+            transformEmptyContactNameUseCase = get()
         )
     }
 

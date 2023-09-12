@@ -23,8 +23,7 @@ fun koinDataModule() = module {
             checkPermissionUseCase = get(),
             contentResolver = get(),
             normalizePhoneNumberUseCase = get(),
-            telephonyManager = androidContext().getSystemService(TelephonyManager::class.java),
-            resources = get()
+            telephonyManager = androidContext().getSystemService(TelephonyManager::class.java)
         )
     }
 }

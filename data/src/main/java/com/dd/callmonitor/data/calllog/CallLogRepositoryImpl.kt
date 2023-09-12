@@ -65,11 +65,10 @@ internal class CallLogRepositoryImpl(
 
                             val contactName = contactNameDataSource
                                 .getContactNameByPhoneNumber(number)
-                                .ifBlank {
-                                    it.getString(
-                                        it.getColumnIndexOrThrow(Calls.CACHED_NAME)
-                                    ) ?: ""
-                                }
+                                .orElse(
+                                    it.getString(it.getColumnIndexOrThrow(Calls.CACHED_NAME))
+                                        ?: ""
+                                )
 
                             output.add(
                                 CallLogEntry(

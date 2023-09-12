@@ -7,6 +7,7 @@ import com.dd.callmonitor.data.server.routes.root.RootRouteRegistrator
 import com.dd.callmonitor.data.server.routes.status.StatusResponseMapper
 import com.dd.callmonitor.data.server.routes.status.StatusRouteRegistrator
 import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
+import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
 import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
 import com.dd.callmonitor.domain.server.Server
 import com.dd.callmonitor.domain.server.ServerStateProvider
@@ -22,7 +23,8 @@ class ServerFactory {
         getCallLogUseCase: GetCallLogUseCase,
         getCallStatusUseCase: GetCallStatusUseCase,
         locale: Locale,
-        serverStateProvider: ServerStateProvider
+        serverStateProvider: ServerStateProvider,
+        transformEmptyContactNameUseCase: TransformEmptyContactNameUseCase
     ): Server {
         val responseTimeFormatter = ResponseTimeFormatter(locale)
         return KtorServer(
@@ -30,7 +32,10 @@ class ServerFactory {
                 routeRegistrators = listOf(
                     LogRouteRegistrator(
                         getCallLogUseCase = getCallLogUseCase,
-                        callLogResponseMapper = CallLogResponseMapper(responseTimeFormatter)
+                        callLogResponseMapper = CallLogResponseMapper(
+                            responseTimeFormatter = responseTimeFormatter,
+                            transformEmptyContactNameUseCase = transformEmptyContactNameUseCase
+                        )
                     ),
                     StatusRouteRegistrator(
                         getCallStatusUseCase = getCallStatusUseCase,

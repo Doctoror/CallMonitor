@@ -14,6 +14,7 @@ import com.dd.callmonitor.domain.calllog.CallLogError
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.Either
+import com.dd.callmonitor.domain.util.Optional
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -100,8 +101,13 @@ class CallLogRepositoryImplTest {
         every { normalizePhoneNumberUseCase(number1) } returns number1Normalized
         every { normalizePhoneNumberUseCase(number2) } returns number2Normalized
 
-        coEvery { contactNameDataSource.getContactNameByPhoneNumber(number1Normalized) } returns ""
-        coEvery { contactNameDataSource.getContactNameByPhoneNumber(number2Normalized) } returns contactName2
+        coEvery {
+            contactNameDataSource.getContactNameByPhoneNumber(number1Normalized)
+        } returns Optional.empty()
+
+        coEvery {
+            contactNameDataSource.getContactNameByPhoneNumber(number2Normalized)
+        } returns Optional.of(contactName2)
 
         coEvery { timesQueriedDataSource.incrementAndGet(id1) } returns timesQueried1
         coEvery { timesQueriedDataSource.incrementAndGet(id2) } returns timesQueried2

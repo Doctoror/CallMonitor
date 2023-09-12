@@ -25,8 +25,7 @@ class CallLogRepositoryFactory {
         ContactNameDataSource(
             checkPermissionUseCase,
             context.contentResolver,
-            normalizePhoneNumberUseCase,
-            context.resources
+            normalizePhoneNumberUseCase
         ),
         context.contentResolver,
         checkPermissionUseCase,

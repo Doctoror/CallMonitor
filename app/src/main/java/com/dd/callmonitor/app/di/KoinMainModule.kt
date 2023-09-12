@@ -24,7 +24,7 @@ fun koinMainModule() = module {
             callLogViewModelUpdater = CallLogViewModelUpdater(
                 callLogEntryViewModelMapper = CallLogEntryViewModelMapper(
                     locale = get(),
-                    resources = get()
+                    transformEmptyContactNameUseCase = get()
                 )
             ),
             getCallLogUseCase = get(),

@@ -1,19 +1,18 @@
 package com.dd.callmonitor.presentation.calllog
 
-import android.content.res.Resources
 import com.dd.callmonitor.domain.calllog.CallLogEntry
-import com.dd.callmonitor.domain.R
+import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class CallLogEntryViewModelMapper(
     private val locale: Locale,
-    private val resources: Resources
+    private val transformEmptyContactNameUseCase: TransformEmptyContactNameUseCase
 ) {
 
     fun map(entry: CallLogEntry) = CallLogEntryViewModel(
         duration = formatDuration(entry.durationSeconds),
-        name = entry.name.ifEmpty { resources.getString(R.string.call_log_stub_unknown) }
+        name = transformEmptyContactNameUseCase(entry.name)
     )
 
     private fun formatDuration(totalSeconds: Long): String {
