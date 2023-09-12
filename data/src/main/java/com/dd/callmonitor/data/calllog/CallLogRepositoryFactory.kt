@@ -1,5 +1,6 @@
 package com.dd.callmonitor.data.calllog
 
+import android.content.ContentResolver
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
 import com.dd.callmonitor.data.callstatus.ContactNameDataSource
@@ -20,17 +21,18 @@ class CallLogRepositoryFactory {
 
     fun newInstance(
         context: Context,
+        contentResolver: ContentResolver,
         checkPermissionUseCase: CheckPermissionUseCase,
         dispatcherIo: CoroutineDispatcher,
         normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase
     ): CallLogRepository = CallLogRepositoryImpl(
         ContactNameDataSource(
             checkPermissionUseCase,
-            context.contentResolver,
+            contentResolver,
             dispatcherIo,
             normalizePhoneNumberUseCase
         ),
-        context.contentResolver,
+        contentResolver,
         checkPermissionUseCase,
         dispatcherIo,
         normalizePhoneNumberUseCase,

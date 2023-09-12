@@ -14,6 +14,7 @@ fun koinDataModule() = module {
         val context = androidContext()
         CallLogRepositoryFactory().newInstance(
             context = context,
+            contentResolver = get(),
             checkPermissionUseCase = CheckPermissionUseCase(context),
             dispatcherIo = get<Dispatchers>().IO,
             normalizePhoneNumberUseCase = get()
