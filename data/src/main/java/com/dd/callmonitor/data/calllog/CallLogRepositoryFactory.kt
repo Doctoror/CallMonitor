@@ -32,6 +32,7 @@ class CallLogRepositoryFactory {
         ),
         context.contentResolver,
         checkPermissionUseCase,
+        dispatcherIo,
         normalizePhoneNumberUseCase,
         TimesQueriedDataSource(context.timesQueriedDataStore)
     )

@@ -18,6 +18,7 @@ import com.dd.callmonitor.domain.util.Optional
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -42,6 +43,7 @@ class CallLogRepositoryImplTest {
         contactNameDataSource,
         contentResolver,
         checkPermissionUseCase,
+        Dispatchers.Unconfined,
         normalizePhoneNumberUseCase,
         timesQueriedDataSource
     )

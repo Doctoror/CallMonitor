@@ -10,13 +10,14 @@ import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.Either
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 internal class CallLogRepositoryImpl(
     private val contactNameDataSource: ContactNameDataSource,
     private val contentResolver: ContentResolver,
     private val checkPermissionUseCase: CheckPermissionUseCase,
+    private val dispatcherIo: CoroutineDispatcher,
     private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase,
     private val timesQueriedDataSource: TimesQueriedDataSource
 ) : CallLogRepository {
@@ -34,7 +35,7 @@ internal class CallLogRepositoryImpl(
         )
 
     private suspend fun getCallLogWithPermission(): Either<CallLogError, List<CallLogEntry>> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcherIo) {
             contentResolver
                 .query(
                     Calls.CONTENT_URI,
