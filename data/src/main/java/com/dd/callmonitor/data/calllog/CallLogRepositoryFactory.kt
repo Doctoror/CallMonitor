@@ -6,6 +6,7 @@ import com.dd.callmonitor.data.callstatus.ContactNameDataSource
 import com.dd.callmonitor.domain.calllog.CallLogRepository
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 
 private val Context.timesQueriedDataStore by preferencesDataStore(
     "timesQueriedDataStore"
@@ -20,11 +21,13 @@ class CallLogRepositoryFactory {
     fun newInstance(
         context: Context,
         checkPermissionUseCase: CheckPermissionUseCase,
+        dispatcherIo: CoroutineDispatcher,
         normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase
     ): CallLogRepository = CallLogRepositoryImpl(
         ContactNameDataSource(
             checkPermissionUseCase,
             context.contentResolver,
+            dispatcherIo,
             normalizePhoneNumberUseCase
         ),
         context.contentResolver,

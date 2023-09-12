@@ -4,6 +4,7 @@ import android.telephony.TelephonyManager
 import com.dd.callmonitor.data.calllog.CallLogRepositoryFactory
 import com.dd.callmonitor.data.callstatus.CallStatusRepositoryFactory
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -14,6 +15,7 @@ fun koinDataModule() = module {
         CallLogRepositoryFactory().newInstance(
             context = context,
             checkPermissionUseCase = CheckPermissionUseCase(context),
+            dispatcherIo = get<Dispatchers>().IO,
             normalizePhoneNumberUseCase = get()
         )
     }
@@ -22,6 +24,7 @@ fun koinDataModule() = module {
         CallStatusRepositoryFactory().newInstance(
             checkPermissionUseCase = get(),
             contentResolver = get(),
+            dispatcherIo = get<Dispatchers>().IO,
             normalizePhoneNumberUseCase = get(),
             telephonyManager = androidContext().getSystemService(TelephonyManager::class.java)
         )

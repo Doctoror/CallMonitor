@@ -6,12 +6,13 @@ import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.Optional
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 internal class ContactNameDataSource(
     private val checkPermissionUseCase: CheckPermissionUseCase,
     private val contentResolver: ContentResolver,
+    private val dispatcherIo: CoroutineDispatcher,
     private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase
 ) {
 
@@ -25,7 +26,7 @@ internal class ContactNameDataSource(
                 // decided to just return empty here
                 whenDenied = { Optional.empty() },
                 whenGranted = {
-                    withContext(Dispatchers.IO) {
+                    withContext(dispatcherIo) {
                         getContactIdByPhoneNumber(phoneNumber)
                             .flatMap(::getContactNameByContactId)
                     }
