@@ -40,7 +40,7 @@ android {
 
     testOptions {
         unitTests {
-            isIncludeAndroidResources = true //TODO needed here?
+            isIncludeAndroidResources = true
         }
     }
 
