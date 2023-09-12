@@ -1,21 +1,22 @@
 package com.dd.callmonitor.app.components.server
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.dd.callmonitor.R
+import com.dd.callmonitor.app.components.NoKoinTestApp
 import com.dd.callmonitor.app.components.main.MainActivity
-import com.dd.callmonitor.app.di.KoinStoppingTest
 import com.dd.callmonitor.app.notifications.NOTIFICATION_CHANNEL_ID_SERVER_STATUS
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricTestRunner::class)
-class ServerStatusNotificationProviderTest : KoinStoppingTest {
+@Config(application = NoKoinTestApp::class)
+class ServerStatusNotificationProviderTest {
 
     private val context = RuntimeEnvironment.getApplication()
     private val underTest = ServerStatusNotificationProvider()

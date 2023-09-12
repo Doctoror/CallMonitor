@@ -1,16 +1,17 @@
 package com.dd.callmonitor.app.components
 
 import android.content.Intent
-import com.dd.callmonitor.app.di.KoinStoppingTest
 import kotlinx.coroutines.isActive
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
-class CoroutineScopeServiceTest : KoinStoppingTest {
+@Config(application = NoKoinTestApp::class)
+class CoroutineScopeServiceTest {
 
     @Test
     fun scopeIsActiveByDefault() {

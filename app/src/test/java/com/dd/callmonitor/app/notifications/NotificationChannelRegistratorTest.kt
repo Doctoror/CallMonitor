@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import com.dd.callmonitor.R
+import com.dd.callmonitor.app.components.NoKoinTestApp
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -14,6 +15,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(application = NoKoinTestApp::class)
 class NotificationChannelRegistratorTest {
 
     private val channelId = "channelId"
@@ -30,7 +32,7 @@ class NotificationChannelRegistratorTest {
 
     @Test
     @Config(sdk = [Build.VERSION_CODES.O])
-    fun registerPostOreo() {
+    fun registersPostOreo() {
         every { notificationManager.createNotificationChannel(any()) } returns Unit
 
         underTest(channelId)
