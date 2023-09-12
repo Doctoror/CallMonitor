@@ -49,7 +49,7 @@ internal class CallLogRepositoryImpl(
                     null,
                     "${Calls.DATE} DESC"
                 )
-                .use { it ->
+                .use {
                     if (it == null) {
                         return@use Either.left(CallLogError.QUERY_FAILED)
                     }
