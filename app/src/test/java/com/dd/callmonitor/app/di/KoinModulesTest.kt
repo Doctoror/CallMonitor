@@ -10,7 +10,7 @@ import org.koin.test.check.checkModules
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class KoinModulesTest : KoinStoppingTest() {
+class KoinModulesTest : KoinStoppingTest {
 
     @Test
     fun definitionsCanRun() {

@@ -10,7 +10,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
-class CoroutineScopeServiceTest : KoinStoppingTest() {
+class CoroutineScopeServiceTest : KoinStoppingTest {
 
     @Test
     fun scopeIsActiveByDefault() {
