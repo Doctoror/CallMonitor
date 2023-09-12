@@ -28,6 +28,12 @@ android {
             excludes += "/META-INF/io.netty.*"
         }
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
