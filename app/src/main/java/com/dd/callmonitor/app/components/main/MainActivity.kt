@@ -77,9 +77,7 @@ class MainActivity : ComponentActivity() {
      * additional filter, but that also seems like complicating the code unnecessarily.
      */
     private fun onStartServerClick() {
-        lifecycleScope.launch {
-            requestPermissionsLauncher.launch(serverPermissions)
-        }
+        requestPermissionsLauncher.launch(serverPermissions)
     }
 
     /**
