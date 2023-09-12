@@ -7,6 +7,7 @@ import com.dd.callmonitor.presentation.server.ForegroundServiceStatusMessageProv
 import com.dd.callmonitor.presentation.server.ServerPresenter
 import com.dd.callmonitor.presentation.server.ServerViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -25,6 +26,7 @@ fun koinServerModule() = module {
         ServerFactory().newInstance(
             getCallLogUseCase = get(),
             getCallStatusUseCase = get(),
+            dispatcherIo = get<Dispatchers>().IO,
             locale = get(),
             serverStateProvider = get(),
             transformEmptyContactNameUseCase = get()

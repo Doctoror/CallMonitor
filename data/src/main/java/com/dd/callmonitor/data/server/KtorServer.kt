@@ -6,7 +6,7 @@ import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import io.ktor.server.engine.ApplicationEngine
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -15,6 +15,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 internal class KtorServer(
     private val applicationEngineFactory: ApplicationEngineFactory,
+    private val dispatcherIo: CoroutineDispatcher,
     private val serverStateProvider: ServerStateProvider
 ) : Server {
 
@@ -24,7 +25,7 @@ internal class KtorServer(
 
     private val mutex = Mutex()
 
-    override suspend fun start(host: InetAddress) = withContext(Dispatchers.IO) {
+    override suspend fun start(host: InetAddress) = withContext(dispatcherIo) {
         mutex.withLock {
             serverStateProvider.state.emit(ServerState.Initialising)
             if (engine != null) {
@@ -58,7 +59,7 @@ internal class KtorServer(
         }
     }
 
-    override suspend fun stopIfRunning() = withContext(Dispatchers.IO) {
+    override suspend fun stopIfRunning() = withContext(dispatcherIo) {
         mutex.withLock {
             if (engine != null) {
                 serverStateProvider.state.emit(ServerState.Stopping)

@@ -7,10 +7,11 @@ import com.dd.callmonitor.data.server.routes.root.RootRouteRegistrator
 import com.dd.callmonitor.data.server.routes.status.StatusResponseMapper
 import com.dd.callmonitor.data.server.routes.status.StatusRouteRegistrator
 import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
-import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
 import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
+import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
 import com.dd.callmonitor.domain.server.Server
 import com.dd.callmonitor.domain.server.ServerStateProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import java.util.Locale
 
 /**
@@ -22,13 +23,14 @@ class ServerFactory {
     fun newInstance(
         getCallLogUseCase: GetCallLogUseCase,
         getCallStatusUseCase: GetCallStatusUseCase,
+        dispatcherIo: CoroutineDispatcher,
         locale: Locale,
         serverStateProvider: ServerStateProvider,
         transformEmptyContactNameUseCase: TransformEmptyContactNameUseCase
     ): Server {
         val responseTimeFormatter = ResponseTimeFormatter(locale)
         return KtorServer(
-            ApplicationEngineFactory(
+            applicationEngineFactory = ApplicationEngineFactory(
                 routeRegistrators = listOf(
                     LogRouteRegistrator(
                         getCallLogUseCase = getCallLogUseCase,
@@ -49,6 +51,7 @@ class ServerFactory {
                     )
                 }
             ),
+            dispatcherIo = dispatcherIo,
             serverStateProvider = serverStateProvider
         )
     }
