@@ -23,8 +23,15 @@ class ServerControlsPresenter(
     val viewModel: ServerControlsViewModel
 ) : ViewModel() {
 
+    private var initialized = false
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun onCreate() {
+        if (initialized) {
+            return
+        }
+        initialized = true
+
         viewModelScope.launch {
             observeWifiConnectivityUseCase()
                 .flatMapLatest {

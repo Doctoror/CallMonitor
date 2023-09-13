@@ -11,10 +11,15 @@ class CallLogPresenter(
     val viewModel: CallLogViewModel
 ) : ViewModel() {
 
+    private var initialized = false
+
     fun onReadCallLogPermissionGranted() {
-        viewModelScope.launch {
-            // TODO this will not refresh until you close the screen
-            callLogViewModelUpdater.updateOnCallLogLoaded(viewModel, getCallLogUseCase())
+        if (!initialized) {
+            initialized = true
+            viewModelScope.launch {
+                // TODO this will not refresh until destroyed
+                callLogViewModelUpdater.updateOnCallLogLoaded(viewModel, getCallLogUseCase())
+            }
         }
     }
 }

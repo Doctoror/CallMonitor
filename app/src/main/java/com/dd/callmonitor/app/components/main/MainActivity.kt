@@ -12,6 +12,7 @@ import com.dd.callmonitor.ui.main.ContentMain
 import com.dd.callmonitor.presentation.server.externalcontrols.ServerControlsPresenter
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -21,11 +22,11 @@ class MainActivity : ComponentActivity() {
         onPermissionsProcessed()
     }
 
-    private val callLogPresenter: CallLogPresenter by inject()
+    private val callLogPresenter: CallLogPresenter by viewModel()
 
     private val callLogsViewModel by lazy { callLogPresenter.viewModel }
 
-    private val serverControlsPresenter: ServerControlsPresenter by inject()
+    private val serverControlsPresenter: ServerControlsPresenter by viewModel()
 
     private val serverControlsViewModel by lazy { serverControlsPresenter.viewModel }
 
