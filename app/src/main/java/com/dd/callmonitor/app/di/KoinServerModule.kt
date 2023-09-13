@@ -37,8 +37,6 @@ fun koinServerModule() = module {
 
     factory { (scope: CoroutineScope) ->
         ServerPresenter(
-            callStatusStartListeningUseCase = get(),
-            callStatusStopListeningUseCase = get(),
             observeWifiConnectivityUseCase = get(),
             foregroundServiceStatusMessageProvider = get(),
             resources = get(),

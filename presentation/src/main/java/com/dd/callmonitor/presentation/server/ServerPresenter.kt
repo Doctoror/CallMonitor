@@ -1,8 +1,6 @@
 package com.dd.callmonitor.presentation.server
 
 import android.content.res.Resources
-import com.dd.callmonitor.domain.callstatus.CallStatusStartListeningUseCase
-import com.dd.callmonitor.domain.callstatus.CallStatusStopListeningUseCase
 import com.dd.callmonitor.domain.connectivity.ConnectivityState
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.server.Server
@@ -21,8 +19,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ServerPresenter(
-    private val callStatusStartListeningUseCase: CallStatusStartListeningUseCase,
-    private val callStatusStopListeningUseCase: CallStatusStopListeningUseCase,
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase,
     private val foregroundServiceStatusMessageProvider: ForegroundServiceStatusMessageProvider,
     private val resources: Resources,
@@ -103,7 +99,6 @@ class ServerPresenter(
                         )
 
                         is ConnectivityState.Connected -> {
-                            callStatusStartListeningUseCase()
                             server.start(it.siteLocalAddress)
                         }
                     }
@@ -112,7 +107,6 @@ class ServerPresenter(
     }
 
     private suspend fun stopIfRunning() {
-        callStatusStopListeningUseCase()
         server.stopIfRunning()
     }
 

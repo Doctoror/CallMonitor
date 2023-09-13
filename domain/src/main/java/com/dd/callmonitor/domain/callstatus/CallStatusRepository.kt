@@ -1,13 +1,9 @@
 package com.dd.callmonitor.domain.callstatus
 
 import com.dd.callmonitor.domain.util.Either
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface CallStatusRepository {
 
-    fun observeCallStatus(): StateFlow<Either<CallStatusError, CallStatus>>
-
-    fun startListening()
-
-    fun stopListening()
+    fun observeCallStatus(): Flow<Either<CallStatusError, CallStatus>>
 }

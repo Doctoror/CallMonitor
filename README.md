@@ -14,6 +14,8 @@ If READ_CALL_LOG is denied the rationale will be shown with "Proceed" button to 
 
 If the rationale should not be shown the "Proceed" button is not visible.
 
+Number of results is always limited to 100. Paging is not supported to reduce scope of the project.
+
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionRationale.png" width="200"/>
 &nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionPermanentlyDenied.png" width="200"/>
 
