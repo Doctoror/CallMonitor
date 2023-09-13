@@ -44,7 +44,10 @@ class ServerFactory {
                     ),
                     StatusRouteRegistrator(
                         getCallStatusUseCase = getCallStatusUseCase,
-                        statusResponseMapper = StatusResponseMapper()
+                        statusResponseMapper = StatusResponseMapper(
+                            transformEmptyContactNameUseCase = transformEmptyContactNameUseCase,
+                            transformEmptyPhoneNumberUseCase = transformEmptyPhoneNumberUseCase
+                        )
                     )
                 ).let { services ->
                     services + RootRouteRegistrator(

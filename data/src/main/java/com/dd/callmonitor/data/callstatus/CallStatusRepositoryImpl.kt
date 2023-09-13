@@ -109,7 +109,7 @@ internal class CallStatusRepositoryImpl(
             // Note for reviewers. When you asked for "ongoing" did you mean CALL_STATE_RINGING
             // or CALL_STATE_OFFHOOK? Assumption has been made.
             sendChannel.trySend(
-                if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
                     makeCallStatusForOngoingCall(
                         Optional
                             .ofNullable(phoneNumber)

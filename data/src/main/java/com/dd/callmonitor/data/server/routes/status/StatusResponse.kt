@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class StatusResponse(
     val ongoing: Boolean,
-    val number: String,
-    val name: String
+    val number: String?,
+    val name: String?
 )
