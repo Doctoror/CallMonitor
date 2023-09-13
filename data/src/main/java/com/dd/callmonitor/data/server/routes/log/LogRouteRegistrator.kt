@@ -9,8 +9,8 @@ import io.ktor.server.routing.get
 import kotlinx.coroutines.flow.first
 
 internal class LogRouteRegistrator(
-    private val observeCallLogUseCase: ObserveCallLogUseCase,
-    private val callLogResponseMapper: CallLogResponseMapper
+    private val callLogResponseMapper: CallLogResponseMapper,
+    private val observeCallLogUseCase: ObserveCallLogUseCase
 ) : RouteRegistrator {
 
     override val serviceName = "log"

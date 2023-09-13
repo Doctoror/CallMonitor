@@ -7,7 +7,7 @@ import com.dd.callmonitor.data.server.routes.root.RootRouteRegistrator
 import com.dd.callmonitor.data.server.routes.status.StatusResponseMapper
 import com.dd.callmonitor.data.server.routes.status.StatusRouteRegistrator
 import com.dd.callmonitor.domain.calllog.ObserveCallLogUseCase
-import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
+import com.dd.callmonitor.domain.callstatus.ObserveCallStatusUseCase
 import com.dd.callmonitor.domain.server.Server
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,10 +20,10 @@ import java.util.Locale
 class ServerFactory {
 
     fun newInstance(
-        observeCallLogUseCase: ObserveCallLogUseCase,
-        getCallStatusUseCase: GetCallStatusUseCase,
         dispatcherIo: CoroutineDispatcher,
         locale: Locale,
+        observeCallLogUseCase: ObserveCallLogUseCase,
+        observeCallStatusUseCase: ObserveCallStatusUseCase,
         serverStateProvider: ServerStateProvider
     ): Server {
         val responseTimeFormatter = ResponseTimeFormatter(locale)
@@ -31,13 +31,13 @@ class ServerFactory {
             applicationEngineFactory = ApplicationEngineFactory(
                 routeRegistrators = listOf(
                     LogRouteRegistrator(
-                        observeCallLogUseCase = observeCallLogUseCase,
                         callLogResponseMapper = CallLogResponseMapper(
                             responseTimeFormatter = responseTimeFormatter
-                        )
+                        ),
+                        observeCallLogUseCase = observeCallLogUseCase
                     ),
                     StatusRouteRegistrator(
-                        getCallStatusUseCase = getCallStatusUseCase,
+                        observeCallStatusUseCase = observeCallStatusUseCase,
                         statusResponseMapper = StatusResponseMapper()
                     )
                 ).let { services ->

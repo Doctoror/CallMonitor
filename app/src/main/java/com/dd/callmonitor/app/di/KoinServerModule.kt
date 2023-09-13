@@ -24,10 +24,10 @@ fun koinServerModule() = module {
 
     single {
         ServerFactory().newInstance(
-            observeCallLogUseCase = get(),
-            getCallStatusUseCase = get(),
             dispatcherIo = get<Dispatchers>().IO,
             locale = get(),
+            observeCallLogUseCase = get(),
+            observeCallStatusUseCase = get(),
             serverStateProvider = get()
         )
     }

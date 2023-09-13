@@ -4,7 +4,7 @@ import android.net.ConnectivityManager
 import com.dd.callmonitor.app.components.server.StartServerUseCaseImpl
 import com.dd.callmonitor.app.components.server.StopServerUseCaseImpl
 import com.dd.callmonitor.domain.calllog.ObserveCallLogUseCase
-import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
+import com.dd.callmonitor.domain.callstatus.ObserveCallStatusUseCase
 import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.domain.connectivity.IsActiveNetworkWifiUseCase
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
@@ -23,7 +23,7 @@ fun koinDomainModule() = module {
 
     factory { ObserveCallLogUseCase(callLogRepository = get()) }
 
-    factory { GetCallStatusUseCase(callStatusRepository = get()) }
+    factory { ObserveCallStatusUseCase(callStatusRepository = get()) }
 
     factory { NormalizePhoneNumberUseCase(locale = get()) }
 
