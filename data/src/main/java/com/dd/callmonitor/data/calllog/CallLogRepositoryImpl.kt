@@ -1,6 +1,7 @@
 package com.dd.callmonitor.data.calllog
 
 import android.content.ContentResolver
+import android.database.Cursor
 import android.provider.CallLog.Calls
 import com.dd.callmonitor.data.callstatus.ContactNameDataSource
 import com.dd.callmonitor.domain.calllog.CallLogEntry
@@ -39,63 +40,69 @@ internal class CallLogRepositoryImpl(
 
     private suspend fun getCallLogWithPermission(): Either<CallLogError, List<CallLogEntry>> =
         withContext(dispatcherIo) {
-            contentResolver
-                .query(
-                    Calls.CONTENT_URI.buildUpon().appendQueryParameter("limit", LIMIT).build(),
-                    arrayOf(
-                        Calls._ID,
-                        Calls.DATE,
-                        Calls.DURATION,
-                        Calls.NUMBER,
-                        Calls.CACHED_NAME
-                    ),
-                    null,
-                    null,
-                    "${Calls.DATE} DESC"
-                )
-                .use {
-                    if (it == null) {
-                        return@use Either.left(CallLogError.QUERY_FAILED)
-                    }
-
-                    val output = ArrayList<CallLogEntry>(it.count)
-                    if (it.moveToFirst()) {
-                        while (!it.isAfterLast) {
-                            val id = it.getLong(it.getColumnIndexOrThrow(Calls._ID))
-
-                            val number = normalizePhoneNumberUseCase(
-                                it.getString(it.getColumnIndexOrThrow(Calls.NUMBER))
-                            )
-
-                            val contactName = contactNameDataSource
-                                .getContactNameByPhoneNumber(number)
-                                .or {
-                                    Optional.ofNullable(
-                                        it.getString(it.getColumnIndexOrThrow(Calls.CACHED_NAME))
-                                    )
-                                }
-
-                            output.add(
-                                CallLogEntry(
-                                    beginningMillisUtc = it.getLong(
-                                        it.getColumnIndexOrThrow(Calls.DATE)
-                                    ),
-                                    durationSeconds = it.getLong(
-                                        it.getColumnIndexOrThrow(Calls.DURATION)
-                                    ),
-                                    number = number,
-                                    name = contactName,
-                                    // Note for reviewers: this also means a query from UI
-                                    // (what is displayed by ContentCallLog) also updates
-                                    // timesQueried. Assuming this is a requirement.
-                                    timesQueried = timesQueriedDataSource.incrementAndGet(id)
-                                )
-                            )
-                            it.moveToNext()
-                        }
-                    }
-
-                    return@use Either.right(output)
-                }
+            query().use { cursorToEntriesList(it) }
         }
+
+    private fun query(): Cursor? = contentResolver.query(
+        Calls.CONTENT_URI.buildUpon().appendQueryParameter("limit", LIMIT).build(),
+        arrayOf(
+            Calls._ID,
+            Calls.DATE,
+            Calls.DURATION,
+            Calls.NUMBER,
+            Calls.CACHED_NAME
+        ),
+        null,
+        null,
+        "${Calls.DATE} DESC"
+    )
+
+    private suspend fun cursorToEntriesList(it: Cursor?): Either<CallLogError, List<CallLogEntry>> {
+        if (it == null) {
+            return Either.left(CallLogError.QUERY_FAILED)
+        }
+
+        val output = ArrayList<CallLogEntry>(it.count)
+        if (it.moveToFirst()) {
+            while (!it.isAfterLast) {
+                output.add(cursorAtPositionToEntry(it))
+                it.moveToNext()
+            }
+        }
+
+        return Either.right(output)
+    }
+
+    private suspend fun cursorAtPositionToEntry(it: Cursor): CallLogEntry {
+        val normalizedNumber = normalizePhoneNumberUseCase(it.getCallLogEntryNumber())
+
+        val contactName = contactNameDataSource
+            .getContactNameByPhoneNumber(normalizedNumber)
+            .or { Optional.ofNullable(it.getCallLogEntryCachedName()) }
+
+        return CallLogEntry(
+            beginningMillisUtc = it.getCallLogEntryDate(),
+            durationSeconds = it.getCallLogEntryDuration(),
+            number = normalizedNumber,
+            name = contactName,
+            // Note for reviewers: this also means a query from UI (what is displayed by
+            // ContentCallLog) also updates timesQueried. Assuming this is a requirement
+            timesQueried = timesQueriedDataSource.incrementAndGet(it.getCallLogEntryId())
+        )
+    }
+
+    private fun Cursor.getCallLogEntryId(): Long =
+        getLong(getColumnIndexOrThrow(Calls._ID))
+
+    private fun Cursor.getCallLogEntryDate(): Long =
+        getLong(getColumnIndexOrThrow(Calls.DATE))
+
+    private fun Cursor.getCallLogEntryDuration(): Long =
+        getLong(getColumnIndexOrThrow(Calls.DURATION))
+
+    private fun Cursor.getCallLogEntryNumber(): String? =
+        getString(getColumnIndexOrThrow(Calls.NUMBER))
+
+    private fun Cursor.getCallLogEntryCachedName(): String? =
+        getString(getColumnIndexOrThrow(Calls.CACHED_NAME))
 }
