@@ -6,7 +6,7 @@ import com.dd.callmonitor.data.server.routes.root.ResponseTimeFormatter
 import com.dd.callmonitor.data.server.routes.root.RootRouteRegistrator
 import com.dd.callmonitor.data.server.routes.status.StatusResponseMapper
 import com.dd.callmonitor.data.server.routes.status.StatusRouteRegistrator
-import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
+import com.dd.callmonitor.domain.calllog.ObserveCallLogUseCase
 import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
 import com.dd.callmonitor.domain.server.Server
 import com.dd.callmonitor.domain.server.ServerStateProvider
@@ -20,7 +20,7 @@ import java.util.Locale
 class ServerFactory {
 
     fun newInstance(
-        getCallLogUseCase: GetCallLogUseCase,
+        observeCallLogUseCase: ObserveCallLogUseCase,
         getCallStatusUseCase: GetCallStatusUseCase,
         dispatcherIo: CoroutineDispatcher,
         locale: Locale,
@@ -31,7 +31,7 @@ class ServerFactory {
             applicationEngineFactory = ApplicationEngineFactory(
                 routeRegistrators = listOf(
                     LogRouteRegistrator(
-                        getCallLogUseCase = getCallLogUseCase,
+                        observeCallLogUseCase = observeCallLogUseCase,
                         callLogResponseMapper = CallLogResponseMapper(
                             responseTimeFormatter = responseTimeFormatter
                         )

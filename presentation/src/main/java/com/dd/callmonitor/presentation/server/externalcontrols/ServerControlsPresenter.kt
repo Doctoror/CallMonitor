@@ -1,6 +1,7 @@
 package com.dd.callmonitor.presentation.server.externalcontrols
 
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dd.callmonitor.domain.connectivity.ConnectivityState
@@ -25,6 +26,7 @@ class ServerControlsPresenter(
 
     private var initialized = false
 
+    @MainThread
     @OptIn(ExperimentalCoroutinesApi::class)
     fun onCreate() {
         if (initialized) {

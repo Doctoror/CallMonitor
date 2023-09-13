@@ -19,6 +19,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -49,37 +50,37 @@ class CallLogRepositoryImplTest {
     )
 
     @Test
-    fun getCallLogReturnsErrorPermissionDeniedWhenDenied() = runTest {
+    fun observeCallLogReturnsErrorPermissionDeniedWhenDenied() = runTest {
         assertEquals(
             Either.left<CallLogError, List<CallLogEntry>>(CallLogError.PERMISSION_DENIED),
-            underTest.getCallLog()
+            underTest.observeCallLog().first()
         )
     }
 
     @Test
-    fun getCallLogReturnsErrorQueryFailedWhenQueryReturnedNull() = runTest {
+    fun observeCallLogReturnsErrorQueryFailedWhenQueryReturnedNull() = runTest {
         contextShadow.grantPermissions(Manifest.permission.READ_CALL_LOG)
 
         assertEquals(
             Either.left<CallLogError, List<CallLogEntry>>(CallLogError.QUERY_FAILED),
-            underTest.getCallLog()
+            underTest.observeCallLog().first()
         )
     }
 
     @Test
-    fun getCallLogReturnsEmptyListWhenQueryReturnedEmptyCursor() = runTest {
+    fun observeCallLogReturnsEmptyListWhenQueryReturnedEmptyCursor() = runTest {
         registerContentProvider(emptyArray())
 
         contextShadow.grantPermissions(Manifest.permission.READ_CALL_LOG)
 
         assertEquals(
             Either.right<CallLogError, List<CallLogEntry>>(emptyList()),
-            underTest.getCallLog()
+            underTest.observeCallLog().first()
         )
     }
 
     @Test
-    fun getCallLogReturnsCallLogFromContentResolver() = runTest {
+    fun observeCallLogReturnsCallLogFromContentResolver() = runTest {
         val id1 = 1L
         val date1 = 2L
         val duration1 = 3L
@@ -143,7 +144,7 @@ class CallLogRepositoryImplTest {
                     )
                 )
             ),
-            underTest.getCallLog()
+            underTest.observeCallLog().first()
         )
     }
 

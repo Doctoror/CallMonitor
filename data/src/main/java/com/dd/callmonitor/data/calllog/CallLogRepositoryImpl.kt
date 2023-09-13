@@ -1,8 +1,10 @@
 package com.dd.callmonitor.data.calllog
 
 import android.content.ContentResolver
+import android.database.ContentObserver
 import android.database.Cursor
 import android.provider.CallLog.Calls
+import androidx.annotation.WorkerThread
 import com.dd.callmonitor.data.callstatus.ContactNameDataSource
 import com.dd.callmonitor.domain.calllog.CallLogEntry
 import com.dd.callmonitor.domain.calllog.CallLogError
@@ -13,7 +15,12 @@ import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.Either
 import com.dd.callmonitor.domain.util.Optional
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.runBlocking
 
 private const val LIMIT = "100"
 
@@ -31,17 +38,39 @@ internal class CallLogRepositoryImpl(
      *
      * Note for reviewers: paging has been omitted to reduce the scope of the (already big) project.
      */
-    override suspend fun getCallLog(): Either<CallLogError, List<CallLogEntry>> =
+    override fun observeCallLog(): Flow<Either<CallLogError, List<CallLogEntry>>> =
         checkPermissionUseCase(
             permission = ApiLevelPermissions.READ_CALL_LOG,
-            whenDenied = { Either.left(CallLogError.PERMISSION_DENIED) },
+            whenDenied = { flowOf(Either.left(CallLogError.PERMISSION_DENIED)) },
             whenGranted = { getCallLogWithPermission() },
         )
 
-    private suspend fun getCallLogWithPermission(): Either<CallLogError, List<CallLogEntry>> =
-        withContext(dispatcherIo) {
-            query().use { cursorToEntriesList(it) }
-        }
+    private fun getCallLogWithPermission(): Flow<Either<CallLogError, List<CallLogEntry>>> =
+        callbackFlow {
+
+            fun runQueryAndTrySend() {
+                trySend(query().use { cursorToEntriesList(it) })
+            }
+
+            runQueryAndTrySend()
+
+            val contentObserver = object : ContentObserver(null) {
+
+                override fun onChange(selfChange: Boolean) {
+                    runQueryAndTrySend()
+                }
+            }
+
+            contentResolver.registerContentObserver(
+                Calls.CONTENT_URI,
+                true,
+                contentObserver
+            )
+
+            awaitClose {
+                contentResolver.unregisterContentObserver(contentObserver)
+            }
+        }.flowOn(dispatcherIo)
 
     private fun query(): Cursor? = contentResolver.query(
         Calls.CONTENT_URI.buildUpon().appendQueryParameter("limit", LIMIT).build(),
@@ -57,7 +86,7 @@ internal class CallLogRepositoryImpl(
         "${Calls.DATE} DESC"
     )
 
-    private suspend fun cursorToEntriesList(it: Cursor?): Either<CallLogError, List<CallLogEntry>> {
+    private fun cursorToEntriesList(it: Cursor?): Either<CallLogError, List<CallLogEntry>> {
         if (it == null) {
             return Either.left(CallLogError.QUERY_FAILED)
         }
@@ -73,16 +102,19 @@ internal class CallLogRepositoryImpl(
         return Either.right(output)
     }
 
-    private suspend fun cursorAtPositionToEntry(cursor: Cursor): CallLogEntry {
+    @WorkerThread
+    private fun cursorAtPositionToEntry(cursor: Cursor): CallLogEntry {
         val normalizedNumber = Optional
             .ofNullable(cursor.getCallLogEntryNumber())
             .map { normalizePhoneNumberUseCase(it) }
 
-        val contactName = contactNameDataSource
-            .getContactNameByPhoneNumber(normalizedNumber)
-            // Some implementations will return "" if no cached name, so we must convert this to
-            // null as our logic relies on missing values to be Optional.empty()
-            .or { Optional.ofNullable(cursor.getCallLogEntryCachedName()?.ifEmpty { null }) }
+        val contactName = runBlocking {
+            contactNameDataSource
+                .getContactNameByPhoneNumber(normalizedNumber)
+                // Some implementations will return "" if no cached name, so we must convert this to
+                // null as our logic relies on missing values to be Optional.empty()
+                .or { Optional.ofNullable(cursor.getCallLogEntryCachedName()?.ifEmpty { null }) }
+        }
 
         return CallLogEntry(
             beginningMillisUtc = cursor.getCallLogEntryDate(),
@@ -91,7 +123,9 @@ internal class CallLogRepositoryImpl(
             name = contactName,
             // Note for reviewers: this also means a query from UI (what is displayed by
             // ContentCallLog) also updates timesQueried. Assuming this is a requirement
-            timesQueried = timesQueriedDataSource.incrementAndGet(cursor.getCallLogEntryId())
+            timesQueried = runBlocking {
+                timesQueriedDataSource.incrementAndGet(cursor.getCallLogEntryId())
+            }
         )
     }
 

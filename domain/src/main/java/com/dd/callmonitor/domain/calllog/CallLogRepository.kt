@@ -1,8 +1,9 @@
 package com.dd.callmonitor.domain.calllog
 
 import com.dd.callmonitor.domain.util.Either
+import kotlinx.coroutines.flow.Flow
 
 interface CallLogRepository {
 
-    suspend fun getCallLog(): Either<CallLogError, List<CallLogEntry>>
+    fun observeCallLog(): Flow<Either<CallLogError, List<CallLogEntry>>>
 }

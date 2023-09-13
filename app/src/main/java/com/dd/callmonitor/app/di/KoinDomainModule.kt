@@ -3,7 +3,7 @@ package com.dd.callmonitor.app.di
 import android.net.ConnectivityManager
 import com.dd.callmonitor.app.components.server.StartServerUseCaseImpl
 import com.dd.callmonitor.app.components.server.StopServerUseCaseImpl
-import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
+import com.dd.callmonitor.domain.calllog.ObserveCallLogUseCase
 import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
 import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.domain.connectivity.IsActiveNetworkWifiUseCase
@@ -21,7 +21,7 @@ fun koinDomainModule() = module {
 
     factory { FormatHostAndPortUseCase() }
 
-    factory { GetCallLogUseCase(callLogRepository = get()) }
+    factory { ObserveCallLogUseCase(callLogRepository = get()) }
 
     factory { GetCallStatusUseCase(callStatusRepository = get()) }
 

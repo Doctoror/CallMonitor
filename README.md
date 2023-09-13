@@ -82,7 +82,7 @@ Contains domain models, for example:
 
 Contains Use Cases that represent business logic or otherwise common actions, see:
 
-- [GetCallLogUseCase](domain/src/main/java/com/dd/callmonitor/domain/calllog/GetCallLogUseCase.kt)
+- [ObserveCallLogUseCase](domain/src/main/java/com/dd/callmonitor/domain/calllog/ObserveCallLogUseCase.kt)
 - [NormalizePhoneNumberUseCase](domain/src/main/java/com/dd/callmonitor/domain/phonenumbers/NormalizePhoneNumberUseCase.kt)
 
 Contains interfaces to data layer, for example:

@@ -24,7 +24,7 @@ fun koinServerModule() = module {
 
     single {
         ServerFactory().newInstance(
-            getCallLogUseCase = get(),
+            observeCallLogUseCase = get(),
             getCallStatusUseCase = get(),
             dispatcherIo = get<Dispatchers>().IO,
             locale = get(),
