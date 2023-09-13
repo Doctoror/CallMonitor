@@ -4,12 +4,10 @@ import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
+import com.dd.callmonitor.domain.util.executeBlockAndCollectFromFlow
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -51,42 +49,25 @@ class ObserveWifiConnectivityUseCaseTest {
         assertEquals(ConnectivityState.Disconnected, underTest().first())
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun skipsDisconnectedInitialStateIfActiveNetworkIsWiFi() {
         every { isActiveNetworkWifiUseCase() } returns true
 
-        val collected = mutableListOf<ConnectivityState>()
-        runTest(UnconfinedTestDispatcher()) {
-            val collectJob = launch {
-                underTest().collect(collected::add)
-            }
-
-            collectJob.cancel()
-        }
+        val collected = executeBlockAndCollectFromFlow(underTest()) {}
 
         assertEquals(emptyList<ConnectivityState>(), collected)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun emitsNetworkStateChangesFromNetworkCallback() {
         every { isActiveNetworkWifiUseCase() } returns true
 
         val network = setupWifiNetworkWithSiteLocalAddress()
-        val collected = mutableListOf<ConnectivityState>()
-
-        runTest(UnconfinedTestDispatcher()) {
-            val collectJob = launch {
-                underTest().collect(collected::add)
-            }
-
+        val collected = executeBlockAndCollectFromFlow(underTest()) {
             connectivityManagerShadow.networkCallbacks.forEach {
                 it.onAvailable(network)
                 it.onLost(network)
             }
-
-            collectJob.cancel()
         }
 
         assertEquals(
@@ -98,31 +79,21 @@ class ObserveWifiConnectivityUseCaseTest {
         )
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test(expected = IllegalArgumentException::class)
     fun throwsWhenAvailableNetworkHasNoLinkProperties() {
-        runTest(UnconfinedTestDispatcher()) {
-            val collectJob = launch { underTest().collect {} }
-
+        executeBlockAndCollectFromFlow(underTest()) {
             connectivityManagerShadow.networkCallbacks.forEach {
                 it.onAvailable(setupWifiNetwork())
             }
-
-            collectJob.cancel()
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test(expected = IllegalStateException::class)
     fun throwsWhenAvailableNetworkHasNoSiteLocalAddress() {
-        runTest(UnconfinedTestDispatcher()) {
-            val collectJob = launch { underTest().collect {} }
-
+        executeBlockAndCollectFromFlow(underTest()) {
             connectivityManagerShadow.networkCallbacks.forEach {
                 it.onAvailable(setupWifiNetworkWithEmptyLinkProperties())
             }
-
-            collectJob.cancel()
         }
     }
 
