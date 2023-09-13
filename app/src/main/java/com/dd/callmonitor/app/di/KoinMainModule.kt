@@ -13,7 +13,6 @@ import com.dd.callmonitor.presentation.server.externalcontrols.updaters.ServerIn
 import com.dd.callmonitor.presentation.server.externalcontrols.updaters.ServerRunningViewModelUpdater
 import com.dd.callmonitor.presentation.server.externalcontrols.updaters.ServerStateViewModelUpdater
 import com.dd.callmonitor.presentation.server.externalcontrols.updaters.ServerStoppingViewModelUpdater
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,10 +21,7 @@ fun koinMainModule() = module {
     viewModel {
         CallLogPresenter(
             callLogViewModelUpdater = CallLogViewModelUpdater(
-                callLogEntryViewModelMapper = CallLogEntryViewModelMapper(
-                    locale = get(),
-                    transformEmptyContactNameUseCase = get()
-                )
+                callLogEntryViewModelMapper = CallLogEntryViewModelMapper(locale = get())
             ),
             getCallLogUseCase = get(),
             viewModel = CallLogViewModel()

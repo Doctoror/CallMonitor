@@ -80,7 +80,9 @@ internal class CallLogRepositoryImpl(
 
         val contactName = contactNameDataSource
             .getContactNameByPhoneNumber(normalizedNumber)
-            .or { Optional.ofNullable(cursor.getCallLogEntryCachedName()) }
+            // Some implementations will return "" if no cached name, so we must convert this to
+            // null as our logic relies on missing values to be Optional.empty()
+            .or { Optional.ofNullable(cursor.getCallLogEntryCachedName()?.ifEmpty { null }) }
 
         return CallLogEntry(
             beginningMillisUtc = cursor.getCallLogEntryDate(),

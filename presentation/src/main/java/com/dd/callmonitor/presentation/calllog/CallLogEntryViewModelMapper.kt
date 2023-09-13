@@ -1,18 +1,14 @@
 package com.dd.callmonitor.presentation.calllog
 
 import com.dd.callmonitor.domain.calllog.CallLogEntry
-import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-class CallLogEntryViewModelMapper(
-    private val locale: Locale,
-    private val transformEmptyContactNameUseCase: TransformEmptyContactNameUseCase
-) {
+class CallLogEntryViewModelMapper(private val locale: Locale) {
 
     fun map(entry: CallLogEntry) = CallLogEntryViewModel(
         duration = formatDuration(entry.durationSeconds),
-        name = transformEmptyContactNameUseCase(entry.name)
+        name = entry.name.or { entry.number }.get()
     )
 
     private fun formatDuration(totalSeconds: Long): String {
