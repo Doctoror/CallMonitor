@@ -7,7 +7,6 @@ import com.dd.callmonitor.domain.server.Server
 import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.server.ServerStateProvider
-import com.dd.callmonitor.presentation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,9 +20,9 @@ import kotlinx.coroutines.runBlocking
 class ServerPresenter(
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase,
     private val foregroundServiceStatusMessageProvider: ForegroundServiceStatusMessageProvider,
-    private val resources: Resources,
     private val scope: CoroutineScope,
     private val server: Server,
+    private val serverErrorNotificationMessageProvider: ServerErrorNotificationMessageProvider,
     private val serverStateProvider: ServerStateProvider,
     val viewModel: ServerViewModel
 ) {
@@ -41,18 +40,7 @@ class ServerPresenter(
                 .map { it as ServerState.Error }
                 .collect {
                     viewModel.normalNotification.emit(
-                        resources.getText(
-                            when (it.error) {
-                                ServerError.GENERIC ->
-                                    R.string.server_power_button_when_error_label_generic
-
-                                ServerError.NO_CONNECTIVITY ->
-                                    R.string.server_power_button_when_error_label_not_connected
-
-                                ServerError.NO_HOST_ADDRESS ->
-                                    R.string.server_power_button_when_error_label_no_host_address
-                            }
-                        )
+                        serverErrorNotificationMessageProvider.provide(it.error)
                     )
                     finishEventsEmitter.emit(Unit)
                 }

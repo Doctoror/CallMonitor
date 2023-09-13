@@ -7,9 +7,8 @@ import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.domain.util.Optional
-import com.dd.callmonitor.presentation.R
 import com.dd.callmonitor.presentation.testutil.executeBlockAndCollectFromFlow
-import io.mockk.coEvery
+import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -19,27 +18,24 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 
-@RunWith(RobolectricTestRunner::class)
 class ServerPresenterTest {
 
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase = mockk()
     private val foregroundServiceStatusMessageProvider: ForegroundServiceStatusMessageProvider =
         mockk()
-    private val resources = RuntimeEnvironment.getApplication().resources
     private val server: Server = mockk()
+    private val serverErrorNotificationMessageProvider: ServerErrorNotificationMessageProvider =
+        mockk()
     private val serverStateProvider = ServerStateProvider()
     private val viewModel = ServerViewModel()
 
     private val underTest = ServerPresenter(
         observeWifiConnectivityUseCase,
         foregroundServiceStatusMessageProvider,
-        resources,
         CoroutineScope(Dispatchers.Unconfined),
         server,
+        serverErrorNotificationMessageProvider,
         serverStateProvider,
         viewModel
     )
@@ -48,18 +44,23 @@ class ServerPresenterTest {
     fun before() {
         every { foregroundServiceStatusMessageProvider(any()) } returns Optional.empty()
         every { observeWifiConnectivityUseCase() } returns flowOf()
-        coEvery { server.stopIfRunning() } returns Unit
+        every { serverErrorNotificationMessageProvider.provide(any()) } returns ""
+        coJustRun { server.stopIfRunning() }
     }
 
     @Test
-    fun emitsGenericErrorNotificationOnServerErrorGeneric() {
+    fun emitsServerErrorNotificationFromMessageProvider() {
+        val error = ServerError.GENERIC
+        val errorMessage = "Error message"
+        every { serverErrorNotificationMessageProvider.provide(error) } returns errorMessage
+
         val collectedNotifications = executeBlockAndCollectFromFlow(viewModel.normalNotification) {
             underTest.onCreate()
-            serverStateProvider.state.value = ServerState.Error(ServerError.GENERIC)
+            serverStateProvider.state.value = ServerState.Error(error)
         }
 
         assertEquals(
-            listOf(resources.getText(R.string.server_power_button_when_error_label_generic)),
+            listOf(errorMessage),
             collectedNotifications
         )
     }

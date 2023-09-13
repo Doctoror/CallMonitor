@@ -4,6 +4,7 @@ import com.dd.callmonitor.app.components.server.ServerStatusNotificationProvider
 import com.dd.callmonitor.data.server.ServerFactory
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.presentation.server.ForegroundServiceStatusMessageProvider
+import com.dd.callmonitor.presentation.server.ServerErrorNotificationMessageProvider
 import com.dd.callmonitor.presentation.server.ServerPresenter
 import com.dd.callmonitor.presentation.server.ServerViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -38,9 +39,11 @@ fun koinServerModule() = module {
         ServerPresenter(
             observeWifiConnectivityUseCase = get(),
             foregroundServiceStatusMessageProvider = get(),
-            resources = get(),
             scope = scope,
             server = get(),
+            serverErrorNotificationMessageProvider = ServerErrorNotificationMessageProvider(
+                resources = get()
+            ),
             serverStateProvider = get(),
             viewModel = ServerViewModel()
         )
