@@ -9,7 +9,9 @@ import com.dd.callmonitor.app.notifications.NOTIFICATION_ID_SERVER_STATUS_OTHER
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.presentation.server.ServerPresenter
 import com.dd.callmonitor.presentation.server.ServerViewModel
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
@@ -56,11 +58,11 @@ class ServerServiceTest {
 
     @Before
     fun before() {
-        every { presenter.onCreate() } returns Unit
+        every { presenter.onCreate() } just Runs
         every { presenter.finishEvents() } returns flowOf()
-        every { presenter.startServer() } returns Unit
-        every { presenter.stopIfRunningAndExit() } returns Unit
-        every { presenter.stopIfRunningBlocking() } returns Unit
+        every { presenter.startServer() } just Runs
+        every { presenter.stopIfRunningAndExit() } just Runs
+        every { presenter.stopIfRunningBlocking() } just Runs
         every { presenter.viewModel } returns viewModel
 
         startKoin {
