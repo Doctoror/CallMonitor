@@ -44,7 +44,8 @@ class IsActiveNetworkWifiUseCaseTest {
             .shadowOf(connectivityManager)
             .setNetworkCapabilities(
                 connectivityManager.activeNetwork,
-                Shadows.shadowOf(ShadowNetworkCapabilities.newInstance())
+                Shadows
+                    .shadowOf(ShadowNetworkCapabilities.newInstance())
                     .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             )
 
@@ -57,7 +58,8 @@ class IsActiveNetworkWifiUseCaseTest {
             .shadowOf(connectivityManager)
             .setNetworkCapabilities(
                 connectivityManager.activeNetwork,
-                Shadows.shadowOf(ShadowNetworkCapabilities.newInstance())
+                Shadows
+                    .shadowOf(ShadowNetworkCapabilities.newInstance())
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             )
 
