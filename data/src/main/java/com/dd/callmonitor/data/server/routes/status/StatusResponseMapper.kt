@@ -6,7 +6,7 @@ internal class StatusResponseMapper {
 
     fun map(callStatus: CallStatus) = StatusResponse(
         ongoing = callStatus.ongoing,
-        name = callStatus.name,
-        number = callStatus.number
+        name = callStatus.name.orElse(""),
+        number = callStatus.number.orElse("")
     )
 }

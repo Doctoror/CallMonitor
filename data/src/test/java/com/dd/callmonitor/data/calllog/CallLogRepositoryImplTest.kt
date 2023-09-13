@@ -104,11 +104,11 @@ class CallLogRepositoryImplTest {
         every { normalizePhoneNumberUseCase(number2) } returns number2Normalized
 
         coEvery {
-            contactNameDataSource.getContactNameByPhoneNumber(number1Normalized)
+            contactNameDataSource.getContactNameByPhoneNumber(Optional.of(number1Normalized))
         } returns Optional.empty()
 
         coEvery {
-            contactNameDataSource.getContactNameByPhoneNumber(number2Normalized)
+            contactNameDataSource.getContactNameByPhoneNumber(Optional.of(number2Normalized))
         } returns contactName2
 
         coEvery { timesQueriedDataSource.incrementAndGet(id1) } returns timesQueried1
@@ -129,7 +129,7 @@ class CallLogRepositoryImplTest {
                     CallLogEntry(
                         beginningMillisUtc = date1,
                         durationSeconds = duration1,
-                        number = number1Normalized,
+                        number = Optional.of(number1Normalized),
                         name = cachedName1,
                         timesQueried = timesQueried1
                     ),
@@ -137,7 +137,7 @@ class CallLogRepositoryImplTest {
                     CallLogEntry(
                         beginningMillisUtc = date2,
                         durationSeconds = duration2,
-                        number = number2Normalized,
+                        number = Optional.of(number2Normalized),
                         name = contactName2,
                         timesQueried = timesQueried2
                     )

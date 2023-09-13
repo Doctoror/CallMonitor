@@ -5,7 +5,7 @@ import com.dd.callmonitor.domain.util.Optional
 data class CallLogEntry(
     val beginningMillisUtc: Long,
     val durationSeconds: Long,
-    val number: String,
+    val number: Optional<String>,
     val name: Optional<String>,
     val timesQueried: Int
 )

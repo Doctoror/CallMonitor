@@ -29,7 +29,8 @@ fun koinServerModule() = module {
             dispatcherIo = get<Dispatchers>().IO,
             locale = get(),
             serverStateProvider = get(),
-            transformEmptyContactNameUseCase = get()
+            transformEmptyContactNameUseCase = get(),
+            transformEmptyPhoneNumberUseCase = get()
         )
     }
 

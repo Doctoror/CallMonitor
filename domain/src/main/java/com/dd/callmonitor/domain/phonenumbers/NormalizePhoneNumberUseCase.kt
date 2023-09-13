@@ -11,7 +11,7 @@ class NormalizePhoneNumberUseCase(private val locale: Locale) {
      * If not possible, will only normalize by removing the spaces and extra characters like
      * whitespaces and dashes.
      */
-    operator fun invoke(number: String?): String {
+    operator fun invoke(number: String): String {
         val normalized = PhoneNumberUtils.normalizeNumber(number)
         return if (normalized.isBlank()) {
             normalized

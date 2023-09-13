@@ -9,6 +9,7 @@ import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
 import com.dd.callmonitor.domain.connectivity.IsActiveNetworkWifiUseCase
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
+import com.dd.callmonitor.domain.contacts.TransformEmptyPhoneNumberUseCase
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.server.StartServerUseCase
@@ -41,4 +42,6 @@ fun koinDomainModule() = module {
     factory<StopServerUseCase> { StopServerUseCaseImpl(androidContext()) }
 
     factory { TransformEmptyContactNameUseCase(resources = get()) }
+
+    factory { TransformEmptyPhoneNumberUseCase(resources = get()) }
 }

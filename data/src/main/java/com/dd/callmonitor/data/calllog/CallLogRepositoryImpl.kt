@@ -73,21 +73,23 @@ internal class CallLogRepositoryImpl(
         return Either.right(output)
     }
 
-    private suspend fun cursorAtPositionToEntry(it: Cursor): CallLogEntry {
-        val normalizedNumber = normalizePhoneNumberUseCase(it.getCallLogEntryNumber())
+    private suspend fun cursorAtPositionToEntry(cursor: Cursor): CallLogEntry {
+        val normalizedNumber = Optional
+            .ofNullable(cursor.getCallLogEntryNumber())
+            .map { normalizePhoneNumberUseCase(it) }
 
         val contactName = contactNameDataSource
             .getContactNameByPhoneNumber(normalizedNumber)
-            .or { Optional.ofNullable(it.getCallLogEntryCachedName()) }
+            .or { Optional.ofNullable(cursor.getCallLogEntryCachedName()) }
 
         return CallLogEntry(
-            beginningMillisUtc = it.getCallLogEntryDate(),
-            durationSeconds = it.getCallLogEntryDuration(),
+            beginningMillisUtc = cursor.getCallLogEntryDate(),
+            durationSeconds = cursor.getCallLogEntryDuration(),
             number = normalizedNumber,
             name = contactName,
             // Note for reviewers: this also means a query from UI (what is displayed by
             // ContentCallLog) also updates timesQueried. Assuming this is a requirement
-            timesQueried = timesQueriedDataSource.incrementAndGet(it.getCallLogEntryId())
+            timesQueried = timesQueriedDataSource.incrementAndGet(cursor.getCallLogEntryId())
         )
     }
 

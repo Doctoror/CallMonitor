@@ -11,6 +11,7 @@ import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.Either
+import com.dd.callmonitor.domain.util.Optional
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -109,7 +110,11 @@ internal class CallStatusRepositoryImpl(
             // or CALL_STATE_OFFHOOK? Assumption has been made.
             sendChannel.trySend(
                 if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
-                    makeCallStatusForOngoingCall(normalizePhoneNumberUseCase(phoneNumber))
+                    makeCallStatusForOngoingCall(
+                        Optional
+                            .ofNullable(phoneNumber)
+                            .map { normalizePhoneNumberUseCase(it) }
+                    )
                 } else {
                     makeEmptyCallStatus()
                 }
@@ -118,16 +123,14 @@ internal class CallStatusRepositoryImpl(
 
         @WorkerThread
         private fun makeCallStatusForOngoingCall(
-            phoneNumber: String
+            phoneNumber: Optional<String>
         ): Either<CallStatusError, CallStatus> = Either.right(
             CallStatus(
                 ongoing = true,
                 number = phoneNumber,
                 // We are in a worker thread, runBlocking is intended
                 name = runBlocking {
-                    contactNameDataSource
-                        .getContactNameByPhoneNumber(phoneNumber)
-                        .orElse("")
+                    contactNameDataSource.getContactNameByPhoneNumber(phoneNumber)
                 }
             )
         )
@@ -136,8 +139,8 @@ internal class CallStatusRepositoryImpl(
             .right(
                 CallStatus(
                     ongoing = false,
-                    number = "",
-                    name = ""
+                    number = Optional.empty(),
+                    name = Optional.empty()
                 )
             )
     }

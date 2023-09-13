@@ -16,8 +16,8 @@ internal class ContactNameDataSource(
     private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase
 ) {
 
-    suspend fun getContactNameByPhoneNumber(phoneNumber: String): Optional<String> =
-        if (phoneNumber.isBlank()) {
+    suspend fun getContactNameByPhoneNumber(phoneNumber: Optional<String>): Optional<String> =
+        if (!phoneNumber.isPresent()) {
             Optional.empty()
         } else {
             checkPermissionUseCase(
@@ -27,7 +27,7 @@ internal class ContactNameDataSource(
                 whenDenied = { Optional.empty() },
                 whenGranted = {
                     withContext(dispatcherIo) {
-                        getContactIdByPhoneNumber(phoneNumber)
+                        getContactIdByPhoneNumber(phoneNumber.get())
                             .flatMap(::getContactNameByContactId)
                     }
                 }

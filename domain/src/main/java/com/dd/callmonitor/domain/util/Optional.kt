@@ -10,6 +10,12 @@ data class Optional<T>(private val value: T?) {
 
     fun isPresent() = value != null
 
+    fun <U> map(mapper: (T) -> U?): Optional<U> = if (!isPresent()) {
+        empty()
+    } else {
+        ofNullable(mapper(value!!))
+    }
+
     fun <U> flatMap(mapper: (T) -> Optional<U>): Optional<U> = if (!isPresent()) {
         empty()
     } else {
