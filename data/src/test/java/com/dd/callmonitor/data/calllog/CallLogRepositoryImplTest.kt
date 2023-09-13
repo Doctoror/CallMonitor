@@ -84,13 +84,13 @@ class CallLogRepositoryImplTest {
         val date1 = 2L
         val duration1 = 3L
         val number1 = "Number 1"
-        val cachedName1 = "Cached Name 1"
+        val cachedName1 = Optional.of("Cached Name 1")
 
         val id2 = 4L
         val date2 = 5L
         val duration2 = 6L
         val number2 = "Number 2"
-        val cachedName2 = "Cached Name 2"
+        val cachedName2 = Optional.of("Cached Name 2")
 
         val timesQueried1 = 7
         val timesQueried2 = 8
@@ -98,7 +98,7 @@ class CallLogRepositoryImplTest {
         val number1Normalized = "Number 1 normalized"
         val number2Normalized = "Number 2 normalized"
 
-        val contactName2 = "Contact Name 2"
+        val contactName2 = Optional.of("Contact Name 2")
 
         every { normalizePhoneNumberUseCase(number1) } returns number1Normalized
         every { normalizePhoneNumberUseCase(number2) } returns number2Normalized
@@ -109,15 +109,15 @@ class CallLogRepositoryImplTest {
 
         coEvery {
             contactNameDataSource.getContactNameByPhoneNumber(number2Normalized)
-        } returns Optional.of(contactName2)
+        } returns contactName2
 
         coEvery { timesQueriedDataSource.incrementAndGet(id1) } returns timesQueried1
         coEvery { timesQueriedDataSource.incrementAndGet(id2) } returns timesQueried2
 
         registerContentProvider(
             arrayOf(
-                arrayOf(id1, date1, duration1, number1, cachedName1),
-                arrayOf(id2, date2, duration2, number2, cachedName2)
+                arrayOf(id1, date1, duration1, number1, cachedName1.get()),
+                arrayOf(id2, date2, duration2, number2, cachedName2.get())
             )
         )
 

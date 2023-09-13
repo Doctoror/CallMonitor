@@ -16,6 +16,14 @@ data class Optional<T>(private val value: T?) {
         mapper(value!!)
     }
 
+    fun or(supplier: () -> Optional<T>): Optional<T> {
+        return if (isPresent()) {
+            this
+        } else {
+            supplier()
+        }
+    }
+
     fun orElse(other: T): T = value ?: other
 
     companion object {

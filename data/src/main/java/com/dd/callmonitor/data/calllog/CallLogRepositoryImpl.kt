@@ -10,6 +10,7 @@ import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import com.dd.callmonitor.domain.util.Either
+import com.dd.callmonitor.domain.util.Optional
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -68,10 +69,11 @@ internal class CallLogRepositoryImpl(
 
                             val contactName = contactNameDataSource
                                 .getContactNameByPhoneNumber(number)
-                                .orElse(
-                                    it.getString(it.getColumnIndexOrThrow(Calls.CACHED_NAME))
-                                        ?: ""
-                                )
+                                .or {
+                                    Optional.ofNullable(
+                                        it.getString(it.getColumnIndexOrThrow(Calls.CACHED_NAME))
+                                    )
+                                }
 
                             output.add(
                                 CallLogEntry(

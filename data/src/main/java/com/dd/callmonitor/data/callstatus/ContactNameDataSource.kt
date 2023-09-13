@@ -46,13 +46,13 @@ internal class ContactNameDataSource(
             .use {
                 if (it?.moveToFirst() == true) {
 
-                    val id = it.getString(
-                        it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
+                    Optional.ofNullable(
+                        it.getString(
+                            it.getColumnIndexOrThrow(
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                            )
+                        )
                     )
-
-                    if (id != null) {
-                        return@use Optional.of(id)
-                    }
                 }
 
                 return@use Optional.empty()
