@@ -8,8 +8,6 @@ import com.dd.callmonitor.data.server.routes.status.StatusResponseMapper
 import com.dd.callmonitor.data.server.routes.status.StatusRouteRegistrator
 import com.dd.callmonitor.domain.calllog.GetCallLogUseCase
 import com.dd.callmonitor.domain.callstatus.GetCallStatusUseCase
-import com.dd.callmonitor.domain.contacts.TransformEmptyContactNameUseCase
-import com.dd.callmonitor.domain.contacts.TransformEmptyPhoneNumberUseCase
 import com.dd.callmonitor.domain.server.Server
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,9 +24,7 @@ class ServerFactory {
         getCallStatusUseCase: GetCallStatusUseCase,
         dispatcherIo: CoroutineDispatcher,
         locale: Locale,
-        serverStateProvider: ServerStateProvider,
-        transformEmptyContactNameUseCase: TransformEmptyContactNameUseCase,
-        transformEmptyPhoneNumberUseCase: TransformEmptyPhoneNumberUseCase
+        serverStateProvider: ServerStateProvider
     ): Server {
         val responseTimeFormatter = ResponseTimeFormatter(locale)
         return KtorServer(
@@ -37,17 +33,12 @@ class ServerFactory {
                     LogRouteRegistrator(
                         getCallLogUseCase = getCallLogUseCase,
                         callLogResponseMapper = CallLogResponseMapper(
-                            responseTimeFormatter = responseTimeFormatter,
-                            transformEmptyContactNameUseCase = transformEmptyContactNameUseCase,
-                            transformEmptyPhoneNumberUseCase = transformEmptyPhoneNumberUseCase
+                            responseTimeFormatter = responseTimeFormatter
                         )
                     ),
                     StatusRouteRegistrator(
                         getCallStatusUseCase = getCallStatusUseCase,
-                        statusResponseMapper = StatusResponseMapper(
-                            transformEmptyContactNameUseCase = transformEmptyContactNameUseCase,
-                            transformEmptyPhoneNumberUseCase = transformEmptyPhoneNumberUseCase
-                        )
+                        statusResponseMapper = StatusResponseMapper()
                     )
                 ).let { services ->
                     services + RootRouteRegistrator(

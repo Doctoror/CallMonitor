@@ -30,7 +30,7 @@ data class Optional<T>(private val value: T?) {
         }
     }
 
-    fun orElse(other: T): T = value ?: other
+    fun orElse(other: T?): T? = value ?: other
 
     companion object {
 

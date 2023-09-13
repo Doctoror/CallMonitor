@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 internal data class CallLogResponseEntry(
     val beginning: String,
     val duration: String,
-    val number: String,
-    val name: String,
+    val number: String?,
+    val name: String?,
     val timesQueried: Int
 )
