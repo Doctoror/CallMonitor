@@ -2,6 +2,7 @@ package com.dd.callmonitor.domain.connectivity
 
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +37,7 @@ class ObserveWifiConnectivityUseCase(
         connectivityManager.registerNetworkCallback(
             NetworkRequest
                 .Builder()
-                .addTransportType(android.net.NetworkCapabilities.TRANSPORT_WIFI)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                 .build(),
             networkCallback
         )
