@@ -3,7 +3,6 @@ package com.dd.callmonitor.domain.calllog
 import com.dd.callmonitor.domain.util.Either
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
