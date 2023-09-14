@@ -1,8 +1,8 @@
 package com.dd.callmonitor.presentation.server
 
 import android.content.res.Resources
-import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.connectivity.FormatHostAndPortUseCase
+import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.util.Optional
 import com.dd.callmonitor.presentation.R
 

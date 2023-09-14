@@ -1,6 +1,5 @@
 package com.dd.callmonitor.presentation.server
 
-import android.content.res.Resources
 import com.dd.callmonitor.domain.connectivity.ConnectivityState
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.server.Server
