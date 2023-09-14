@@ -202,6 +202,10 @@ Or, if you have a centralized database
 
 # Additional notes:
 
-You may find some missing rare edge case handling or topics that might pose questions, these are marked in source files by comments starting with "Note for reviewers".
+Permissions are defined in *`data`* module, as it is the one that uses them, even though is not the one requesting them, because requesting permissions are done in *`Activty`* or *Compose* content where *`accompanist-permissions`* can be used.
 
 Due to a huge and time consuming scope of the project, not everything is unit tested, and there are no integration user story tests.
+
+Maintaining a good git history is also very time consuming, especially in cases where you had to amend/revert the changes or when you build a feature step by step. So my history was rather chaotic and far from ideal so I did not include my repository in the archive.
+
+You may find some rare edge case missing or topics that might pose questions, these are marked in source files by comments starting with "Note for reviewers". Those usually wouldn't be added in production code. Comments or docs that are not starting with "Note for reviewers" are those that would be in production code.
