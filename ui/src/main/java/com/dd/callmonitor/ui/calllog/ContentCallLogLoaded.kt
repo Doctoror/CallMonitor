@@ -1,5 +1,6 @@
 package com.dd.callmonitor.ui.calllog
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,9 +26,10 @@ fun ContentCallLogLoaded(viewModel: CallLogViewModel) {
         LazyColumn {
             items(entries.value) {
                 Column(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 72.dp),
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Text(
                         color = AppTheme.colorScheme.onSurface,
