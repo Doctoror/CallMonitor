@@ -67,8 +67,9 @@ fun ContentMain(
                     )
 
                     ContentCallLog(
-                        callLogViewModel,
-                        onReadCallLogPermissionGranted
+                        viewModel = callLogViewModel,
+                        onReadCallLogPermissionGranted = onReadCallLogPermissionGranted,
+                        shouldAutoAskForPermissions = true
                     )
                 }
             }

@@ -17,6 +17,7 @@ import com.google.accompanist.permissions.shouldShowRationale
 fun ContentCallLog(
     viewModel: CallLogViewModel,
     onReadCallLogPermissionGranted: () -> Unit,
+    shouldAutoAskForPermissions: Boolean
 ) {
 
     val permissionState = rememberMultiplePermissionsState(
@@ -25,7 +26,10 @@ fun ContentCallLog(
             Manifest.permission.READ_CONTACTS
         )
     )
-    AutoAskPermissionEffect(permissionState)
+
+    if (shouldAutoAskForPermissions) {
+        AutoAskPermissionEffect(permissionState)
+    }
 
     val callLogPermissionState = permissionState.permissions.first {
         it.permission == Manifest.permission.READ_CALL_LOG
@@ -61,5 +65,6 @@ fun ContentCallLogPermissionGrantedAndLoadedPreview() {
             )
         },
         onReadCallLogPermissionGranted = {},
+        shouldAutoAskForPermissions = false
     )
 }
