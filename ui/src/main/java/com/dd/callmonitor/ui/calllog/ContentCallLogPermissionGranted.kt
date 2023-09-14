@@ -28,12 +28,9 @@ fun ContentCallLogPermissionGranted(viewModel: CallLogViewModel) {
             )
         }
 
-        CallLogViewModel.ViewType.CONTENT ->
-            ContentCallLogLoaded(viewModel)
+        CallLogViewModel.ViewType.CONTENT -> ContentCallLogLoaded(viewModel)
 
-        CallLogViewModel.ViewType.FAILURE ->
-            ContentCallLogFailure()
-
+        CallLogViewModel.ViewType.FAILURE -> ContentCallLogFailure()
     }
 }
 
