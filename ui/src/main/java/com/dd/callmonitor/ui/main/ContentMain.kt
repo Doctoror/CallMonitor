@@ -26,6 +26,7 @@ import com.dd.callmonitor.ui.theme.AppTheme
 fun ContentMain(
     callLogViewModel: CallLogViewModel,
     serverControlsViewModel: ServerControlsViewModel,
+    onApplicationSettingsClick: () -> Unit,
     onReadCallLogPermissionGranted: () -> Unit,
     onStartServerClick: () -> Unit,
     onStopServerClick: () -> Unit,
@@ -68,6 +69,7 @@ fun ContentMain(
 
                     ContentCallLog(
                         viewModel = callLogViewModel,
+                        onApplicationSettingsClick = onApplicationSettingsClick,
                         onReadCallLogPermissionGranted = onReadCallLogPermissionGranted,
                         shouldAutoAskForPermissions = true
                     )
@@ -83,6 +85,7 @@ fun MainContentPreview() {
     ContentMain(
         callLogViewModel = CallLogViewModel(),
         serverControlsViewModel = ServerControlsViewModel(),
+        onApplicationSettingsClick = {},
         onReadCallLogPermissionGranted = {},
         onStartServerClick = {},
         onStopServerClick = {},

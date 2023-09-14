@@ -1,7 +1,10 @@
 package com.dd.callmonitor.app.components.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,6 +50,7 @@ class MainActivity : ComponentActivity() {
             ContentMain(
                 callLogViewModel = callLogsViewModel,
                 serverControlsViewModel = serverControlsViewModel,
+                onApplicationSettingsClick = ::launchApplicationSettings,
                 onReadCallLogPermissionGranted = callLogPresenter::onReadCallLogPermissionGranted,
                 onStartServerClick = ::onStartServerClick,
                 onStopServerClick = serverControlsPresenter::onStopServerClick
@@ -84,5 +88,17 @@ class MainActivity : ComponentActivity() {
      */
     private fun onPermissionsProcessed() {
         serverControlsPresenter.startServer()
+    }
+
+    private fun launchApplicationSettings() {
+        // Note for reviewers: yes, intended to crash on ActivityNotFoundException.
+        // I'd rather know if it's possible and if so, the UI needs to be adjusted to not show the
+        // button in first place.
+        startActivity(
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:$packageName")
+            )
+        )
     }
 }

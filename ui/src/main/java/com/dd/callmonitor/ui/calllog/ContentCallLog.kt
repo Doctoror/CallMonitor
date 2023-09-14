@@ -14,8 +14,9 @@ import com.google.accompanist.permissions.shouldShowRationale
 @Composable
 fun ContentCallLog(
     viewModel: CallLogViewModel,
+    onApplicationSettingsClick: () -> Unit,
     onReadCallLogPermissionGranted: () -> Unit,
-    shouldAutoAskForPermissions: Boolean
+    shouldAutoAskForPermissions: Boolean,
 ) {
 
     val permissionState = rememberMultiplePermissionsState(
@@ -40,8 +41,11 @@ fun ContentCallLog(
         }
 
         else -> ContentCallLogPermissionDenied(
-            callLogPermissionState.status.shouldShowRationale,
-            callLogPermissionState::launchPermissionRequest
+            if (callLogPermissionState.status.shouldShowRationale) {
+                callLogPermissionState::launchPermissionRequest
+            } else {
+                { onApplicationSettingsClick() }
+            }
         )
     }
 }

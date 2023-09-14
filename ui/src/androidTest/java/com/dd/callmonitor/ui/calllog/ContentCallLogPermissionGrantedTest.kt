@@ -31,6 +31,7 @@ class ContentCallLogPermissionGrantedTest {
             AppTheme {
                 ContentCallLog(
                     viewModel = CallLogViewModel(),
+                    onApplicationSettingsClick = {},
                     onReadCallLogPermissionGranted = {
                         onReadCallLogPermissionGrantedCalled = true
                     },
@@ -48,6 +49,7 @@ class ContentCallLogPermissionGrantedTest {
             AppTheme {
                 ContentCallLog(
                     viewModel = CallLogViewModel(),
+                    onApplicationSettingsClick = {},
                     onReadCallLogPermissionGranted = {},
                     shouldAutoAskForPermissions = false
                 )
@@ -72,6 +74,7 @@ class ContentCallLogPermissionGrantedTest {
                 ContentCallLog(
                     viewModel = CallLogViewModel()
                         .apply { viewType.value = CallLogViewModel.ViewType.FAILURE },
+                    onApplicationSettingsClick = {},
                     onReadCallLogPermissionGranted = {},
                     shouldAutoAskForPermissions = false
                 )
@@ -94,6 +97,7 @@ class ContentCallLogPermissionGrantedTest {
                 ContentCallLog(
                     viewModel = CallLogViewModel()
                         .apply { viewType.value = CallLogViewModel.ViewType.CONTENT },
+                    onApplicationSettingsClick = {},
                     onReadCallLogPermissionGranted = {},
                     shouldAutoAskForPermissions = false
                 )
@@ -125,6 +129,7 @@ class ContentCallLogPermissionGrantedTest {
                         callLog.value = callLogEntries
                         viewType.value = CallLogViewModel.ViewType.CONTENT
                     },
+                    onApplicationSettingsClick = {},
                     onReadCallLogPermissionGranted = {},
                     shouldAutoAskForPermissions = false
                 )

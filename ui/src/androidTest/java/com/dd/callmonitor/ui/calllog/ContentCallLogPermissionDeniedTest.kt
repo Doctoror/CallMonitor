@@ -25,6 +25,7 @@ class ContentCallLogPermissionDeniedTest {
             AppTheme {
                 ContentCallLog(
                     viewModel = CallLogViewModel(),
+                    onApplicationSettingsClick = {},
                     onReadCallLogPermissionGranted = {},
                     shouldAutoAskForPermissions = false
                 )
