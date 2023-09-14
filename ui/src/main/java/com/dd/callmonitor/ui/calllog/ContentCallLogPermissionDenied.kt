@@ -47,8 +47,8 @@ fun ContentCallLogPermissionDenied(
             textAlign = TextAlign.Center
         )
 
-        // TODO If we can no longer request we might still show the button and redirect to
-        // Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS
+        // If we can no longer request we might still show the button and redirect to
+        // Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS, but this has not been implemented.
         if (canRequest) {
             Button(onClick = launchPermissionRequest) {
                 Text(stringResource(R.string.permission_rationale_proceed))
