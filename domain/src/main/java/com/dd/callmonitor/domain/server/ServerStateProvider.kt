@@ -16,10 +16,10 @@ class ServerStateProvider {
      * ServerStateProvider instance.
      *
      * You could also argue that it would be easier to track who emits by looking at the usages of
-     * the setter function if we had one. Indeed, however, hot sure if it's worth the extra code.
+     * the setter function, if we had one. Indeed, however, hot sure if it's worth the extra code.
      *
      * You might also argue that having a getter and setter is a good idea because you could add
-     * some verification or other logic here. Indeed you could.
+     * some verification or other logic here. Indeed, you could.
      *
      * And you might also argue that having a getter and setter would mean this state provider could
      * easily replace the logic from, let's say, runtime scope to persistent storage, or could be
