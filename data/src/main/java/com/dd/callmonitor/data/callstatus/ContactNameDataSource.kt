@@ -17,6 +17,8 @@ internal class ContactNameDataSource(
 ) {
 
     suspend fun getContactNameByPhoneNumber(phoneNumber: Optional<String>): Optional<String> =
+        // Could have used flatMap, but it's not inline so we won't be able to use suspend functions
+        // from a flatMap mapper function.
         if (!phoneNumber.isPresent()) {
             Optional.empty()
         } else {
