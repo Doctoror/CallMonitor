@@ -121,7 +121,7 @@ internal class CallLogRepositoryImpl(
             number = normalizedNumber,
             name = contactName,
             // Note for reviewers: this also means a query from UI (what is displayed by
-            // ContentCallLog) also updates timesQueried. Assuming this is a requirement
+            // ContentCallLog) also updates timesQueried. Assuming this is a requirement.
             timesQueried = runBlocking {
                 timesQueriedDataSource.incrementAndGet(cursor.getCallLogEntryId())
             }
