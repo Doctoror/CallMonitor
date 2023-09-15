@@ -23,6 +23,8 @@ import com.dd.callmonitor.ui.R
 
 @Composable
 fun ContentCallLogPermissionDenied(launchPermissionRequest: () -> Unit) {
+    // Note for reviewers: scrolling here is needed because the button needs to be visible no matter
+    // how small the screen is
     val scrollState = rememberScrollState()
 
     Column(
