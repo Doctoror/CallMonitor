@@ -1,6 +1,7 @@
 package com.dd.callmonitor.data.callstatus
 
 import android.content.ContentResolver
+import android.database.Cursor
 import android.provider.ContactsContract
 import com.dd.callmonitor.domain.permissions.ApiLevelPermissions
 import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
@@ -17,15 +18,15 @@ internal class ContactNameDataSource(
 ) {
 
     suspend fun getContactNameByPhoneNumber(phoneNumber: Optional<String>): Optional<String> =
-        // Could have used flatMap, but it's not inline so we won't be able to use suspend functions
-        // from a flatMap mapper function.
+        // Note for reviewers: could have used flatMap, but it's not inline so we won't be able to
+        // use suspend functions from a flatMap mapper function.
         if (!phoneNumber.isPresent()) {
             Optional.empty()
         } else {
             checkPermissionUseCase(
                 permission = ApiLevelPermissions.READ_CONTACTS,
-                // Of course, we could handle it differently, like signalling an error, but I
-                // decided to just return empty here
+                // Note for reviewers: of course, we could handle it differently, like signalling an
+                // error, but I decided to make it simpler and just return empty here
                 whenDenied = { Optional.empty() },
                 whenGranted = {
                     withContext(dispatcherIo) {
@@ -47,14 +48,7 @@ internal class ContactNameDataSource(
             )
             .use {
                 if (it?.moveToFirst() == true) {
-
-                    Optional.ofNullable(
-                        it.getString(
-                            it.getColumnIndexOrThrow(
-                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-                            )
-                        )
-                    )
+                    Optional.ofNullable(it.getContactId())
                 }
 
                 return@use Optional.empty()
@@ -71,13 +65,17 @@ internal class ContactNameDataSource(
             )
             .use {
                 if (it?.moveToFirst() == true) {
-                    Optional.ofNullable(
-                        it.getString(
-                            it.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME)
-                        )
-                    )
+                    Optional.ofNullable(it.getContactDisplayName())
                 } else {
                     Optional.empty()
                 }
             }
+
+    private fun Cursor.getContactId(): String? = getString(
+        getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
+    )
+
+    private fun Cursor.getContactDisplayName(): String? = getString(
+        getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME)
+    )
 }
