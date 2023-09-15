@@ -28,7 +28,6 @@ fun ContentCallLogPermissionDenied(launchPermissionRequest: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
             .verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -40,11 +39,7 @@ fun ContentCallLogPermissionDenied(launchPermissionRequest: () -> Unit) {
         )
 
         Text(
-            modifier = Modifier
-                .padding(
-                    top = 8.dp,
-                    bottom = 24.dp
-                ),
+            modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
             text = stringResource(R.string.call_log_permission_rationale_text),
             textAlign = TextAlign.Center
         )
@@ -57,15 +52,7 @@ fun ContentCallLogPermissionDenied(launchPermissionRequest: () -> Unit) {
 
 @Preview
 @Composable
-fun ContentCallLogPermissionDeniedPreviewCannotRequest() {
-    ContentCallLogPermissionDenied(
-        launchPermissionRequest = {}
-    )
-}
-
-@Preview
-@Composable
-fun ContentCallLogPermissionDeniedPreviewCanRequest() {
+fun ContentCallLogPermissionDeniedPreview() {
     ContentCallLogPermissionDenied(
         launchPermissionRequest = {}
     )

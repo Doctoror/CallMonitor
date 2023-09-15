@@ -24,9 +24,7 @@ const val TEST_TAG_CALL_LOG_EMPTY_ICON = "TEST_TAG_CALL_LOG_EMPTY_ICON"
 @Composable
 fun ContentCallLogEmpty() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

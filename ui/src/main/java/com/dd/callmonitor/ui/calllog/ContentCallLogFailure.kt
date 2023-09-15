@@ -24,9 +24,7 @@ const val TEST_TAG_CALL_LOG_FAILURE_ICON = "TEST_TAG_CALL_LOG_FAILURE_ICON"
 @Composable
 fun ContentCallLogFailure() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
