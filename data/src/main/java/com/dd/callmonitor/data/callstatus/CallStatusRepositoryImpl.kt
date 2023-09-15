@@ -28,11 +28,20 @@ internal class CallStatusRepositoryImpl(
 ) : CallStatusRepository {
 
     override fun observeCallStatus(): Flow<Either<CallStatusError, CallStatus>> = callbackFlow {
-        // Because of the horrible design of pre api-level 29 PhoneStateListener constructor which
-        // can only be instantiated by a Looper thread, we have no choice except creating a
-        // PhoneStateListener in a new thread with a Looper.
         val phoneStateListenerLatch = CountDownLatch(1)
+
+        /**
+         * Since API level 31 only [android.telecom.CallScreeningService] can receive the call
+         * state with the number. To reduce the scope of the project, only [PhoneStateListener]
+         * is used.
+         */
         val phoneStateListener = AtomicReference<PhoneStateListener>()
+
+        /**
+         * Because of the horrible design of pre api-level 29 PhoneStateListener constructor which
+         * can only be instantiated by a Looper thread, we have no choice except creating a
+         * PhoneStateListener in a new thread with a Looper.
+         */
         val thread = object : Thread() {
 
             @Volatile
@@ -66,9 +75,7 @@ internal class CallStatusRepositoryImpl(
 
             checkPermissionUseCase(
                 permission = ApiLevelPermissions.READ_PHONE_NUMBERS,
-                whenDenied = {
-                    trySend(Either.left(CallStatusError.PERMISSION_DENIED))
-                },
+                whenDenied = { trySend(Either.left(CallStatusError.PERMISSION_DENIED)) },
                 whenGranted = {
                     telephonyManager.listen(
                         phoneStateListener.get()!!,
@@ -97,19 +104,14 @@ internal class CallStatusRepositoryImpl(
         private val sendChannel: SendChannel<Either<CallStatusError, CallStatus>>
     ) : PhoneStateListener() {
 
-        /**
-         * Since API level 31 only [android.telecom.CallScreeningService] can receive the call
-         * state with the number. To reduce the scope of the project, only [PhoneStateListener]
-         * is used.
-         */
         @Deprecated("Deprecated in API level 31")
         @WorkerThread
         override fun onCallStateChanged(state: Int, phoneNumber: String?) {
             super.onCallStateChanged(state, phoneNumber)
-            // Note for reviewers. When you asked for "ongoing" did you mean CALL_STATE_RINGING
+            // Note for reviewers: when you asked for "ongoing" did you mean CALL_STATE_RINGING
             // or CALL_STATE_OFFHOOK? Assumption has been made.
             sendChannel.trySend(
-                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
                     makeCallStatusForOngoingCall(
                         Optional
                             .ofNullable(phoneNumber)
@@ -135,13 +137,12 @@ internal class CallStatusRepositoryImpl(
             )
         )
 
-        private fun makeEmptyCallStatus(): Either<CallStatusError, CallStatus> = Either
-            .right(
-                CallStatus(
-                    ongoing = false,
-                    number = Optional.empty(),
-                    name = Optional.empty()
-                )
+        private fun makeEmptyCallStatus(): Either<CallStatusError, CallStatus> = Either.right(
+            CallStatus(
+                ongoing = false,
+                number = Optional.empty(),
+                name = Optional.empty()
             )
+        )
     }
 }
