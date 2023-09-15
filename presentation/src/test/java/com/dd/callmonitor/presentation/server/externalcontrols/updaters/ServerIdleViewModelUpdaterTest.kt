@@ -17,6 +17,7 @@ class ServerIdleViewModelUpdaterTest {
 
     @Before
     fun before() {
+        // Can use Robolectric Resources instead of mocking
         every { resources.getString(any()) } answers {
             it.invocation.args[0].toString()
         }
