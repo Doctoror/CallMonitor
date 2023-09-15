@@ -34,7 +34,7 @@ internal class CallLogRepositoryImpl(
 ) : CallLogRepository {
 
     /**
-     * Returns call log without paging.
+     * Emits call log without paging.
      *
      * Note for reviewers: paging has been omitted to reduce the scope of the (already big) project.
      */
