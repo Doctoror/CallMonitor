@@ -19,6 +19,7 @@
         <activity
             android:name=".app.components.main.MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.CallMonitor">
 
             <intent-filter>
