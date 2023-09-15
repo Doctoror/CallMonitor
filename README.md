@@ -202,6 +202,8 @@ Or, if you have a centralized database
 
 # Additional notes:
 
+**Could not perform manual testing in API level 23. Emulator API 23 has no Wi-Fi on my machine**.
+
 Permissions are defined in *`data`* module, as it is the one that uses them, even though is not the one requesting them, because requesting permissions are done in *`Activty`* or *Compose* content where *`accompanist-permissions`* can be used.
 
 Due to a huge and time consuming scope of the project, not everything is unit tested, and there are no integration user story tests.
