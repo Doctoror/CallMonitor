@@ -16,6 +16,10 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
+/**
+ * Note for reviewers: a Service can be represented as a view, where a view is a notification, so
+ * MVPVM pattern applies.
+ */
 class ServerPresenter(
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase,
     private val foregroundServiceStatusMessageProvider: ForegroundServiceStatusMessageProvider,
