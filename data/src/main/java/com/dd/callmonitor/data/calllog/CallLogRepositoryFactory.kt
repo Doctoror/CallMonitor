@@ -9,9 +9,7 @@ import com.dd.callmonitor.domain.permissions.CheckPermissionUseCase
 import com.dd.callmonitor.domain.phonenumbers.NormalizePhoneNumberUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 
-private val Context.timesQueriedDataStore by preferencesDataStore(
-    "timesQueriedDataStore"
-)
+private val Context.timesQueriedDataStore by preferencesDataStore("timesQueriedDataStore")
 
 /**
  * Note for reviewers: the goal is to encapsulate internal CallLogRepositoryImpl in the data module,
