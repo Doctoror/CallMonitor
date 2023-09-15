@@ -18,7 +18,6 @@ class ObserveWifiConnectivityUseCase(
 
     /**
      * @return a [Flow] that emits
-     * - [ConnectivityState.Unknown] if the network state is unknown yet (a follow up guaranteed)
      * - [ConnectivityState.Connected] if connected to a Wi-Fi network
      * - [ConnectivityState.Disconnected] if not connected to a Wi-Fi network
      */

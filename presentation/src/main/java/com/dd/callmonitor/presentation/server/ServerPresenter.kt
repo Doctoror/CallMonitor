@@ -76,13 +76,9 @@ class ServerPresenter(
     fun startServer() {
         scope.launch {
             observeWifiConnectivityUseCase()
-                .filter { it != ConnectivityState.Unknown }
                 .take(1)
                 .collect {
                     when (it) {
-                        is ConnectivityState.Unknown ->
-                            throw RuntimeException("Impossible, should be filtered above")
-
                         is ConnectivityState.Disconnected -> serverStateProvider.state.emit(
                             ServerState.Error(ServerError.NO_CONNECTIVITY)
                         )

@@ -4,7 +4,6 @@ import java.net.InetAddress
 
 sealed class ConnectivityState {
 
-    data object Unknown : ConnectivityState()
     data object Disconnected : ConnectivityState()
     data class Connected(val siteLocalAddress: InetAddress) : ConnectivityState()
 }

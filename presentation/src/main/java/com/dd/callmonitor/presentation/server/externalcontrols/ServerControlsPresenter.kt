@@ -38,11 +38,6 @@ class ServerControlsPresenter(
             observeWifiConnectivityUseCase()
                 .flatMapLatest {
                     when (it) {
-                        is ConnectivityState.Unknown -> {
-                            // Do nothing and wait for next emission
-                            flowOf()
-                        }
-
                         is ConnectivityState.Disconnected -> {
                             viewModel.viewType.emit(ServerControlsViewModel.ViewType.NO_CONNECTION)
                             flowOf()
