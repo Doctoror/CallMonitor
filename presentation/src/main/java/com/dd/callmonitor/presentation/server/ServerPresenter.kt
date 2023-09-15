@@ -60,12 +60,10 @@ class ServerPresenter(
         scope.launch {
             observeWifiConnectivityUseCase()
                 // Note for reviewers:
-                // Also, we need to handle the case where the connectivity changes without
-                // disconnecting because the old address would be invalid and we would have to
-                // restart the server.
-                //
-                // This functionality is omitted to save some time as the task is huge even without
-                // handling this case.
+                // Also, we probably need to handle the case where the connectivity changes without
+                // disconnecting (if this is possible at all) because the old address would be
+                // invalid and we would have to restart the server. I'd have to have multiple
+                // hotspots to test how that would work, which I don't.
                 .filter { it == ConnectivityState.Disconnected }
                 .collect { stopIfRunningAndExitInternal() }
         }
