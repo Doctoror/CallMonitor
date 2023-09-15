@@ -67,9 +67,7 @@ internal class CallLogRepositoryImpl(
                 contentObserver
             )
 
-            awaitClose {
-                contentResolver.unregisterContentObserver(contentObserver)
-            }
+            awaitClose { contentResolver.unregisterContentObserver(contentObserver) }
         }.flowOn(dispatcherIo)
 
     private fun query(): Cursor? = contentResolver.query(
