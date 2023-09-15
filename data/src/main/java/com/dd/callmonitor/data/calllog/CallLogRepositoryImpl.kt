@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.runBlocking
 
 private const val LIMIT = "100"
+private const val QUERY_PARAMETER_LIMIT = "limit"
 
 internal class CallLogRepositoryImpl(
     private val contactNameDataSource: ContactNameDataSource,
@@ -71,7 +72,7 @@ internal class CallLogRepositoryImpl(
         }.flowOn(dispatcherIo)
 
     private fun query(): Cursor? = contentResolver.query(
-        Calls.CONTENT_URI.buildUpon().appendQueryParameter("limit", LIMIT).build(),
+        Calls.CONTENT_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_LIMIT, LIMIT).build(),
         arrayOf(
             Calls._ID,
             Calls.DATE,
