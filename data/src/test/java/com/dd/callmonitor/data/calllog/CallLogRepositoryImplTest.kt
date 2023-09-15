@@ -36,6 +36,7 @@ class CallLogRepositoryImplTest {
     private val contextShadow = Shadows.shadowOf(context)
     private val contactNameDataSource: ContactNameDataSource = mockk()
     private val contentResolver = context.contentResolver
+    // Note for reviewers: cannot be a mock because of the inline function
     private val checkPermissionUseCase = CheckPermissionUseCase(context)
     private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase = mockk()
     private val timesQueriedDataSource: TimesQueriedDataSource = mockk()

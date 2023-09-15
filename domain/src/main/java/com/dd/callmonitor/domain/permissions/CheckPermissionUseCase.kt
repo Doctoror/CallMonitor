@@ -6,6 +6,9 @@ import android.os.Build
 
 class CheckPermissionUseCase(val context: Context) {
 
+    /**
+     * Must be inline to easily integrate with suspend functions
+     */
     inline operator fun <R> invoke(
         permission: ApiLevelPermission,
         whenDenied: () -> R,
