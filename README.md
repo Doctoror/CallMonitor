@@ -42,7 +42,7 @@ Main screen will display all server states:
 
 <img src="docs/screenshots/MainScreenServerIdle.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerInitializing.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerRunning.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerStopping.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerError.png" width="200"/>
 
-Also, a foreground service notification will be shown, if the permission allows it's visibility
+Also, a foreground service notification will be shown, if the permission allows its visibility
 
 <img src="docs/screenshots/ServerStatusNotification.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/ServerErrorNotification.png" width="200"/>
 
