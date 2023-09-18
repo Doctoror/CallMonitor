@@ -5,8 +5,7 @@ When you land on the main screen, you will be asked for the following permission
 - *`READ_CALL_LOG`* to display call log on the main screen;
 - *`READ_CONTACTS`* to resolve contact names for the call log entries.
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionCallLog.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionReadContacts.png" width="200"/>
+<img src="docs/screenshots/MainScreenPermissionCallLog.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionReadContacts.png" width="200"/>
 
 On the main screen, if the contact by a normalized phone number is not found in the contacts or due to a denied permission, a phone number will be displayed instead of the contact name.
 
@@ -14,7 +13,7 @@ Number of results is always limited to 100. Paging is not supported to reduce th
 
 And yes, dark theme is also supported:
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionGranted.png" width="200"/>
+<img src="docs/screenshots/MainScreenPermissionGranted.png" width="200"/>
 
 
 If *`READ_CALL_LOG`* is denied, the rationale will be shown with "Proceed" button to request the permission.
@@ -22,13 +21,12 @@ If *`READ_CALL_LOG`* is denied, the rationale will be shown with "Proceed" butto
 If the rationale should not be shown, the "Proceed" button will lead to *`Settings.ACTION_APPLICATION_DETAILS_SETTINGS`*.
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/MainScreenPermissionRationale.png" width="200"/>
+<img src="docs/screenshots/MainScreenPermissionRationale.png" width="200"/>
 
 
 Clicking on server controls requests all the permissions that are optionally required to run the server:
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/ServerPermissionPostNotifications.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/ServerPermissionReadPhoneState.png" width="200"/>
+<img src="docs/screenshots/ServerPermissionPostNotifications.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/ServerPermissionReadPhoneState.png" width="200"/>
 
 - *`POST_NOTIFICATIONS`* to show a foreground service notification and server error notifications. Denying it will run the server without notification functionality;
 - *`READ_CALL_LOG`* to read call logs, same as in the main screen. Denying it will make *`/log`* respond with *`"PERMISSION_DENIED"`*;
@@ -42,16 +40,11 @@ The response jsons will contain null-value fields if the phone numbers or contac
 
 Main screen will display all server states:
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerIdle.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerInitializing.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerRunning.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerStopping.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerError.png" width="200"/>
+<img src="docs/screenshots/MainScreenServerIdle.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerInitializing.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerRunning.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerStopping.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/MainScreenServerError.png" width="200"/>
 
 Also, a foreground service notification will be shown, if the permission allows it's visibility
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/ServerStatusNotification.png" width="200"/>
-&nbsp;&nbsp;<img src="docs/screenshots/ServerErrorNotification.png" width="200"/>
+<img src="docs/screenshots/ServerStatusNotification.png" width="200"/>&nbsp;&nbsp;<img src="docs/screenshots/ServerErrorNotification.png" width="200"/>
 
 
 The server runs on port 36001, which is registered for AllPeers Network, which is discontinued. Meaning there's a good chance no one else will use it.
@@ -144,7 +137,7 @@ Does not make use of Android components like *`Activities`*, *`Fragments`*, *`Se
 
 **Please note that *Fragments* are not used in this application, in this case *Activity* is used. The image is sourced from my other project so I did not update the *Fragment* reference with *Activity* reference for this doc.**
 
-&nbsp;&nbsp;![MVPVM](docs/charts/MVPVM.png)
+![MVPVM](docs/charts/MVPVM.png)
 
 he *`Presenter`* receives *UI* and *lifecycle* events and decides how to handle the events by choosing a corresponding `UseCase`.
 
