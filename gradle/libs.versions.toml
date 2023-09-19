@@ -29,6 +29,8 @@ mockk = "1.13.7"
 
 robolectric = "4.10.3"
 
+turbine = "1.0.0"
+
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidxActivity" }
@@ -65,3 +67,5 @@ lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }

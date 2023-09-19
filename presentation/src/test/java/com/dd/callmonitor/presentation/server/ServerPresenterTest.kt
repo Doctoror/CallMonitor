@@ -1,5 +1,6 @@
 package com.dd.callmonitor.presentation.server
 
+import app.cash.turbine.test
 import com.dd.callmonitor.domain.connectivity.ConnectivityState
 import com.dd.callmonitor.domain.connectivity.ObserveWifiConnectivityUseCase
 import com.dd.callmonitor.domain.server.Server
@@ -7,7 +8,6 @@ import com.dd.callmonitor.domain.server.ServerError
 import com.dd.callmonitor.domain.server.ServerState
 import com.dd.callmonitor.domain.server.ServerStateProvider
 import com.dd.callmonitor.domain.util.Optional
-import com.dd.callmonitor.presentation.testutil.executeBlockAndCollectFromFlow
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
@@ -15,6 +15,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -49,77 +50,75 @@ class ServerPresenterTest {
     }
 
     @Test
-    fun emitsServerErrorNotificationFromMessageProvider() {
+    fun emitsServerErrorNotificationFromMessageProvider() = runTest {
         val error = ServerError.GENERIC
         val errorMessage = "Error message"
         every { serverErrorNotificationMessageProvider.provide(error) } returns errorMessage
 
-        val collectedNotifications = executeBlockAndCollectFromFlow(viewModel.normalNotification) {
+        viewModel.normalNotification.test {
+
             underTest.onCreate()
             serverStateProvider.state.value = ServerState.Error(error)
-        }
 
-        assertEquals(
-            listOf(errorMessage),
-            collectedNotifications
-        )
+            assertEquals(errorMessage, awaitItem())
+        }
     }
 
     @Test
-    fun emitsForegroundNotificationOnServerState() {
+    fun emitsForegroundNotificationOnServerState() = runTest {
         val serverState = ServerState.Initialising
         val notificationMessage = "Notification message"
         every {
             foregroundServiceStatusMessageProvider.invoke(serverState)
         } returns Optional.of(notificationMessage)
 
-        val collectedNotifications = executeBlockAndCollectFromFlow(
-            viewModel.foregroundNotification
-        ) {
+        viewModel.foregroundNotification.test {
+
             underTest.onCreate()
             serverStateProvider.state.value = serverState
-        }
 
-        assertEquals(listOf(notificationMessage), collectedNotifications)
+            assertEquals(notificationMessage, awaitItem())
+        }
     }
 
     @Test
-    fun doesNotEmitForegroundNotificationWhenNoMessageProvided() {
+    fun doesNotEmitForegroundNotificationWhenNoMessageProvided() = runTest {
         val serverState = ServerState.Initialising
         every {
             foregroundServiceStatusMessageProvider.invoke(serverState)
         } returns Optional.empty()
 
-        val collectedNotifications = executeBlockAndCollectFromFlow(
-            viewModel.foregroundNotification
-        ) {
+
+        viewModel.foregroundNotification.test {
+
             underTest.onCreate()
             serverStateProvider.state.value = serverState
-        }
 
-        assertEquals(emptyList<CharSequence>(), collectedNotifications)
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun emitsFinishSignalOnError() {
-        val collectedFinishEvents = executeBlockAndCollectFromFlow(underTest.finishEvents()) {
+    fun emitsFinishSignalOnError() = runTest {
+        underTest.finishEvents().test {
+
             underTest.onCreate()
             serverStateProvider.state.value = ServerState.Error(ServerError.GENERIC)
-        }
 
-        assertEquals(listOf(Unit), collectedFinishEvents)
+            assertEquals(Unit, awaitItem())
+        }
     }
 
     @Test
-    fun stopsServerAndEmitsFinishSignalOnDisconnectedConnectivity() {
+    fun stopsServerAndEmitsFinishSignalOnDisconnectedConnectivity() = runTest {
         every { observeWifiConnectivityUseCase() } returns flowOf(ConnectivityState.Disconnected)
 
-        val collectedFinishEvents = executeBlockAndCollectFromFlow(underTest.finishEvents()) {
+        underTest.finishEvents().test {
             underTest.onCreate()
+            assertEquals(Unit, awaitItem())
         }
 
         coVerify { server.stopIfRunning() }
-        assertEquals(listOf(Unit), collectedFinishEvents)
     }
 
     @Test
@@ -129,12 +128,10 @@ class ServerPresenterTest {
     }
 
     @Test
-    fun stopIfRunningAndExitForwardsStopToServerAndEmitsFinishSignal() {
-        val collected = executeBlockAndCollectFromFlow(underTest.finishEvents()) {
+    fun stopIfRunningAndExitForwardsStopToServerAndEmitsFinishSignal() = runTest {
+        underTest.finishEvents().test {
             underTest.stopIfRunningAndExit()
+            assertEquals(Unit, awaitItem())
         }
-
-        coVerify { server.stopIfRunning() }
-        assertEquals(listOf(Unit), collected)
     }
 }

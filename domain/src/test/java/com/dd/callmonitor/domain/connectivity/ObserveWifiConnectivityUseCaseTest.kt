@@ -4,7 +4,7 @@ import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
-import com.dd.callmonitor.domain.util.executeBlockAndCollectFromFlow
+import app.cash.turbine.test
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
@@ -50,38 +50,32 @@ class ObserveWifiConnectivityUseCaseTest {
     }
 
     @Test
-    fun skipsDisconnectedInitialStateIfActiveNetworkIsWiFi() {
+    fun skipsDisconnectedInitialStateIfActiveNetworkIsWiFi() = runTest {
         every { isActiveNetworkWifiUseCase() } returns true
 
-        val collected = executeBlockAndCollectFromFlow(underTest()) {}
-
-        assertEquals(emptyList<ConnectivityState>(), collected)
+        underTest().test { expectNoEvents() }
     }
 
     @Test
-    fun emitsNetworkStateChangesFromNetworkCallback() {
+    fun emitsNetworkStateChangesFromNetworkCallback() = runTest {
         every { isActiveNetworkWifiUseCase() } returns true
-
         val network = setupWifiNetworkWithSiteLocalAddress()
-        val collected = executeBlockAndCollectFromFlow(underTest()) {
+
+        underTest().test {
+
             connectivityManagerShadow.networkCallbacks.forEach {
                 it.onAvailable(network)
                 it.onLost(network)
             }
-        }
 
-        assertEquals(
-            listOf(
-                ConnectivityState.Connected(siteLocalAddress),
-                ConnectivityState.Disconnected
-            ),
-            collected
-        )
+            assertEquals(ConnectivityState.Connected(siteLocalAddress), awaitItem())
+            assertEquals(ConnectivityState.Disconnected, awaitItem())
+        }
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun throwsWhenAvailableNetworkHasNoLinkProperties() {
-        executeBlockAndCollectFromFlow(underTest()) {
+    fun throwsWhenAvailableNetworkHasNoLinkProperties() = runTest {
+        underTest().test {
             connectivityManagerShadow.networkCallbacks.forEach {
                 it.onAvailable(setupWifiNetwork())
             }
@@ -89,8 +83,8 @@ class ObserveWifiConnectivityUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun throwsWhenAvailableNetworkHasNoSiteLocalAddress() {
-        executeBlockAndCollectFromFlow(underTest()) {
+    fun throwsWhenAvailableNetworkHasNoSiteLocalAddress() = runTest {
+        underTest().test {
             connectivityManagerShadow.networkCallbacks.forEach {
                 it.onAvailable(setupWifiNetworkWithEmptyLinkProperties())
             }
