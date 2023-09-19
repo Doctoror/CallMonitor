@@ -18,8 +18,9 @@ import com.dd.callmonitor.domain.util.Optional
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -41,11 +42,12 @@ class CallLogRepositoryImplTest {
     private val normalizePhoneNumberUseCase: NormalizePhoneNumberUseCase = mockk()
     private val timesQueriedDataSource: TimesQueriedDataSource = mockk()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val underTest = CallLogRepositoryImpl(
         contactNameDataSource,
         contentResolver,
         checkPermissionUseCase,
-        Dispatchers.Unconfined,
+        UnconfinedTestDispatcher(),
         normalizePhoneNumberUseCase,
         timesQueriedDataSource
     )
