@@ -12,19 +12,22 @@ import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ServerPresenterTest {
 
     private val observeWifiConnectivityUseCase: ObserveWifiConnectivityUseCase = mockk()
     private val foregroundServiceStatusMessageProvider: ForegroundServiceStatusMessageProvider =
         mockk()
+    private val scope = TestScope()
     private val server: Server = mockk()
     private val serverErrorNotificationMessageProvider: ServerErrorNotificationMessageProvider =
         mockk()
@@ -34,7 +37,7 @@ class ServerPresenterTest {
     private val underTest = ServerPresenter(
         observeWifiConnectivityUseCase,
         foregroundServiceStatusMessageProvider,
-        CoroutineScope(Dispatchers.Unconfined),
+        scope,
         server,
         serverErrorNotificationMessageProvider,
         serverStateProvider,
@@ -58,7 +61,10 @@ class ServerPresenterTest {
         viewModel.normalNotification.test {
 
             underTest.onCreate()
+            scope.advanceUntilIdle()
+
             serverStateProvider.state.value = ServerState.Error(error)
+            scope.advanceUntilIdle()
 
             assertEquals(errorMessage, awaitItem())
         }
@@ -77,6 +83,7 @@ class ServerPresenterTest {
             underTest.onCreate()
             serverStateProvider.state.value = serverState
 
+            scope.advanceUntilIdle()
             assertEquals(notificationMessage, awaitItem())
         }
     }
@@ -90,9 +97,9 @@ class ServerPresenterTest {
 
 
         viewModel.foregroundNotification.test {
-
             underTest.onCreate()
             serverStateProvider.state.value = serverState
+            scope.advanceUntilIdle()
 
             expectNoEvents()
         }
@@ -103,7 +110,10 @@ class ServerPresenterTest {
         underTest.finishEvents().test {
 
             underTest.onCreate()
+            scope.advanceUntilIdle()
+
             serverStateProvider.state.value = ServerState.Error(ServerError.GENERIC)
+            scope.advanceUntilIdle()
 
             assertEquals(Unit, awaitItem())
         }
@@ -115,6 +125,7 @@ class ServerPresenterTest {
 
         underTest.finishEvents().test {
             underTest.onCreate()
+            scope.advanceUntilIdle()
             assertEquals(Unit, awaitItem())
         }
 
@@ -131,6 +142,7 @@ class ServerPresenterTest {
     fun stopIfRunningAndExitForwardsStopToServerAndEmitsFinishSignal() = runTest {
         underTest.finishEvents().test {
             underTest.stopIfRunningAndExit()
+            scope.advanceUntilIdle()
             assertEquals(Unit, awaitItem())
         }
     }
