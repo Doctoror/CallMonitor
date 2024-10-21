@@ -2,7 +2,7 @@
 # differs
 [versions]
 accompanist = "0.32.0"
-agp = "8.2.2"
+agp = "8.7.1"
 androidCompileSdk = "34"
 androidMinSdk = "23"
 androidTargetSdk = "34"
@@ -22,9 +22,9 @@ koin = "3.4.3"
 kotlin = "1.9.10"
 ktor = "2.3.4"
 
-mockk = "1.13.7"
+mockk = "1.13.13"
 
-robolectric = "4.10.3"
+robolectric = "4.13"
 
 turbine = "1.0.0"
 
