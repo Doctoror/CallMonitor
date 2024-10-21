@@ -6,15 +6,15 @@ agp = "8.7.1"
 androidCompileSdk = "34"
 androidMinSdk = "23"
 androidTargetSdk = "34"
-androidxActivity = "1.7.2"
-androidxAnnotation = "1.7.0"
-androidxLifecycle = "2.6.2"
+androidxActivity = "1.9.3"
+androidxAnnotation = "1.9.0"
+androidxLifecycle = "2.8.6"
 
 composeBom = "2024.10.00"
 composeCompiler = "1.5.15"
-coroutines = "1.7.1"
+coroutines = "1.7.3"
 
-datastore = "1.0.0"
+datastore = "1.1.1"
 
 junit = "4.13.2"
 

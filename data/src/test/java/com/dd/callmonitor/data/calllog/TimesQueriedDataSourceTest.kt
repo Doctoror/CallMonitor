@@ -18,7 +18,7 @@ class TimesQueriedDataSourceTest {
     private val scope = TestScope()
 
     private val dataStore: DataStore<Preferences> = PreferenceDataStoreFactory.create(
-        scope = scope,
+        scope = scope.backgroundScope,
         produceFile = {
             RuntimeEnvironment
                 .getApplication()
