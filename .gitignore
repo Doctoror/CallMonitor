@@ -8,4 +8,5 @@ gradle-wrapper.jar
 /captures
 .externalNativeBuild
 .cxx
+.attach_pid*
 local.properties
