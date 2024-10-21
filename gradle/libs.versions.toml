@@ -3,9 +3,9 @@
 [versions]
 accompanist = "0.36.0"
 agp = "8.7.1"
-androidCompileSdk = "34"
+androidCompileSdk = "35"
 androidMinSdk = "23"
-androidTargetSdk = "34"
+androidTargetSdk = "35"
 androidxActivity = "1.9.3"
 androidxAnnotation = "1.9.0"
 androidxLifecycle = "2.8.6"
