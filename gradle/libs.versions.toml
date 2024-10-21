@@ -1,7 +1,7 @@
 # Dependencies are grouped by starting letter and separated by linebreaks when starting letter
 # differs
 [versions]
-accompanist = "0.32.0"
+accompanist = "0.36.0"
 agp = "8.7.1"
 androidCompileSdk = "34"
 androidMinSdk = "23"
@@ -10,8 +10,8 @@ androidxActivity = "1.7.2"
 androidxAnnotation = "1.7.0"
 androidxLifecycle = "2.6.2"
 
-composeBom = "2023.09.00"
-composeCompiler = "1.5.3"
+composeBom = "2024.10.00"
+composeCompiler = "1.5.15"
 coroutines = "1.7.1"
 
 datastore = "1.0.0"
@@ -19,7 +19,7 @@ datastore = "1.0.0"
 junit = "4.13.2"
 
 koin = "3.4.3"
-kotlin = "1.9.10"
+kotlin = "2.0.21"
 ktor = "2.3.4"
 
 mockk = "1.13.13"
@@ -62,3 +62,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
